@@ -8,7 +8,8 @@ Legajo 1131968
 Dylan Tajes (dtajes@uade.edu.ar)
 Legajo 1131507
 
-Sergio
+Sergio Garroni (sgarroni@uade.edu.ar)
+Legajo 1122639
 
 
 Año 2022, 2do Cuatrimestre
