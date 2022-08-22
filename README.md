@@ -5,9 +5,10 @@ Desarrollado por:
 Carla Blanco (carblanco@uade.edu.ar)
 Legajo 1131968
 
-Dylan
+Dylan Tajes (dtajes@uade.edu.ar)
+Legajo 1131507
 
-Hector
+Sergio
 
 
 Año 2022, 2do Cuatrimestre
