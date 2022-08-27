@@ -1,13 +1,23 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const { sequelize } = require('../models/index');
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// Parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-//TO-DO: Instalar nodemon global en mi compu personal
+// Rutas
+app.use(require('./routes'));
+
+app.listen(port, function () {
+  console.log(`Example app listening on http://localhost:${port}!`);
+
+  sequelize.authenticate().then(() => {
+      console.log('Nos hemos conectado a la base de datos!!!!!');
+  })
+});
