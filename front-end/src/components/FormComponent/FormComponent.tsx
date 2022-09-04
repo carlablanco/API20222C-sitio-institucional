@@ -84,7 +84,7 @@ const FormComponent: FC<FormComponentProps> = () => {
           <DropdownComponent onInputChange={getTipoDeClase} options={tiposDeClases} label='Tipo de Clase'></DropdownComponent>
           <DropdownComponent onInputChange={getFrecuencia} options={frecuencias} label='Frecuencia'></DropdownComponent>
           <DropdownComponent onInputChange={getCalificacion} options={calificaciones} label='Calificacion'></DropdownComponent>
-          <Button onClick={buscarClases} variant="text">Buscar Clases</Button>
+          <Button disabled={!materia?.id} onClick={buscarClases} variant="text">Buscar Clases</Button>
       </div>
   );
 }
