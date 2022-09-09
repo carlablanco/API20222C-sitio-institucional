@@ -30,6 +30,7 @@ Mockups
 Diagrama de Clases
 
 # Autenticación
+Se utilizó [JSON Web Token (JWT)](https://jwt.io/introduction) para la autenticación de usuarios.
 
 # Base de datos
-Se utilizó [JSON Web Token (JWT)](https://jwt.io/introduction) para la autenticación de usuarios.
+Se utilizó una base de datos [MySQL](https://www.mysql.com/) para la persistencia y [Sequelize](https://sequelize.org/) como ORM. 
