@@ -1,52 +1,142 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridCallbackDetails, GridCellParams, GridColDef, GridRowParams, MuiEvent } from '@mui/x-data-grid';
+import AddIcon from '@mui/icons-material/Add';
+import CommentIcon from '@mui/icons-material/Comment';
+import { Experiencia, Profesor } from '../../models/Profesor';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
 
 export default function DataGridDemo() {
+
+  const inscribirMateria = React.useCallback(
+    (rowMateria: any) => () => {
+      console.log(rowMateria);
+    },
+    [],
+  );
+
+  const verComentario = React.useCallback(
+    (rowComentario: any) => () => {
+      console.log(rowComentario);
+    },
+    [],
+  );
+
+  const columns = [
+    {
+      field: 'nombreProfesor',
+      headerName: 'Profesor',
+      width: 150,
+    },
+    {
+      field: 'materia',
+      headerName: 'Materia',
+      width: 150,
+    },
+    {
+      field: 'duracion',
+      headerName: 'Duracion',
+      width: 110,
+    },
+    {
+      field: 'costo',
+      headerName: 'Costo',
+      type: 'number',
+      width: 75,
+    },
+    {
+      field: 'calificacion',
+      headerName: 'Calificacion',
+      type: 'number',
+      width: 120,
+    },
+    {
+      field: 'comentarios',
+      headerName: 'Comentarios',
+      type:'actions',
+      width: 120,
+      getActions: (params: GridRowParams) => [
+        <GridActionsCellItem icon={<CommentIcon />} onClick={verComentario(params.row)} label="Ver Comentarios" />,
+      ]
+    },
+    {
+      field: 'inscribirse',
+      headerName: 'Inscribirse',
+      type:'actions',
+      width: 120,
+      getActions: (params: GridRowParams) => [
+        <GridActionsCellItem icon={<AddIcon />} onClick={inscribirMateria(params.row)} label="Inscribir Materia" />,
+      ]
+    },
+  ];
+  
+  const rows = [
+    {
+      id: 1, 
+      nombreProfesor: 'Jhon',
+      experienciaProfesor: [
+        {
+          descripcion: 'Licenciado en Educacion', 
+          anios: 3
+        },
+        {
+          descripcion: 'Licenciado en Matematica', anios: 5
+        }
+      ],
+      materia: 'Matematica', 
+      duracion: 'Mensual', 
+      costo: 1000, 
+      comentarios: 'Ver Comentarios', 
+      calificacion: 4
+    },
+    {
+      id: 2, nombreProfesor: 'Maria', experienciaProfesor: [{
+        descripcion: 'Licenciado en Educacion', anios: 3
+      }, {
+        descripcion: 'Licenciado en Fisica', anios: 5
+      }], materia: 'Fisica', duracion: 'Cuatrimestral', costo: 2000, comentarios: 'Ver Comentarios', calificacion: 3
+    },
+
+    { id: 3, nombreProfesor: 'Julian', experienciaProfesor: [{
+      descripcion: 'Licenciado en Educacion', anios: 3
+    }, {
+      descripcion: 'Licenciado en Programacion', anios: 5
+    }], materia: 'Programacion', duracion: 'Anual', costo: 10000, comentarios: 'Ver Comentarios', calificacion: 5 },
+  ];
+
+  const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
+    if(params.field === "nombreProfesor"){
+      setProfesor({
+        nombre: params.row.nombreProfesor,
+        experiencia: params.row.experienciaProfesor
+      });
+      console.log(selectedProfesor)
+      handleClickOpen();
+    }
+  }
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedProfesor, setProfesor] = React.useState<Profesor>({
+    nombre: '',
+    experiencia:[
+      {
+        descripcion: '',
+        anios: 0
+      }
+    ]
+  });
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       <DataGrid
@@ -57,7 +147,31 @@ export default function DataGridDemo() {
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onCellClick={cellClickHandler}
       />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {selectedProfesor.nombre}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+              {selectedProfesor.experiencia.map((experiencia: Experiencia, i) => {
+                  return <ul className='lista-modal-profesor' key={i}>
+                            <li>Descripcion: {experiencia.descripcion}</li>
+                            <li>Años de experiencia: {experiencia.anios}</li>
+                        </ul>
+              })}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
