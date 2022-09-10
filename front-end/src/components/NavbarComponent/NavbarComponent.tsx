@@ -3,13 +3,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import { Avatar, Link } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import { UserResponse } from '../../models/UserResponse';
-
+import styles from './NavbarComponent.module.scss';
+import logo from '../Img/logo.png';
 
 export default function ButtonAppBar() {
   const userMock: UserResponse = {
@@ -39,28 +38,35 @@ export default function ButtonAppBar() {
     getUserData()
   }, [])
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }} >
+      <AppBar position="static" className={styles.barra}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Home
+          <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+            <img src={logo} alt="Logo" className={styles.logo}/>
           </Typography>
+          
+          <Typography variant="h6" component="div"  sx={{ flexGrow: 0.1 }}>
+            <a className={styles.title} href="/">Inicio</a>
+          </Typography>
+          <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+          <a className={styles.title} href="/clases">Clases</a>
+          </Typography>
+          <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
+          <a className={styles.title} href="/profesores">Profesores </a>
+          </Typography>
+
+          <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
+          <a className={styles.login} href="/login">Ingresa </a>
+          </Typography>
+
+          <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
+          <a className={styles.login} href="/register">Registrate </a>
+          </Typography>
+          
+          
           <Avatar alt={user?.name} src={user?.picture}>
           </Avatar>
-          <Link color="inherit" href='/login'>
-            <Button color="inherit">Conectate</Button>
-          </Link>
-          <Link color="inherit" href='/register'>
-            <Button color="inherit">Registrate</Button>
-          </Link>
+          
         </Toolbar>
       </AppBar>
     </Box>

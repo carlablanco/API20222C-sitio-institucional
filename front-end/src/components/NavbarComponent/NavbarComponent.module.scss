@@ -1,1 +1,27 @@
-.NavbarComponent {}
+
+.barra {
+    background-color: #0a40c9; 
+}
+
+.title {
+    color: white;
+    margin-left: 40px;
+    padding: auto;
+    font-size: 28px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.logo {
+    height: 80px;
+    margin-left: 10px;
+}
+
+.login {
+    color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-decoration: none;
+    margin-right: 25px;
+    padding-left: 20px;
+}
