@@ -53,6 +53,7 @@ module.exports = {
         // Encriptamos la contraseña
         let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
 
+
         // Crear un usuario
         User.create({
             name: req.body.name,

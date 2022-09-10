@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isAlpha: {
-          msg: "El nombre solo puede contener letras"
+          msg: "El nombre sólo puede contener letras."
         },
         len: {
           args: [2, 255],
-          msg: "El nombre tiene que ser minimamente de dos caracters"
+          msg: "El nombre debe contener al menos dos caracteres."
         }
       }
     },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         isEmail: {
-          msg: "El email tiene que ser un correo valido"
+          msg: "El email tiene que ser un correo válido."
         }
       }
     },
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: {
           args: [6, 255],
-          msg: "La contraseña tiene que tener minimamente 6 caracteres"
+          msg: "La contraseña debe tener al menos 6 caracteres."
         }
       }
     },
