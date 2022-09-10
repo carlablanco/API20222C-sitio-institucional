@@ -5,8 +5,8 @@ import NavbarComponent from "../NavbarComponent/NavbarComponent.lazy";
 function Home(){
     return(
       <div>
-      <NavbarComponent></NavbarComponent>
-      <FormComponent></FormComponent>
+        <NavbarComponent></NavbarComponent>
+        <FormComponent></FormComponent>
       </div>
     )
 }
