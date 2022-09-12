@@ -39,8 +39,8 @@ export default function ButtonAppBar() {
   }, [])
   return (
     <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="static" className={styles.barra}>
-        <Toolbar>
+      <AppBar position="static">
+        <Toolbar className={styles.barra}>
           <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
             <img src={logo} alt="Logo" className={styles.logo}/>
           </Typography>
