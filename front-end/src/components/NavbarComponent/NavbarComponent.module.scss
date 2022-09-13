@@ -1,26 +1,27 @@
 
 .barra {
-    background-color: #0a40c9; 
+    background-color: #0a40c9;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
 }
 
 .title {
     color: white;
     margin-left: 40px;
     padding: auto;
-    font-size: 28px;
+    font-size: 20px;
     text-transform: uppercase;
     text-decoration: none;
 }
 
 .logo {
-    height: 80px;
-    margin-left: 10px;
+    height: 60px;
+    margin: 2px;
 }
 
 .login {
     color: white;
     text-transform: uppercase;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     margin-right: 25px;
     padding-left: 20px;
