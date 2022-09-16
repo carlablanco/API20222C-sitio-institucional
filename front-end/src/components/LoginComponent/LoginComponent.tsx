@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, SxProps, Theme, ThemeProvider } from '@mui/material/styles';
 import { CommonProps } from '@mui/material/OverridableComponent';
 import { SystemProps } from '@mui/system';
-import logo from '../../logo.png';
+import logo from '../../img/logo.png';
 import styles from './LoginComponent.module.scss';
 
 

@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import { UserResponse } from '../../models/UserResponse';
 import styles from './NavbarComponent.module.scss';
-import logo from '../../logo.png';
+import logo from '../../img/logo.png';
+
 
 export default function ButtonAppBar() {
   const userMock: UserResponse = {
