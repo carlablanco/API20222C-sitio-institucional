@@ -6,6 +6,16 @@ import LoginComponent from "./components/LoginComponent/LoginComponent.lazy";
 import SignupComponent from "./components/SignupComponent/SignupComponent.lazy";
 
 function App() {
+  //Logear usuario
+  const logearUsuario = () => {
+    sessionStorage.setItem("usuario", JSON.stringify({
+      "name": "Sergio Garroni",
+      "type": "student",
+      "id": "1111",
+      "picture": "../../mockData/mockImages/user-dummy.svg"
+  }));
+  }
+  logearUsuario();
   return (
       <BrowserRouter>
         <Routes>
