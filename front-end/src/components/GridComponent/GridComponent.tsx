@@ -3,8 +3,10 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem, GridCallbackDetails, GridCellParams, GridColDef, GridRowParams, MuiEvent } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import CommentIcon from '@mui/icons-material/Comment';
-import { Experiencia, Profesor } from '../../models/Profesor';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Profesor } from '../../models/Profesor';
+import ProfesorInfoComponent from '../ProfesorInfoComponent/ProfesorInfoComponent';
+import ComentariosListComponent from '../ComentariosListComponent/ComentariosListComponent';
+import { Comentario } from '../../models/Comentario';
 
 
 export default function DataGridDemo() {
@@ -17,8 +19,14 @@ export default function DataGridDemo() {
   );
 
   const verComentario = React.useCallback(
-    (rowComentario: any) => () => {
-      console.log(rowComentario);
+    (row: any) => () => {
+      setMateria(row.materia)
+      setProfesor({
+        nombre: row.nombreProfesor,
+        experiencia: row.experienciaProfesor
+      });
+      setComentarios(row.comentarios)
+      handleClickOpenComentarios()
     },
     [],
   );
@@ -54,7 +62,7 @@ export default function DataGridDemo() {
     {
       field: 'comentarios',
       headerName: 'Comentarios',
-      type:'actions',
+      type: 'actions',
       width: 120,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem icon={<CommentIcon />} onClick={verComentario(params.row)} label="Ver Comentarios" />,
@@ -63,63 +71,115 @@ export default function DataGridDemo() {
     {
       field: 'inscribirse',
       headerName: 'Inscribirse',
-      type:'actions',
+      type: 'actions',
       width: 120,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem icon={<AddIcon />} onClick={inscribirMateria(params.row)} label="Inscribir Materia" />,
       ]
     },
   ];
-  
+
   const rows = [
     {
-      id: 1, 
+      id: 1,
       nombreProfesor: 'Jhon',
       experienciaProfesor: [
         {
-          descripcion: 'Licenciado en Educacion', 
+          descripcion: 'Licenciado en Educacion',
           anios: 3
         },
         {
           descripcion: 'Licenciado en Matematica', anios: 5
         }
       ],
-      materia: 'Matematica', 
-      duracion: 'Mensual', 
-      costo: 1000, 
-      comentarios: 'Ver Comentarios', 
-      calificacion: 4
+      materia: 'Matematica',
+      duracion: 'Mensual',
+      costo: 1000,
+      calificacion: 4,
+      comentarios: [{
+        usuario: 'Sergio',
+        comentario: 'Excelente',
+      },
+      {
+        usuario: 'Dylan',
+        comentario: 'Buenisimo',
+      },
+      {
+        usuario: 'Carla',
+        comentario: 'Una capa',
+      }]
     },
     {
       id: 2, nombreProfesor: 'Maria', experienciaProfesor: [{
         descripcion: 'Licenciado en Educacion', anios: 3
       }, {
         descripcion: 'Licenciado en Fisica', anios: 5
-      }], materia: 'Fisica', duracion: 'Cuatrimestral', costo: 2000, comentarios: 'Ver Comentarios', calificacion: 3
+      }], materia: 'Fisica', duracion: 'Cuatrimestral', costo: 2000, comentarios: [{
+        usuario: 'Sergio',
+        comentario: 'Excelente',
+      },
+      {
+        usuario: 'Dylan',
+        comentario: 'Buenisimo',
+      },
+      {
+        usuario: 'Carla',
+        comentario: 'Una capa',
+      }], calificacion: 3
     },
 
-    { id: 3, nombreProfesor: 'Julian', experienciaProfesor: [{
-      descripcion: 'Licenciado en Educacion', anios: 3
-    }, {
-      descripcion: 'Licenciado en Programacion', anios: 5
-    }], materia: 'Programacion', duracion: 'Anual', costo: 10000, comentarios: 'Ver Comentarios', calificacion: 5 },
+    {
+      id: 3, nombreProfesor: 'Julian', experienciaProfesor: [{
+        descripcion: 'Licenciado en Educacion', anios: 3
+      }, {
+        descripcion: 'Licenciado en Programacion', anios: 5
+      }], materia: 'Programacion', duracion: 'Anual', costo: 10000,
+      comentarios: [{
+        usuario: 'Sergio',
+        comentario: 'Excelente',
+      },
+      {
+        usuario: 'Dylan',
+        comentario: 'Buenisimo',
+      },
+      {
+        usuario: 'Carla',
+        comentario: 'Una capa',
+      }], calificacion: 5
+    },
   ];
 
   const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
-    if(params.field === "nombreProfesor"){
+    if (params.field === "nombreProfesor") {
       setProfesor({
         nombre: params.row.nombreProfesor,
         experiencia: params.row.experienciaProfesor
       });
+      setMateria(params.row.materia)
       console.log(selectedProfesor)
-      handleClickOpen();
+      handleClickOpenProfesor();
     }
   }
 
-  const [open, setOpen] = React.useState(false);
+  const [openComentarios, setOpenComentarios] = React.useState(false);
+  const [selectedComentarios, setComentarios] = React.useState<Array<Comentario>>([{
+    usuario: '',
+    comentario: ''
+  }]);
+
+
+  const handleClickOpenComentarios = () => {
+    setOpenComentarios(true);
+  };
+
+  const handleCloseComentarios = () => {
+    setOpenComentarios(false);
+  };
+
+  const [openProfesor, setOpenProfesor] = React.useState(false);
   const [selectedProfesor, setProfesor] = React.useState<Profesor>({
     nombre: '',
-    experiencia:[
+    experiencia: [
       {
         descripcion: '',
         anios: 0
@@ -128,14 +188,15 @@ export default function DataGridDemo() {
   });
 
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenProfesor = () => {
+    setOpenProfesor(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseProfesor = () => {
+    setOpenProfesor(false);
   };
 
+  const [selectedMateria, setMateria] = React.useState<any>()
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
@@ -149,29 +210,13 @@ export default function DataGridDemo() {
         experimentalFeatures={{ newEditingApi: true }}
         onCellClick={cellClickHandler}
       />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {selectedProfesor.nombre}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-              {selectedProfesor.experiencia.map((experiencia: Experiencia, i) => {
-                  return <ul className='lista-modal-profesor' key={i}>
-                            <li>Descripcion: {experiencia.descripcion}</li>
-                            <li>Años de experiencia: {experiencia.anios}</li>
-                        </ul>
-              })}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cerrar</Button>
-        </DialogActions>
-      </Dialog>
+      <ProfesorInfoComponent open={openProfesor} selectedProfesor={selectedProfesor} handleClose={handleCloseProfesor} />
+      <ComentariosListComponent
+        open={openComentarios}
+        comentarios={selectedComentarios}
+        handleClose={handleCloseComentarios}
+        materia={selectedMateria}
+        profesor={selectedProfesor} />
     </Box>
   );
 }
