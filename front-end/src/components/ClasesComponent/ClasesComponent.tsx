@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import GridComponent from '../GridComponent/GridComponent.lazy';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
+import FooterComponent from "../FooterComponent/FooterComponent.lazy";
 import styles from './ClasesComponent.module.scss';
 
 interface ClasesComponentProps {}
@@ -23,6 +24,7 @@ const ClasesComponent: FC<ClasesComponentProps> = (props: any) => {
   <div>
     <NavbarComponent></NavbarComponent>
     <GridComponent></GridComponent>
+    <FooterComponent></FooterComponent>
   </div>
 );}
 

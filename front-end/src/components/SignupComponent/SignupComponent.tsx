@@ -100,12 +100,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="Quiero recibir novedades en mi casilla de correo."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -117,7 +111,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Ya tenés una cuenta? Conectate
                 </Link>
               </Grid>
