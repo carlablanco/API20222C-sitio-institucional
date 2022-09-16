@@ -10,6 +10,7 @@ import { UserResponse } from "./models/UserResponse";
 
 function App() {
 
+  // obtenemos el usuario
   const [user] = useState<UserResponse | null>(null);
 
   useEffect(() => {
@@ -33,16 +34,6 @@ function App() {
     }
     getUserData()
   }, [])
-  
-  const logearUsuario = () => {
-    sessionStorage.setItem("usuario", JSON.stringify({
-      "name": "Sergio Garroni",
-      "type": "student",
-      "id": "1111",
-      "picture": "../../mockData/mockImages/user-dummy.svg"
-  }));
-  }
-  logearUsuario();
   return (
       <BrowserRouter>
         <Routes>

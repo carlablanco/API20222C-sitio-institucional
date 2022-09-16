@@ -12,26 +12,10 @@ import logo from '../../img/logo.png';
 
 
 export default function ButtonAppBar() {
-
-  const [user, setData] = useState<UserResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-        setData(sessionStorage.getItem('usuario') as any as UserResponse);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
-        setData(sessionStorage.getItem('usuario') as any as UserResponse);
-      } finally {
-        setLoading(false);
-      }
-    }
-    getUserData()
-  }, [])
+  // Obtiene el usuario del sessionStorage
+  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
+  // Se puede cambiar el tipo de usuario manualmente para debuggear
+  user.type = 'alumno'
   return (
     <header>
         <Box sx={{ flexGrow: 1 }} >
