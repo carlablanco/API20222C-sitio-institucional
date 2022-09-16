@@ -12,12 +12,6 @@ import { UserResponse } from '../../models/UserResponse';
 
 
 export default function ButtonAppBar() {
-  const userMock: UserResponse = {
-    "name": "Sergio Garroni",
-    "type": "student",
-    "id": "1111",
-    "picture": "../../mockData/mockImages/user-dummy.svg"
-}
 
   const [user, setData] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -27,11 +21,11 @@ export default function ButtonAppBar() {
     const getUserData = async () => {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-        setData(userMock);
+        setData(sessionStorage.getItem('usuario') as any as UserResponse);
         setError(null);
       } catch (err: any) {
         setError(err.message);
-        setData(userMock);
+        setData(sessionStorage.getItem('usuario') as any as UserResponse);
       } finally {
         setLoading(false);
       }

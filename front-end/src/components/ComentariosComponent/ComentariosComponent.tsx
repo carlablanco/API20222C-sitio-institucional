@@ -10,7 +10,7 @@ interface ComentariosComponentProps {
 const ComentariosComponent: FC<ComentariosComponentProps> = (props) => (
   <Box>
     <div className='usuario-comentario'> 
-      {props.usuario}:
+      {props.usuario}
     </div>
     <div className='texto-comentario'> 
       {props.comentario}
