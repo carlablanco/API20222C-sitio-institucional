@@ -26,7 +26,7 @@ const ComentariosListComponent: FC<ComentariosListComponentProps> = (props: any)
         </DialogTitle>
         <DialogContent>
               {props?.comentarios?.map((comentario: Comentario, i: any) => {
-                  return <ComentariosComponent comentario={comentario.comentario} usuario={comentario.usuario}></ComentariosComponent>
+                  return <ComentariosComponent key={i} comentario={comentario.comentario} usuario={comentario.usuario}></ComentariosComponent>
               })}
         </DialogContent>
         <DialogActions>
