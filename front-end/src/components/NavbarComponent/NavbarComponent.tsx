@@ -39,7 +39,7 @@ export default function ButtonAppBar() {
             <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
             <a className={styles.login} href="/login">Ingresa </a>
             </Typography>
-
+            
             <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
             <a className={styles.login} href="/register">Registrate </a>
             </Typography>
