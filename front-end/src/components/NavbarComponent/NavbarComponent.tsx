@@ -19,6 +19,57 @@ export default function ButtonAppBar() {
     "picture": "../../mockData/mockImages/user-dummy.svg"
 }
 
+const LoginButtons = () => { 
+  return (
+          <><Link color="inherit" href='/login'>
+      <Button color="inherit">Conectate</Button>
+    </Link><Link color="inherit" href='/register'>
+        <Button color="inherit">Registrate</Button>
+      </Link></>
+
+          );
+          }
+
+  const AlumnoButtons = () => { 
+    return (
+      <><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        Inicio
+      </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Clases
+        </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Profesores
+        </Typography>
+      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Mis Clases
+        </Typography></>
+            );
+            }
+
+  const ProfesorButtons = () => { 
+    return (
+      <><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        Inicio
+      </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Publicar Clase
+        </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Mis Clases
+        </Typography></>
+    );
+            }
+
+    const GuestButtons = () => { 
+      return (
+        <><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Inicio
+        </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Clases
+          </Typography><Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Profesores
+          </Typography></>
+      );
+    }
+
+
   const [user, setData] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,19 +101,18 @@ export default function ButtonAppBar() {
             sx={{ mr: 2 }}
           >
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Home
-          </Typography>
-          <Avatar alt={user?.name} src={user?.picture}>
-          </Avatar>
-          <Link color="inherit" href='/login'>
-            <Button color="inherit">Conectate</Button>
-          </Link>
-          <Link color="inherit" href='/register'>
-            <Button color="inherit">Registrate</Button>
-          </Link>
+
+          {!user && GuestButtons()} 
+          {user?.type == 'student' && AlumnoButtons()} 
+          {user?.type == 'professor' && ProfesorButtons()} 
+
+          {user &&<Avatar alt={user?.name} src={user?.picture}>
+          </Avatar>}
+
+          {!user && LoginButtons()} 
         </Toolbar>
       </AppBar>
     </Box>
   );
 }
+
