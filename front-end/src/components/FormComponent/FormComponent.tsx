@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import styles from "./FormComponent.module.scss";
 
+
 interface FormComponentProps {}
 
 const ITEM_HEIGHT = 48;
@@ -93,9 +94,9 @@ const FormComponent: FC<FormComponentProps> = () => {
         <div className={styles.fila}>
           <DropdownComponent onInputChange={getCalificacion} options={calificaciones} label='Calificacion'></DropdownComponent>
         </div>
-        <Button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} variant="text">
-          Buscar Clases
-        </Button>
+        <button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} >
+          Buscar Clases 
+        </button>
       </div>
   );
 }

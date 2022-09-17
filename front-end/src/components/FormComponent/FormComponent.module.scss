@@ -4,7 +4,7 @@
     min-width: min-content;
     text-align: center;
     justify-content: center;
-    margin: 10vh;
+    
     
 }
 
@@ -15,9 +15,14 @@
     margin-top: 20px;
     display: block;
     margin-left:45.9% ;
-    
+    border-radius: 10px;
+    width: 120px;
+    height: 38px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     
 }
+
+
 
 .boton:hover {
     
@@ -29,10 +34,12 @@
     display: inline-block;
     justify-content: center;
     justify-items: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1);
+    border-radius: 10px; 
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 500px) {
     .boton {
-        margin-left:26.9% ;
+        margin-left:36.9% ;
     }
 }
