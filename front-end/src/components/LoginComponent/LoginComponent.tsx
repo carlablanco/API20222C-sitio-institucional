@@ -27,8 +27,8 @@ function Copyright(props: JSX.IntrinsicAttributes & { component: React.ElementTy
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-    
-    
+
+
   );
 }
 
@@ -47,14 +47,14 @@ export default function SignIn() {
   return (
     <>
       <div className={styles.logo}>
-        <a href="../"><img  src={logo} alt="Logo" /></a>
+        <a href="../"><img src={logo} alt="Logo" /></a>
       </div>
-      
-      <ThemeProvider  theme={theme}>
-        <Container  component="main" maxWidth="xs">
+
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
           <CssBaseline />
-          <Box 
-             sx={{
+          <Box
+            sx={{
               marginTop: 8,
               display: 'flex',
               flexDirection: 'column',
@@ -101,12 +101,12 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/resetpassword" variant="body2">
                     Te olvidaste tu contraseña?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"No tenés una cuenta? Registrate"}
                   </Link>
                 </Grid>
@@ -114,11 +114,11 @@ export default function SignIn() {
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} component={'symbol'} />
           </Box>
-            
+
         </Container>
       </ThemeProvider>
-      
-      
+
+
     </>
   );
 }
