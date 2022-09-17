@@ -1,1 +1,38 @@
-.FormComponent {}
+.container {
+    text-align: center;
+    
+    min-width: min-content;
+    text-align: center;
+    justify-content: center;
+    margin: 10vh;
+    
+}
+
+
+.boton {
+    background-color: #275fee;
+    color: #fff;
+    margin-top: 20px;
+    display: block;
+    margin-left:45.9% ;
+    
+    
+}
+
+.boton:hover {
+    
+    background-color: #4374f0;
+}
+
+.fila {
+    
+    display: inline-block;
+    justify-content: center;
+    justify-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .boton {
+        margin-left:26.9% ;
+    }
+}

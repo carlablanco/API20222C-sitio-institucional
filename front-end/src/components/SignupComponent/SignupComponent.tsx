@@ -149,7 +149,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-            </Grid>
+            
             <Button
               type="submit"
               fullWidth
@@ -165,6 +165,7 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
+          </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} component={'symbol'} />
         </Container>
