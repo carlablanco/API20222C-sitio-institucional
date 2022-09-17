@@ -5,6 +5,7 @@ import './App.css';
 import ClasesComponent from "./components/ClasesComponent/ClasesComponent";
 import HomeComponent from "./components/HomeComponent/HomeComponent.lazy";
 import LoginComponent from "./components/LoginComponent/LoginComponent.lazy";
+import MateriasInscritasComponent from "./components/MateriasInscritasComponent/MateriasInscritasComponent.lazy";
 import SignupComponent from "./components/SignupComponent/SignupComponent.lazy";
 import { UserResponse } from "./models/UserResponse";
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/register" element={<SignupComponent />} />
           <Route path="/clases" element={<ClasesComponent />} />
+          <Route path="/inscripciones" element={<MateriasInscritasComponent />} />
         </Routes>
       </BrowserRouter>
   );
