@@ -13,8 +13,8 @@
     background-color: #275fee;
     color: #fff;
     margin-top: 20px;
-    display: block;
-    margin-left:45.9% ;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     width: 120px;
     height: 38px;
@@ -38,8 +38,3 @@
     border-radius: 10px; 
 }
 
-@media screen and (max-width: 500px) {
-    .boton {
-        margin-left:36.9% ;
-    }
-}

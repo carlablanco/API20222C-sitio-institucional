@@ -94,9 +94,12 @@ const FormComponent: FC<FormComponentProps> = () => {
         <div className={styles.fila}>
           <DropdownComponent onInputChange={getCalificacion} options={calificaciones} label='Calificacion'></DropdownComponent>
         </div>
-        <button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} >
-          Buscar Clases 
-        </button>
+        <div>
+          <button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} >
+            Buscar Clases 
+          </button>
+        </div>
+        
       </div>
   );
 }

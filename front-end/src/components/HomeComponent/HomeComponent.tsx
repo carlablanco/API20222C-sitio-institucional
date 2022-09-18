@@ -29,10 +29,10 @@ function Home(){
   const GuestorAlumnoView = () => {
     return (
       <><h2 className={styles.title}>
-      ¡No postergues mas tu futuro! 
+      ¡No postergues más tu futuro! 
     </h2>
     <h3 className={styles.subtitle}>
-      Clases nuevas todos los dias
+      Clases nuevas todos los días
     </h3>
     <FormComponent></FormComponent>
     <InformationCardsComponent></InformationCardsComponent>
@@ -124,6 +124,7 @@ function Home(){
           ))}
         </Grid>
       </Container>
+      
       <FooterComponent></FooterComponent>
       </div >
     )
