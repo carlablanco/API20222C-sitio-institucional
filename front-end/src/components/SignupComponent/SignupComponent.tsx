@@ -139,7 +139,43 @@ export default function SignUp() {
                   </Link>
                 </Grid>
               </Grid>
-            </Box>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Mail"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+            
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Registrate
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Ya tenés una cuenta? Conectate
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
           <Copyright sx={{ mt: 5 }} component={'symbol'} />
         </Container>

@@ -3,6 +3,8 @@ import FormControl from '@mui/material/FormControl';
 import DropdownComponent from '../DropdownComponent/DropdownComponent';
 import { Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import styles from "./FormComponent.module.scss";
+
 
 interface FormComponentProps {}
 
@@ -79,12 +81,22 @@ const FormComponent: FC<FormComponentProps> = () => {
   }
 
   return(
-      <div>
-          <DropdownComponent onInputChange={getSelectedMateria} options={materias} label='Materias'></DropdownComponent>
+      <div className={styles.container}>
+        <div className={styles.fila}>
+          <DropdownComponent   onInputChange={getSelectedMateria} options={materias} label='Materias'></DropdownComponent>
+        </div>
+        <div className={styles.fila}>
           <DropdownComponent onInputChange={getTipoDeClase} options={tiposDeClases} label='Tipo de Clase'></DropdownComponent>
+        </div>
+        <div className={styles.fila}>
           <DropdownComponent onInputChange={getFrecuencia} options={frecuencias} label='Frecuencia'></DropdownComponent>
+        </div>
+        <div className={styles.fila}>
           <DropdownComponent onInputChange={getCalificacion} options={calificaciones} label='Calificacion'></DropdownComponent>
-          <Button disabled={!materia?.id} onClick={buscarClases} variant="text">Buscar Clases</Button>
+        </div>
+        <button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} >
+          Buscar Clases 
+        </button>
       </div>
   );
 }
