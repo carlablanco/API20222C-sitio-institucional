@@ -47,6 +47,8 @@ export default function SignUp() {
   };
   const [value, setValue] = React.useState(0);
 
+
+
   return (
     <>
       <div className={styles.logo}>

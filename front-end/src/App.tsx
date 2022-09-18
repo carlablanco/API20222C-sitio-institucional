@@ -10,6 +10,8 @@ import SignupComponent from "./components/SignupComponent/SignupComponent.lazy";
 import ResetPasswordComponent from "./components/ResetPasswordComponent/ResetPasswordComponent.lazy";
 import { UserResponse } from "./models/UserResponse";
 import MateriasAsignadasComponent from "./components/MateriasAsignadasComponent/MateriasAsignadasComponent";
+import PublicarClaseComponent from "./components/PublicarClaseComponent/PublicarClaseComponent.lazy";
+import ModificarCuentaComponent from "./components/ModificarCuentaComponent/ModificarCuentaComponent.lazy";
 
 function App() {
 
@@ -23,6 +25,7 @@ function App() {
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
           "type": "professor",
+          "email": "sergio@garroni.com",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
         }));
@@ -30,6 +33,7 @@ function App() {
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
           "type": "professor",
+          "email": "sergio@garroni.com",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
         }));
@@ -47,6 +51,8 @@ function App() {
         <Route path="/clases-asignadas" element={<MateriasAsignadasComponent />} />
         <Route path="/inscripciones" element={<MateriasInscritasComponent />} />
         <Route path="/resetpassword" element={<ResetPasswordComponent />} />
+        <Route path="/publicarclase" element={<PublicarClaseComponent />} />
+        <Route path="/modificarcuenta" element={<ModificarCuentaComponent />} />
       </Routes>
     </BrowserRouter>
   );
