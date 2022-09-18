@@ -1,9 +1,9 @@
 
-
-
 .barra {
     background-color: #0a40c9;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+   
+    
 }
 
 .title {
@@ -13,12 +13,14 @@
     font-size: 20px;
     text-transform: uppercase;
     text-decoration: none;
+    margin-right: 5px;
 }
 
 .logo {
     height: 50px;
     width: 60px;
     margin: 2px;
+    
 }
 
 .login {
@@ -26,6 +28,38 @@
     text-transform: uppercase;
     font-size: 18px;
     text-decoration: none;
-    margin-right: 25px;
-    padding-left: 20px;
+    margin-right: 5px;
+}
+
+
+
+@media screen and (max-width: 700px) {
+    .barra{
+        display: inline-block;
+        justify-content: center;
+    }
+
+    .contenedor {
+        text-align: center;
+        margin: 4px;
+    }
+    .title{
+        
+        text-align: inherit;
+        margin: 0;
+        
+        width: fit-content;
+    }
+
+    .login{
+        justify-items: center;
+        margin: 0;
+        
+    }
+
+    .avatar {
+        text-align: center;
+        margin-bottom: 10px;
+        margin-left: 45%;
+    }
 }

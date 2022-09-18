@@ -3,7 +3,7 @@ import "./InformationCardComponent.css";
 
 export default function InformationCardComponent({title, imageSource, text}) {
   return (
-    <div className='card text-center w-75 contenedor align-center justify-content-center'>
+    <div className='card text-center w-75 contenedor align-center '>
         <a href="/">
           <img src={imageSource} alt="card" />
           <div className='card-body'>

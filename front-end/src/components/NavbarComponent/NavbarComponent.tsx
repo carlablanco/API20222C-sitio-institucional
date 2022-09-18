@@ -14,12 +14,14 @@ import logo from '../../img/logo.png';
 export default function ButtonAppBar() {
   // Obtiene el usuario del sessionStorage
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
+  
+  
 
   const LoginButtons = () => {
     return (
-      <><Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
+      <><Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.01 }}>
         <a className={styles.login} href="/login">Ingresa </a>
-      </Typography><Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0 }}>
+      </Typography><Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.01 }}>
           <a className={styles.login} href="/register">Registrate </a>
         </Typography></>
     );
@@ -27,30 +29,26 @@ export default function ButtonAppBar() {
 
   const GuestButtons = () => {
     return (
-      <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
+      <><Typography variant="h6" component="div" className={styles.contenedor}  sx={{ flexGrow: 0.1 }}>
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+        <Typography variant="h6" component="div" className={styles.contenedor}  sx={{ flexGrow: 1 }}>
           <a className={styles.title} href="/clases">Clases</a>
         </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
-          <a className={styles.title} href="/profesores">Profesores </a>
-        </Typography></>
+       </>
     );
   }
 
   const AlumnoButtons = () => {
     return (
-      <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
+      <><Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1}}>
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+        <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1 }}>
           <a className={styles.title} href="/clases">Clases</a>
         </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
-          <a className={styles.title} href="/profesores">Profesores </a>
-        </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
+        
+        <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 1 }}>
           <a className={styles.title} href="/inscripciones">Mis Clases </a>
         </Typography></>
     );
@@ -59,13 +57,13 @@ export default function ButtonAppBar() {
 
   const ProfesorButtons = () => {
     return (
-      <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
+      <><Typography variant="h6" component="div" className={styles.contenedor}  sx={{ flexGrow: 0.1 }}>
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+        <Typography variant="h6" component="div" className={styles.contenedor}   sx={{ flexGrow: 0.1 }}>
           <a className={styles.title} href="/">Publicar Clase</a>
         </Typography>
-        <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" className={styles.contenedor}  sx={{ flexGrow: 1 }}>
           <a className={styles.title} href="/clases-asignadas">Mis Clases </a>
         </Typography></>
     );
@@ -78,14 +76,14 @@ export default function ButtonAppBar() {
       <Box sx={{ flexGrow: 1 }} >
         <AppBar position="static">
           <Toolbar className={styles.barra}>
-            <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 0.1 }}>
+            <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1 }}>
               <a href="/"> <img src={logo} alt="Logo" className={styles.logo} /></a>
             </Typography>
             {user?.type == 'professor' && ProfesorButtons()}
             {user?.type == 'student' && AlumnoButtons()}
             {!user && GuestButtons()}
             {!user && LoginButtons()}
-            {user && <Avatar alt={user?.name} src={user?.picture}></Avatar>}
+            {user && <Avatar className={styles.avatar} alt={user?.name} src={user?.picture} ></Avatar>}
           </Toolbar>
         </AppBar>
       </Box>
