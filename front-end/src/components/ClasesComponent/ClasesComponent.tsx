@@ -19,7 +19,6 @@ const ClasesComponent: FC<ClasesComponentProps> = (props: any) => {
   
   const location = useLocation();
   const state = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
-  const { materia } = state;
   return (
   <div>
     <NavbarComponent></NavbarComponent>
