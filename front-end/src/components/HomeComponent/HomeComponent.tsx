@@ -3,8 +3,6 @@ import FormComponent from "../FormComponent/FormComponent";
 import NavbarComponent from "../NavbarComponent/NavbarComponent.lazy";
 import FooterComponent from "../FooterComponent/FooterComponent.lazy";
 import styles from "./HomeComponent.module.scss";
-
-
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -21,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import InformationCardsComponent from "../InformationCardComponent/InformationCardsComponent";
 
 function Home(){
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
@@ -33,7 +32,10 @@ function Home(){
     <h3 className={styles.subtitle}>
       Clases nuevas todos los dias
     </h3>
-    <FormComponent></FormComponent></>
+    <FormComponent></FormComponent>
+    <InformationCardsComponent></InformationCardsComponent>
+    </>
+    
     );
   }
 
