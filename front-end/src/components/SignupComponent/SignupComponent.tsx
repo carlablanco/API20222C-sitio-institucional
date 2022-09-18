@@ -177,6 +177,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+          </Box>
           <Copyright sx={{ mt: 5 }} component={'symbol'} />
         </Container>
       </ThemeProvider>

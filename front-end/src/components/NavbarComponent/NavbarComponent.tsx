@@ -51,7 +51,7 @@ export default function ButtonAppBar() {
           <a className={styles.title} href="/profesores">Profesores </a>
         </Typography>
         <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
-          <a className={styles.title} href="/">Mis Clases </a>
+          <a className={styles.title} href="/inscripciones">Mis Clases </a>
         </Typography></>
     );
   }
@@ -66,7 +66,7 @@ export default function ButtonAppBar() {
           <a className={styles.title} href="/">Publicar Clase</a>
         </Typography>
         <Typography variant="h6" component="div" className={styles.title} sx={{ flexGrow: 1 }}>
-          <a className={styles.title} href="/">Mis Clases </a>
+          <a className={styles.title} href="/clases-asignadas">Mis Clases </a>
         </Typography></>
     );
   }
