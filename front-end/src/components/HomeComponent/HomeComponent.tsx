@@ -40,7 +40,9 @@ function Home(){
     );
   }
 
-  const tiers = [
+if (!user || user.type == 'student') {
+
+  var tiers = [
     {
       title: '1. Buscá tu clase',
       description: [
@@ -62,6 +64,31 @@ function Home(){
     },
   ];
 
+}
+
+else {
+  var tiers = [
+    {
+      title: '1. Empezá',
+      description: [
+        'Dirigite a la sección “Publicar Clase”'
+      ],
+    },
+    {
+      title: '2. Completá',
+      description: [
+        'Rellena el formulario con los datos requeridos'
+      ]
+    },
+    {
+      title: '3. Publicá',
+      description: [
+        'Finalmente confirmá la informacion, clickeá en “Publicar” y listo!'
+      ]
+    }
+  ];
+}
+
 
     return(
       <div>
@@ -75,7 +102,7 @@ function Home(){
           color="text.primary"
           gutterBottom
         >
-          ¿Cómo comienzo?
+          ¿Estás listo?
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
         Aprendé cómo inscribirte a tu primera clase con el siguiente tutorial:
