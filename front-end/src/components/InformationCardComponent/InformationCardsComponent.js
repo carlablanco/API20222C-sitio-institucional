@@ -50,8 +50,8 @@ const cards = [
 
 export default function InformationCardsComponent() {
 	return (
-		<div className='container'>
-			<div className='row justify-content-center mt-3 d-flex justify-cintent-center align-center'>
+		<div className='container centrado'>
+			<div className='row justify-content-center align-center'>
 				{
 					cards.map(card => (
 						<div className='col-xxl-3 col-md-4 col-sm-5 margin' key={card.id}>
