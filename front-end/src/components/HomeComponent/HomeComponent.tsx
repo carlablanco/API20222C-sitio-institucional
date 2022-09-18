@@ -122,7 +122,7 @@ function Home(){
         </Grid>
       </Container>
       <FooterComponent></FooterComponent>
-      </div>
+      </div >
     )
 }
 

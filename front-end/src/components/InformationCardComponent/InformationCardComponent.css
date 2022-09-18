@@ -1,0 +1,16 @@
+img {
+    width: 100%;
+
+}
+
+.contenedor{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+    border: solid black 0.1rem;
+    border-radius: 10px;
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
