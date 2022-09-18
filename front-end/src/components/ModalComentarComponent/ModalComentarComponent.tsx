@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import React, { FC } from 'react';
+import RatingComponent from '../RatingComponent/RatingComponent';
 
 interface ModalComentarComponentProps {
   open?: boolean,
@@ -18,6 +19,7 @@ const ModalComentarComponent: FC<ModalComentarComponentProps> = (props: any) => 
           Comentar {props.row.clase} de {props.row.profesor}
         </DialogTitle>
         <DialogContent>
+        <RatingComponent></RatingComponent>
         <TextField
           id="outlined-multiline-static"
           label="comentario"

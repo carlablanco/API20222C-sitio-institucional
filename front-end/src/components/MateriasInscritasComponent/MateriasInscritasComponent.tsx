@@ -17,7 +17,7 @@ export default function DataGridDemo() {
   );
 
   const deshabilitarComentario = (row: any) => {
-    return row.estado !== 'Activa'  && row.estado !== 'Finalizada'
+    return row.estado !== 'Aceptada'  && row.estado !== 'Finalizada';
   }
 
   const columns = [
@@ -60,7 +60,7 @@ export default function DataGridDemo() {
       clase: 'Matematica',
       profesor: 'Julian',
       fechaInscripcion: new Date(),
-      estado: 'Activa'
+      estado: 'Aceptada'
     },
     {
       id: 2,
@@ -81,7 +81,7 @@ export default function DataGridDemo() {
       clase: 'Matematica',
       profesor: 'Julian',
       fechaInscripcion: new Date(),
-      estado: 'Nueva'
+      estado: 'Solicitada'
     },
   ];
   const [openComentarios, setOpenComentarios] = React.useState(false);
