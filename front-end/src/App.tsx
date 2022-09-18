@@ -22,14 +22,14 @@ function App() {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
-          "type": "professor",
+          "type": "student",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
         }));
       } catch (err: any) {
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
-          "type": "professor",
+          "type": "student",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
         }));

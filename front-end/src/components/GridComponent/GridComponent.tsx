@@ -7,13 +7,15 @@ import { Profesor } from '../../models/Profesor';
 import ProfesorInfoComponent from '../ProfesorInfoComponent/ProfesorInfoComponent';
 import ComentariosListComponent from '../ComentariosListComponent/ComentariosListComponent';
 import { Comentario } from '../../models/Comentario';
+import SolicitarClaseComponent from '../SolicitarClaseComponent/SolicitarClaseComponent';
 
 
 export default function DataGridDemo() {
 
   const inscribirMateria = React.useCallback(
-    (rowMateria: any) => () => {
-      console.log(rowMateria);
+    (row: any) => () => {
+      setMateria(row.materia)
+      handleClickOpenSolicitud()
     },
     [],
   );
@@ -30,7 +32,7 @@ export default function DataGridDemo() {
     },
     [],
   );
-
+  
   const columns = [
     {
       field: 'nombreProfesor',
@@ -196,6 +198,17 @@ export default function DataGridDemo() {
     setOpenProfesor(false);
   };
 
+  const [openSolicitud, setOpenSolicitud] = React.useState(false);
+
+
+  const handleClickOpenSolicitud = () => {
+    setOpenSolicitud(true);
+  };
+
+  const handleCloseSolicitud = () => {
+    setOpenSolicitud(false);
+  };
+
   const [selectedMateria, setMateria] = React.useState<any>()
 
   return (
@@ -217,6 +230,7 @@ export default function DataGridDemo() {
         handleClose={handleCloseComentarios}
         materia={selectedMateria}
         profesor={selectedProfesor} />
+      <SolicitarClaseComponent open={openSolicitud} handleClose={handleCloseSolicitud} clase={selectedMateria}></SolicitarClaseComponent>
     </Box>
   );
 }
