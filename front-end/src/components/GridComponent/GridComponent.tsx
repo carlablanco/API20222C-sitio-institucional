@@ -8,7 +8,7 @@ import ProfesorInfoComponent from '../ProfesorInfoComponent/ProfesorInfoComponen
 import ComentariosListComponent from '../ComentariosListComponent/ComentariosListComponent';
 import { Comentario } from '../../models/Comentario';
 import SolicitarClaseComponent from '../SolicitarClaseComponent/SolicitarClaseComponent';
-
+import styles from "./GridComponent.module.scss";
 
 export default function DataGridDemo() {
 
@@ -212,25 +212,29 @@ export default function DataGridDemo() {
   const [selectedMateria, setMateria] = React.useState<any>()
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-        onCellClick={cellClickHandler}
-      />
-      <ProfesorInfoComponent open={openProfesor} selectedProfesor={selectedProfesor} handleClose={handleCloseProfesor} />
-      <ComentariosListComponent
-        open={openComentarios}
-        comentarios={selectedComentarios}
-        handleClose={handleCloseComentarios}
-        materia={selectedMateria}
-        profesor={selectedProfesor} />
-      <SolicitarClaseComponent open={openSolicitud} handleClose={handleCloseSolicitud} clase={selectedMateria}></SolicitarClaseComponent>
-    </Box>
+    <div className={styles.GridComponent}>
+      <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
+      my: 0, mx: "auto" , padding: 2}} >
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableSelectionOnClick
+          experimentalFeatures={{ newEditingApi: true }}
+          onCellClick={cellClickHandler}
+          sx={{borderColor: '#002967', bgcolor: '#eef5ff' }}
+        />
+        <ProfesorInfoComponent open={openProfesor} selectedProfesor={selectedProfesor} handleClose={handleCloseProfesor} />
+        <ComentariosListComponent
+          open={openComentarios}
+          comentarios={selectedComentarios}
+          handleClose={handleCloseComentarios}
+          materia={selectedMateria}
+          profesor={selectedProfesor} />
+        <SolicitarClaseComponent open={openSolicitud} handleClose={handleCloseSolicitud} clase={selectedMateria}></SolicitarClaseComponent>
+      </Box>
+    </div>
   );
 }
