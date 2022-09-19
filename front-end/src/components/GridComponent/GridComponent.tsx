@@ -224,7 +224,7 @@ export default function DataGridDemo() {
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
           onCellClick={cellClickHandler}
-          sx={{borderColor: '#002967', bgcolor: '#ffffff' }}
+          sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
         />
         <ProfesorInfoComponent open={openProfesor} selectedProfesor={selectedProfesor} handleClose={handleCloseProfesor} />
         <ComentariosListComponent

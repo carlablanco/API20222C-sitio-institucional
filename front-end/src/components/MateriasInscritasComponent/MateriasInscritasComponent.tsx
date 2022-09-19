@@ -116,7 +116,7 @@ export default function DataGridDemo() {
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
-        sx={{borderColor: '#002967', bgcolor: '#ffffff' }}
+        sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
       />
     </Box>
     <ModalComentarComponent row={selectedRow} open={openComentarios} handleClose={handleCloseComentarios}></ModalComentarComponent>

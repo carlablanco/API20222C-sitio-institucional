@@ -13,9 +13,12 @@ import axios from 'axios';
 import { Snackbar, Alert, Button } from '@mui/material';
 import ComentariosListProfesorComponent from '../ComentariosListProfesorComponent/ComentariosListProfesorComponent';
 import { Comentario } from '../../models/Comentario';
-
+import { UserResponse } from '../../models/UserResponse';
+import styles from "./MateriasAsignadasComponent.module.scss";
 
 export default function MateriasAsignadasComponent() {
+  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
+
   const abrirModalSolicitudes = React.useCallback(
     (row: any) => () => {
       setSelectedRow(row);
@@ -341,18 +344,24 @@ export default function MateriasAsignadasComponent() {
   return (
     <div>
       <NavbarComponent></NavbarComponent>
-      <Button onClick={guardarCambios()}>Guardar</Button>
-      <Box sx={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-        />
-      </Box>
+      <h4 className={styles.profesor}>Profesor: {user.name}</h4>
+      <div className={styles.div}>
+        <Box sx={{ height: 600, width: 7/8, border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
+        my: 0, mx: "auto" , padding: 2 }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+            experimentalFeatures={{ newEditingApi: true }}
+            sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
+          />
+        </Box>
+        <Button className={styles.boton} onClick={guardarCambios()} sx={{alignContent: "center", my: 3, mx: "auto" , padding: 2, bgcolor: '#0a40c9e1',
+      borderRadius: 3, color: "#ffffff"}}>Guardar</Button>
+      </div>
       <SolicitudesComponent row={selectedRow} open={openSolicitudes} handleClose={handleCloseSolicitudes}></SolicitudesComponent>
       <ComentariosListProfesorComponent clase={selectedRow.clase} open={openComentarios} handleClose={handleCloseComentarios} comentarios={selectedComentarios}></ComentariosListProfesorComponent>
       <Snackbar open={openExitoPublicar} autoHideDuration={6000} onClose={handleCloseExitoPublicar}>
