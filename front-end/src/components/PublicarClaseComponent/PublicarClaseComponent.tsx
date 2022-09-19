@@ -71,7 +71,8 @@ export default function PublicarClaseComponent() {
               alignItems: 'center',
             }}
           >
-            <div>
+            <Box sx={{ height: "auto", width: "fit-content", border:1, borderRadius: 3, borderColor: '#000000', boxShadow: 20, 
+        my: 0, mx: "auto" , padding: 2 }}>
 
               <Typography component="h1" variant="h5" >
                 Publicar una clase
@@ -149,7 +150,7 @@ export default function PublicarClaseComponent() {
               >
                 Publicar
               </Button>
-            </div>
+            </Box>
 
           </Box>
           <FooterComponent></FooterComponent>
