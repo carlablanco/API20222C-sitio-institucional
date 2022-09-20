@@ -14,7 +14,7 @@ import logo from '../../img/logo.png';
 export default function ButtonAppBar() {
   // Obtiene el usuario del sessionStorage
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
-  
+ 
   
   
 
