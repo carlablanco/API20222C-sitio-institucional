@@ -12,6 +12,7 @@ import { UserResponse } from "./models/UserResponse";
 import MateriasAsignadasComponent from "./components/MateriasAsignadasComponent/MateriasAsignadasComponent";
 import PublicarClaseComponent from "./components/PublicarClaseComponent/PublicarClaseComponent.lazy";
 import ModificarCuentaComponent from "./components/ModificarCuentaComponent/ModificarCuentaComponent.lazy";
+import ChangePasswordComponent from "./components/ChangePasswordComponent/ChangePasswordComponent.lazy";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
-          "type": "professor",
+          "type": "student",
           "email": "sergio@garroni.com",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
@@ -32,7 +33,7 @@ function App() {
       } catch (err: any) {
         sessionStorage.setItem("usuario", JSON.stringify({
           "name": "Sergio Garroni",
-          "type": "professor",
+          "type": "student",
           "email": "sergio@garroni.com",
           "id": "1111",
           "picture": "../../mockData/mockImages/user-dummy.svg"
@@ -53,6 +54,7 @@ function App() {
         <Route path="/resetpassword" element={<ResetPasswordComponent />} />
         <Route path="/publicarclase" element={<PublicarClaseComponent />} />
         <Route path="/modificarcuenta" element={<ModificarCuentaComponent />} />
+        <Route path="/cambiarpassword" element={<ChangePasswordComponent />} />
       </Routes>
     </BrowserRouter>
   );

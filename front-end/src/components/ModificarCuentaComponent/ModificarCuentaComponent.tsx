@@ -9,6 +9,16 @@ import TextField from '@mui/material/TextField';
 import Typography, { TypographyClasses } from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import dayjs, { Dayjs } from 'dayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import Stack from '@mui/material/Stack';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
 
 interface ModificarCuentaComponentProps { }
 
@@ -26,28 +36,41 @@ export default function PublicarClaseComponent() {
     });
   }
 
+  const [value, setValue] = React.useState<Dayjs | null>(
+    dayjs('2014-08-18T21:11:54'),
+  );
+
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+  };
+
+  const [studies, setStudies] = React.useState('');
+  const handleChangeStudies = (event: SelectChangeEvent) => {
+    setStudies(event.target.value as string);
+  }
+
   const DatosProfesor = () => {
     return (
       <><Typography component="h1" variant="h5" >
         Datos Profesor
       </Typography>
 
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Titulo"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Experiencia"
-              />
-            </Grid>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="outlined-required"
+              label="Titulo"
+            />
           </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="outlined-required"
+              label="Experiencia"
+            />
+          </Grid>
+        </Grid>
 
       </>
     );
@@ -58,6 +81,48 @@ export default function PublicarClaseComponent() {
       <><Typography component="h1" variant="h5" >
         Datos Alumno
       </Typography>
+
+      <Grid container spacing={2} sx={{ mt: 1 }}>
+
+      <Grid item xs={12}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
+          <Stack spacing={3}>
+            <DesktopDatePicker
+              label="Date desktop"
+              inputFormat="DD/MM/YYYY"
+              value={value}
+              onChange={handleChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </Stack>
+        </LocalizationProvider>
+        </Grid>
+        <Grid item xs={12}>
+                  <FormControl required fullWidth>
+                    <InputLabel>Estudios alcanzados</InputLabel>
+                    <Select
+                      value={studies}
+                      label="Estudios Alcanzados"
+                      onChange={handleChangeStudies}
+                    >
+
+                      <MenuItem value={'Primario Incompleto'}>Primario Incompleto</MenuItem>
+                      <MenuItem value={'Primario En Curso'}>Primario En Curso</MenuItem>
+                      <MenuItem value={'Primario Terminado'}>Primario Terminado</MenuItem>
+                      <MenuItem value={'Secundario Incompleto'}>Secundario Incompleto</MenuItem>
+                      <MenuItem value={'Secundario En Curso'}>Secundario En Curso</MenuItem>
+                      <MenuItem value={'Secundario Terminado'}>Secundario Terminado</MenuItem>
+                      <MenuItem value={'Terciario Incompleto'}>Terciario Incompleto</MenuItem>
+                      <MenuItem value={'Terciario En Curso'}>Terciario En Curso</MenuItem>
+                      <MenuItem value={'Terciario Terminado'}>Terciario Terminado</MenuItem>
+                      <MenuItem value={'Universitario Incompleto'}>Universitario Incompleto</MenuItem>
+                      <MenuItem value={'Universitario En Curso'}>Universitario En Curso</MenuItem>
+                      <MenuItem value={'Universitario Terminado'}>Universitario Terminado</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+        </Grid>
+
       </>
     );
   }
@@ -112,12 +177,19 @@ export default function PublicarClaseComponent() {
             </Grid>
 
             <Grid item xs={12}>
-            {user?.type == 'professor' && DatosProfesor()}
-            {user?.type == 'student' && DatosAlumno()}
+              {user?.type == 'professor' && DatosProfesor()}
+              {user?.type == 'student' && DatosAlumno()}
             </Grid>
-
           </Grid>
 
+          <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Cambiar Datos
+              </Button>
         </Box>
 
       </Container>
