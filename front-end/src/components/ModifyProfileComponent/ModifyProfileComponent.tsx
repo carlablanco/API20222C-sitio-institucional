@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './ModifyProfileComponent.module.scss';
-import { Avatar, Link } from '@mui/material';
+import { Avatar, IconButton, Link } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
 import NavbarComponent from '../NavbarComponent/NavbarComponent.lazy';
 import FooterComponent from '../FooterComponent/FooterComponent.lazy';
@@ -19,8 +19,12 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 interface ModifyProfileComponentProps { }
+
 
 export default function ModifyProfileComponent() {
   // Obtiene el usuario del sessionStorage
@@ -47,29 +51,121 @@ export default function ModifyProfileComponent() {
   const [studies, setStudies] = React.useState('');
   const handleChangeStudies = (event: SelectChangeEvent) => {
     setStudies(event.target.value as string);
+  };
+
+//TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
+  const deleteExperience = (index) => {
+    const userDataHelper = [ ...userData ];
+    userDataHelper.splice(index, 1);
+    setUserData(userDataHelper);
+  };
+
+  const addExperience = () => {
+    const userDataHelper = [ ...userData ];
+    userDataHelper.push(
+      {
+        titulo: '',
+        experiencia: ''
+      }
+    )
+    setUserData(userDataHelper);
   }
+//TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
+  const deleteStudies = (index) => {
+    const userDataHelper = [ ...userData ];
+    userDataHelper.splice(index, 1);
+    setUserData(userDataHelper);
+  };
+
+  const addStudies = () => {
+    const userDataHelper = [ ...userData ];
+    userDataHelper.push(
+      {
+        tipo: '',
+        estado: ''
+      }
+    )
+    setUserData(userDataHelper);
+  }
+
+  const toggleEditing = () => {
+    setEditing(!editing);
+  };
+
+  const [editing, setEditing] = React.useState(false);
+
+
+  const mockProfesor = [{
+      titulo: 'Experiencia 1',
+      experiencia: '2 Años'
+    },
+    {
+      titulo: 'Experiencia 2',
+      experiencia: '1 Año'
+    },
+    {
+      titulo: 'Experiencia 3',
+      experiencia: '6 Meses'
+    }]
+
+  const mockAlumno = [{
+      tipo: 'Secundario',
+      estado: 'Finalizado'
+    },
+    {
+      tipo: 'Universitario',
+      estado: 'En Curso'
+    }]
+
+  const [userData, setUserData] = React.useState(user.type === 'professor' ? mockProfesor : mockAlumno as any);
+
+
+
+
 
   const DatosProfesor = () => {
     return (
-      <><Typography component="h1" variant="h5" >
-        Datos Profesor
-      </Typography>
+      <>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={10}>
+            <Typography component="h1" variant="h5" >
+              Datos Profesor
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton disabled={!editing} onClick={addExperience}><AddIcon></AddIcon></IconButton>
+          </Grid>
+        </Grid>
+
 
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Titulo"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Experiencia"
-            />
-          </Grid>
+          {userData?.map((experiencia, i) => {
+            return (
+              <Grid container spacing={2} key={i} item xs={12}>
+                <Grid item xs={5}>
+                  <TextField
+                    required
+                    id="outlined-required"
+                    label="Titulo"
+                    defaultValue={experiencia.titulo}
+                    disabled={!editing}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <TextField
+                    required
+                    id="outlined-required"
+                    label="Experiencia"
+                    defaultValue={experiencia.experiencia}
+                    disabled={!editing}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <IconButton disabled={!editing} onClick={() => deleteExperience(i)}><ClearIcon></ClearIcon></IconButton>
+                </Grid>
+              </Grid>
+            )
+          })}
         </Grid>
 
       </>
@@ -78,49 +174,71 @@ export default function ModifyProfileComponent() {
 
   const DatosAlumno = () => {
     return (
-      <><Typography component="h1" variant="h5" >
-        Datos Alumno
-      </Typography>
-
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-
-      <Grid item xs={12}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} >
-          <Stack spacing={3}>
-            <DesktopDatePicker
-              label="Date desktop"
-              inputFormat="DD/MM/YYYY"
-              value={value}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </Stack>
-        </LocalizationProvider>
+      <>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={10}>
+            <Typography component="h1" variant="h5" >
+              Datos Alumno
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton disabled={!editing} onClick={addStudies}><AddIcon></AddIcon></IconButton>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-                  <FormControl required fullWidth>
-                    <InputLabel>Estudios alcanzados</InputLabel>
-                    <Select
-                      value={studies}
-                      label="Estudios Alcanzados"
-                      onChange={handleChangeStudies}
-                    >
 
-                      <MenuItem value={'Primario Incompleto'}>Primario Incompleto</MenuItem>
-                      <MenuItem value={'Primario En Curso'}>Primario En Curso</MenuItem>
-                      <MenuItem value={'Primario Terminado'}>Primario Terminado</MenuItem>
-                      <MenuItem value={'Secundario Incompleto'}>Secundario Incompleto</MenuItem>
-                      <MenuItem value={'Secundario En Curso'}>Secundario En Curso</MenuItem>
-                      <MenuItem value={'Secundario Terminado'}>Secundario Terminado</MenuItem>
-                      <MenuItem value={'Terciario Incompleto'}>Terciario Incompleto</MenuItem>
-                      <MenuItem value={'Terciario En Curso'}>Terciario En Curso</MenuItem>
-                      <MenuItem value={'Terciario Terminado'}>Terciario Terminado</MenuItem>
-                      <MenuItem value={'Universitario Incompleto'}>Universitario Incompleto</MenuItem>
-                      <MenuItem value={'Universitario En Curso'}>Universitario En Curso</MenuItem>
-                      <MenuItem value={'Universitario Terminado'}>Universitario Terminado</MenuItem>
-                    </Select>
-                  </FormControl>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+
+          <Grid item xs={12}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <Stack spacing={3}>
+                <DesktopDatePicker
+                  disabled={!editing}
+                  label="Fecha de Nacimiento"
+                  inputFormat="DD/MM/YYYY"
+                  value={value}
+                  onChange={handleChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </Stack>
+            </LocalizationProvider>
+          </Grid>
+
+          {
+            userData?.map((estudio, i) => {
+              return (
+                <Grid container spacing={2} key={i} item xs={12} >
+                  <Grid item xs={5}>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      label="Titulo Obtenido"
+                      defaultValue={estudio.tipo}
+                      disabled={!editing}
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControl disabled={!editing} required fullWidth>
+                      <InputLabel>Estado</InputLabel>
+                      <Select
+                        value={estudio.estado}
+                        label="Estado"
+                        onChange={handleChangeStudies}
+                      >
+                        <MenuItem value={'Finalizado'}>Finalizado</MenuItem>
+                        <MenuItem value={'En Curso'}>En Curso</MenuItem>
+                        <MenuItem value={'Abandonado'}>Abandonado</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <IconButton disabled={!editing} onClick={() => deleteStudies(i)}><ClearIcon></ClearIcon></IconButton>
+                  </Grid>
+
                 </Grid>
+              )
+            })
+          }
+
         </Grid>
 
       </>
@@ -153,10 +271,17 @@ export default function ModifyProfileComponent() {
             alignItems: 'center',
           }}
         >
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={10}>
+              <Typography component="h1" variant="h5" >
+                Cambia los datos de tu cuenta
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton onClick={toggleEditing}><EditIcon></EditIcon></IconButton>
+            </Grid>
+          </Grid>
 
-          <Typography component="h1" variant="h5" >
-            Cambiar los datos de tu cuenta
-          </Typography>
 
           <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={12}>
@@ -165,6 +290,7 @@ export default function ModifyProfileComponent() {
                 id="outlined-required"
                 label="Nombre"
                 defaultValue={user.name}
+                disabled={!editing}
               />
             </Grid>
             <Grid item xs={12}>
@@ -173,6 +299,7 @@ export default function ModifyProfileComponent() {
                 id="outlined-required"
                 label="Correo"
                 defaultValue={user.email}
+                disabled={!editing}
               />
             </Grid>
 
@@ -183,13 +310,14 @@ export default function ModifyProfileComponent() {
           </Grid>
 
           <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Cambiar Datos
-              </Button>
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={!editing}
+          >
+            Cambiar Datos
+          </Button>
         </Box>
 
       </Container>
