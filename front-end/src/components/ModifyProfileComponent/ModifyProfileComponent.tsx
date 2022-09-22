@@ -48,10 +48,11 @@ export default function ModifyProfileComponent() {
     setValue(newValue);
   };
 
-  const [studies, setStudies] = React.useState('');
-  const handleChangeStudies = (event: SelectChangeEvent) => {
-    setStudies(event.target.value as string);
-  };
+  const inputChange = (e,  index, key) => {
+    const userDataHelper = [...userData];
+    userDataHelper[index][key] = e.target.value;
+    setUserData(userDataHelper);
+  }
 
 //TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
   const deleteExperience = (index) => {
@@ -62,12 +63,7 @@ export default function ModifyProfileComponent() {
 
   const addExperience = () => {
     const userDataHelper = [ ...userData ];
-    userDataHelper.push(
-      {
-        titulo: '',
-        experiencia: ''
-      }
-    )
+    userDataHelper.push(newEntry);
     setUserData(userDataHelper);
   }
 //TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
@@ -79,12 +75,7 @@ export default function ModifyProfileComponent() {
 
   const addStudies = () => {
     const userDataHelper = [ ...userData ];
-    userDataHelper.push(
-      {
-        tipo: '',
-        estado: ''
-      }
-    )
+    userDataHelper.push(newEntry);
     setUserData(userDataHelper);
   }
 
@@ -119,6 +110,13 @@ export default function ModifyProfileComponent() {
 
   const [userData, setUserData] = React.useState(user.type === 'professor' ? mockProfesor : mockAlumno as any);
 
+  const newEntry = user.type === 'professor' ? {
+    titulo: '',
+    experiencia: ''
+  } : {
+    tipo: '',
+    estado: ''
+  };
 
 
 
@@ -147,8 +145,9 @@ export default function ModifyProfileComponent() {
                     required
                     id="outlined-required"
                     label="Titulo"
-                    defaultValue={experiencia.titulo}
+                    value={experiencia.titulo}
                     disabled={!editing}
+                    onInput={(event) => inputChange(event, i, 'titulo')}
                   />
                 </Grid>
                 <Grid item xs={5}>
@@ -156,8 +155,9 @@ export default function ModifyProfileComponent() {
                     required
                     id="outlined-required"
                     label="Experiencia"
-                    defaultValue={experiencia.experiencia}
+                    value={experiencia.experiencia}
                     disabled={!editing}
+                    onInput={(event) => inputChange(event, i, 'experiencia')}
                   />
                 </Grid>
                 <Grid item xs={2}>
@@ -212,8 +212,9 @@ export default function ModifyProfileComponent() {
                       required
                       id="outlined-required"
                       label="Titulo Obtenido"
-                      defaultValue={estudio.tipo}
+                      value={estudio.tipo}
                       disabled={!editing}
+                      onInput={(event) => inputChange(event, i, 'tipo')}
                     />
                   </Grid>
                   <Grid item xs={5}>
@@ -222,7 +223,7 @@ export default function ModifyProfileComponent() {
                       <Select
                         value={estudio.estado}
                         label="Estado"
-                        onChange={handleChangeStudies}
+                        onChange={(event) => inputChange(event, i, 'estado')}
                       >
                         <MenuItem value={'Finalizado'}>Finalizado</MenuItem>
                         <MenuItem value={'En Curso'}>En Curso</MenuItem>
