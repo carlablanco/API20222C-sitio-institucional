@@ -59,11 +59,11 @@ export default function ButtonAppBar() {
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
         <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }} align="left">
-          <a className={styles.title} href="/clases">Clases</a>
+          <a className={styles.title} href="/classes">Clases</a>
         </Typography>
 
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
-          <a className={styles.title} href="/inscripciones">Mis Clases </a>
+          <a className={styles.title} href="/inscriptions">Mis Clases </a>
         </Typography></>
     );
   }
@@ -75,10 +75,10 @@ export default function ButtonAppBar() {
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
         <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1 }} align="left">
-          <a className={styles.title} href="/publicarclase">Publicar Clase</a>
+          <a className={styles.title} href="/publish-class">Publicar Clase</a>
         </Typography>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
-          <a className={styles.title} href="/clases-asignadas">Mis Clases </a>
+          <a className={styles.title} href="/assigned-classes">Mis Clases </a>
         </Typography></>
     );
   }
@@ -149,13 +149,13 @@ export default function ButtonAppBar() {
             >
 
               <Divider />
-              <MenuItem component={Link} href={'/modificarcuenta'}>
+              <MenuItem component={Link} href={'/modify-account'}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Mis datos
               </MenuItem>
-              <MenuItem component={Link} href={'/cambiarpassword'}>
+              <MenuItem component={Link} href={'/change-password'}>
                 <ListItemIcon>
                   <KeyIcon fontSize="small" />
                 </ListItemIcon>

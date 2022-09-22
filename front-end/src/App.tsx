@@ -51,7 +51,7 @@ function App() {
         <Route path="/classes" element={<ClassesComponent />} />
         <Route path="/assigned-classes" element={<MateriasAsignadasComponent />} />
         <Route path="/inscriptions" element={<MateriasInscritasComponent />} />
-        <Route path="/resetpassword" element={<ResetPasswordComponent />} />
+        <Route path="/reset-password" element={<ResetPasswordComponent />} />
         <Route path="/publish-class" element={<PublishClassComponent />} />
         <Route path="/modify-account" element={<ModifyProfileComponent />} />
         <Route path="/change-password" element={<ChangePasswordComponent />} />

@@ -102,7 +102,7 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/resetpassword" variant="body2">
+                  <Link href="/reset-password" variant="body2">
                     Te olvidaste tu contraseña?
                   </Link>
                 </Grid>
