@@ -40,6 +40,21 @@ function Home(){
     );
   }
 
+  const GuestorProfessorView = () => {
+    return (
+      <>{/* Esto deberia mostrarse en la vista profesor, y la que es por defecto tiene que ser igual a la del alumno */}
+      <NavbarComponent></NavbarComponent> 
+      <h1 className={styles.title}>¡Se parte de nosotros!</h1>
+      <h3 className={styles.subtitle}>- Puedes dictar tus clases con la modalidad que mas te interese.</h3>
+      <h3 className={styles.subtitle}>- Puedes tener cientos de alumnos interesados en tu conocimiento.</h3>
+      <h3 className={styles.subtitle}>- Brinda tus experiencias y sabidurias con los demas.</h3>
+      <h6 className={styles.subtitle}>Todo ello en Culture Tour, ¿Qué estas esperando?</h6>
+      <h4 className={styles.titletem}>Ejemplos de tematicas mas solicitadas por nuestros alumnos</h4>
+      <InformationCardsComponent></InformationCardsComponent>
+    </>
+    );
+  }
+
 if (!user || user.type == 'student') {
 
   var tiers = [
@@ -92,7 +107,9 @@ else {
 
     return(
       <div>
-      <NavbarComponent></NavbarComponent>
+      <NavbarComponent></NavbarComponent> 
+      
+      
       {(!user || user?.type == 'student') && GuestorAlumnoView()}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 4 }}>
         <Typography
