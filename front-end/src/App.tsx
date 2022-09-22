@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
-import ClasesComponent from "./components/ClasesComponent/ClasesComponent";
+import ClassesComponent from "./components/ClassesComponent/ClassesComponent";
 import HomeComponent from "./components/HomeComponent/HomeComponent.lazy";
 import LoginComponent from "./components/LoginComponent/LoginComponent.lazy";
 import MateriasInscritasComponent from "./components/MateriasInscritasComponent/MateriasInscritasComponent.lazy";
@@ -10,8 +10,8 @@ import SignupComponent from "./components/SignupComponent/SignupComponent.lazy";
 import ResetPasswordComponent from "./components/ResetPasswordComponent/ResetPasswordComponent.lazy";
 import { UserResponse } from "./models/UserResponse";
 import MateriasAsignadasComponent from "./components/MateriasAsignadasComponent/MateriasAsignadasComponent";
-import PublicarClaseComponent from "./components/PublicarClaseComponent/PublicarClaseComponent.lazy";
-import ModificarCuentaComponent from "./components/ModificarCuentaComponent/ModificarCuentaComponent.lazy";
+import PublishClassComponent from "./components/PublishClassComponent/PublishClassComponent.lazy";
+import ModifyProfileComponent from "./components/ModifyProfileComponent/ModifyProfileComponent.lazy";
 import ChangePasswordComponent from "./components/ChangePasswordComponent/ChangePasswordComponent.lazy";
 
 function App() {
@@ -48,13 +48,13 @@ function App() {
         <Route path="/" element={<HomeComponent />} />
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/register" element={<SignupComponent />} />
-        <Route path="/clases" element={<ClasesComponent />} />
-        <Route path="/clases-asignadas" element={<MateriasAsignadasComponent />} />
-        <Route path="/inscripciones" element={<MateriasInscritasComponent />} />
+        <Route path="/classes" element={<ClassesComponent />} />
+        <Route path="/assigned-classes" element={<MateriasAsignadasComponent />} />
+        <Route path="/inscriptions" element={<MateriasInscritasComponent />} />
         <Route path="/resetpassword" element={<ResetPasswordComponent />} />
-        <Route path="/publicarclase" element={<PublicarClaseComponent />} />
-        <Route path="/modificarcuenta" element={<ModificarCuentaComponent />} />
-        <Route path="/cambiarpassword" element={<ChangePasswordComponent />} />
+        <Route path="/publish-class" element={<PublishClassComponent />} />
+        <Route path="/modify-account" element={<ModifyProfileComponent />} />
+        <Route path="/change-password" element={<ChangePasswordComponent />} />
       </Routes>
     </BrowserRouter>
   );

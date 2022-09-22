@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PublicarClaseComponent from './PublicarClaseComponent';
+import ModifyProfileComponent from './ModifyProfileComponent';
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<PublicarClaseComponent />, div);
+  ReactDOM.render(<ModifyProfileComponent />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

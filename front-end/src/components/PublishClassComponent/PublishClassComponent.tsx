@@ -18,16 +18,16 @@ import Button from '@mui/material/Button';
 
 const theme = createTheme();
 
-export default function PublicarClaseComponent() {
-  const [tipoClase, setTipoClase] = React.useState('');
+export default function PublishClassComponent() {
+  const [tipoClase, setClassType] = React.useState('');
 
-  const handleChangeTipoClase = (event: SelectChangeEvent) => {
-    setTipoClase(event.target.value as string);
+  const handleChangeClassType = (event: SelectChangeEvent) => {
+    setClassType(event.target.value as string);
   }
 
-  const [frecuencia, setFrecuencia] = React.useState('');
+  const [frequency, setFrequency] = React.useState('');
   const handleChangeFrecuencia = (event: SelectChangeEvent) => {
-    setFrecuencia(event.target.value as string);
+    setFrequency(event.target.value as string);
   }
 
   const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
@@ -101,7 +101,7 @@ export default function PublicarClaseComponent() {
                     <Select
                       value={tipoClase}
                       label="Tipo de Clase"
-                      onChange={handleChangeTipoClase}
+                      onChange={handleChangeClassType}
                     >
                       <MenuItem value={'Individual'}>Individual</MenuItem>
                       <MenuItem value={'Grupal'}>Grupal</MenuItem>
@@ -113,7 +113,7 @@ export default function PublicarClaseComponent() {
                   <FormControl required fullWidth>
                     <InputLabel>Frecuencia</InputLabel>
                     <Select
-                      value={frecuencia}
+                      value={frequency}
                       label="Frecuencia de la Clase"
                       onChange={handleChangeFrecuencia}
                     >

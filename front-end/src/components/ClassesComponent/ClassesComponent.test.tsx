@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ModificarCuentaComponent from './ModificarCuentaComponent';
+import ClassesComponent from './ClassesComponent';
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<ModificarCuentaComponent />, div);
+  ReactDOM.render(<ClassesComponent />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from './ModificarCuentaComponent.module.scss';
+import styles from './ModifyProfileComponent.module.scss';
 import { Avatar, Link } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
 import NavbarComponent from '../NavbarComponent/NavbarComponent.lazy';
@@ -20,9 +20,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 
-interface ModificarCuentaComponentProps { }
+interface ModifyProfileComponentProps { }
 
-export default function PublicarClaseComponent() {
+export default function ModifyProfileComponent() {
   // Obtiene el usuario del sessionStorage
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
 

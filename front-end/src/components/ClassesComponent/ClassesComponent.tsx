@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom';
 import GridComponent from '../GridComponent/GridComponent.lazy';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import FooterComponent from "../FooterComponent/FooterComponent.lazy";
-import styles from './ClasesComponent.module.scss';
+import styles from './ClassesComponent.module.scss';
 import imgLibros from "../../img/libros.png";
 
-interface ClasesComponentProps {}
+interface ClassesComponentProps {}
 
 
 
-const ClasesComponent: FC<ClasesComponentProps> = (props: any) => {
+const ClasesComponent: FC<ClassesComponentProps> = (props: any) => {
   interface CustomizedState {
     materia: any,
     frecuencia: any,
