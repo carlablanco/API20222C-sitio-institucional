@@ -4,19 +4,32 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Avatar, Link } from '@mui/material';
-import { useEffect, useState } from 'react';
-import axios from "axios";
 import { UserResponse } from '../../models/UserResponse';
 import styles from './NavbarComponent.module.scss';
 import logo from '../../img/logo.png';
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import KeyIcon from '@mui/icons-material/Key';
+import Logout from '@mui/icons-material/Logout';
+import Settings from '@mui/icons-material/Settings';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function ButtonAppBar() {
   // Obtiene el usuario del sessionStorage
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
-  
-  
-  
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   const LoginButtons = () => {
     return (
@@ -30,25 +43,25 @@ export default function ButtonAppBar() {
 
   const GuestButtons = () => {
     return (
-      <><Typography variant="h6" component="div"   sx={{ flexGrow: 0.1 }} align="left">
+      <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }} align="left">
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div"   sx={{ flexGrow: 1 }} align="left">
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
           <a className={styles.title} href="/clases">Clases</a>
         </Typography>
-       </>
+      </>
     );
   }
 
   const AlumnoButtons = () => {
     return (
-      <><Typography variant="h6" component="div"  sx={{ flexGrow: 0.1}} align="left">
+      <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }} align="left">
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div"  sx={{ flexGrow: 0.1 }} align="left">
+        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }} align="left">
           <a className={styles.title} href="/clases">Clases</a>
         </Typography>
-        
+
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
           <a className={styles.title} href="/inscripciones">Mis Clases </a>
         </Typography></>
@@ -61,7 +74,7 @@ export default function ButtonAppBar() {
       <><Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }} align="left">
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
-        <Typography variant="h6" component="div" className={styles.contenedor}   sx={{ flexGrow: 0.1 }} align="left">
+        <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1 }} align="left">
           <a className={styles.title} href="/publicarclase">Publicar Clase</a>
         </Typography>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
@@ -84,7 +97,77 @@ export default function ButtonAppBar() {
             {user?.type == 'student' && AlumnoButtons()}
             {!user && GuestButtons()}
             {!user && LoginButtons()}
-            {user && <Avatar className={styles.avatar} alt={user?.name} src={user?.picture} ></Avatar>}
+
+
+            <Tooltip title="Cuenta">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+              >
+                {user && <Avatar className={styles.avatar} alt={user?.name} src={user?.picture} ></Avatar>}
+              </IconButton>
+            </Tooltip>
+
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+
+              <Divider />
+              <MenuItem component={Link} href={'/modificarcuenta'}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Mis datos
+              </MenuItem>
+              <MenuItem component={Link} href={'/cambiarpassword'}>
+                <ListItemIcon>
+                  <KeyIcon fontSize="small" />
+                </ListItemIcon>
+                Cambiar contraseña
+              </MenuItem>
+              <MenuItem component={Link} href={'#'}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Salir
+              </MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
       </Box>

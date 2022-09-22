@@ -104,9 +104,7 @@ else {
         >
           ¿Estás listo?
         </Typography>
-        <Typography variant="h5" align="center" color="text.secondary" component="p">
-        Aprendé cómo inscribirte a tu primera clase con el siguiente tutorial:
-        </Typography>
+
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
