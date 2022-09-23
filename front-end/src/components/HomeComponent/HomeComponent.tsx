@@ -40,10 +40,9 @@ function Home(){
     );
   }
 
-  const GuestorProfessorView = () => {
+  const ProfessorView = () => {
     return (
       <>{/* Esto deberia mostrarse en la vista profesor, y la que es por defecto tiene que ser igual a la del alumno */}
-      <NavbarComponent></NavbarComponent> 
       <h1 className={styles.title}>¡Se parte de nosotros!</h1>
       <h3 className={styles.subtitle}>- Puedes dictar tus clases con la modalidad que mas te interese.</h3>
       <h3 className={styles.subtitle}>- Puedes tener cientos de alumnos interesados en tu conocimiento.</h3>
@@ -111,6 +110,7 @@ else {
       
       
       {(!user || user?.type == 'student') && GuestorAlumnoView()}
+      {(user?.type == 'professor') && ProfessorView()}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 4 }}>
         <Typography
           component="h3"
@@ -118,6 +118,7 @@ else {
           align="center"
           color="text.primary"
           gutterBottom
+          sx = {{mt: 3}}
         >
           ¿Estás listo?
         </Typography>

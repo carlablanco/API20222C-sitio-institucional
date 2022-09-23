@@ -16,6 +16,19 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    surname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: {
+          msg: "El apellido sólo puede contener letras."
+        },
+        len: {
+          args: [2, 255],
+          msg: "El apellido debe contener al menos dos caracteres."
+        }
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password:{
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -36,11 +49,34 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isInt: {
+          msg: "El numero de teléfono sólo puede contener números."
+        },
+        len: {
+          args: [10],
+          msg: "El número de teléfono sólo puede contener 10 caracteres."
+        }
+      }
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: {
+          msg: "Usuario inválido."
+        }
+      }
+    },
   }, {
     tableName: "users"
   });
 
-  user.associate = function(models) {
+  user.associate = function (models) {
     // associations can be defined here
   };
 
