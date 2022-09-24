@@ -4,6 +4,7 @@ import styles from './ComentariosComponent.module.scss';
 import BlockIcon from '@mui/icons-material/Block';
 import BloquearComentariosComponent from '../BloquearComentariosComponent/BloquearComentariosComponent';
 
+
 interface ComentariosComponentProps {
   comentario?: string,
   usuario?:string,
@@ -30,15 +31,15 @@ const ComentariosComponent: FC<ComentariosComponentProps> = (props) => {
   };
 
   return(
-  <Box>
-    <div className='usuario-comentario'> 
+  <Box sx={{borderStyle: "dashed", borderColor: "#00000086" , my: 1, mx: "auto" , padding: 2}}>
+    <div className={styles.title}> 
       {props.usuario}
     </div>
-    <div className='texto-comentario'> 
+    <div className={styles.subtitle}> 
       {props.comentario}
     </div>
     {props.isProfesor && 
-      <BlockIcon onClick={abrirModalBloquear()}></BlockIcon>
+      <BlockIcon sx={{mx:1 , my: 1}} onClick={abrirModalBloquear()}></BlockIcon>
     }
     <BloquearComentariosComponent usuario={props.usuario} comentario={props.comentario}  open={openBloquear} handleClose={handleCloseBloquear}></BloquearComentariosComponent>
   </Box>

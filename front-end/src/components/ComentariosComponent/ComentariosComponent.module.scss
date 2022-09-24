@@ -1,1 +1,18 @@
-.ComentariosComponent {}
+.title {
+    text-align: center;
+    
+    color: #000000;
+    font-weight: bold;
+    justify-content: left;
+    margin: 0;
+    font-size: 20px;
+}
+
+.subtitle {
+    text-align: left;
+    
+    margin-bottom: 10px;
+    border: solid 1px #000000;
+    border: solid 0.1px rgba(0, 0, 0, 0.354);
+
+}

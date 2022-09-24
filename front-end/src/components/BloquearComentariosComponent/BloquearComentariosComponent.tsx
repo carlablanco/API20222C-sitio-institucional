@@ -18,20 +18,20 @@ const BloquearComentariosComponent: FC<BloquearComentariosComponentProps> = (pro
     setRazon(event.currentTarget.value);
   }
   return(
-  <Dialog
+  <Dialog fullWidth={true}
     open={props.open}
     onClose={props.handleClose}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
-    <DialogTitle id="alert-dialog-title">
+    <DialogTitle id="alert-dialog-title" sx={{my:1, textAlign:"center"}}>
       Bloquear comentario de {props.usuario}
     </DialogTitle>
-    <DialogContent>
-      Desea bloquear el siguiente comentario? <br></br>
-      {props.comentario}
+    <DialogContent >
+      Desea bloquear el siguiente comentario? <br></br><br></br>
+      <span className={styles.comentario}>"{props.comentario}"</span> 
       <br></br>
-      <TextField
+      <TextField sx={{my:1, width:"100%"}}
         id="outlined-multiline-static"
         label="Razon de Bloqueo"
         multiline
