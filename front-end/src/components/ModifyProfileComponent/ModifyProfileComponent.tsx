@@ -22,14 +22,13 @@ import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import { getName, getType, isLoggedIn, getEmail } from "../../hooks/authhook";
 
 interface ModifyProfileComponentProps { }
 
 
 export default function ModifyProfileComponent() {
-  // Obtiene el usuario del sessionStorage
-  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
-
+  
   const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -108,9 +107,9 @@ export default function ModifyProfileComponent() {
       estado: 'En Curso'
     }]
 
-  const [userData, setUserData] = React.useState(user.type === 'professor' ? mockProfesor : mockAlumno as any);
+  const [userData, setUserData] = React.useState(getType() === 'professor' ? mockProfesor : mockAlumno as any);
 
-  const newEntry = user.type === 'professor' ? {
+  const newEntry = getType() === 'professor' ? {
     titulo: '',
     experiencia: ''
   } : {
@@ -290,7 +289,7 @@ export default function ModifyProfileComponent() {
                 required
                 id="outlined-required"
                 label="Nombre"
-                defaultValue={user.name}
+                defaultValue={getName()}
                 disabled={!editing}
               />
             </Grid>
@@ -299,14 +298,14 @@ export default function ModifyProfileComponent() {
                 required
                 id="outlined-required"
                 label="Correo"
-                defaultValue={user.email}
+                defaultValue={getEmail()}
                 disabled={!editing}
               />
             </Grid>
 
             <Grid item xs={12}>
-              {user?.type == 'professor' && DatosProfesor()}
-              {user?.type == 'student' && DatosAlumno()}
+              {getType() == 'professor' && DatosProfesor()}
+              {getType() == 'student' && DatosAlumno()}
             </Grid>
           </Grid>
 

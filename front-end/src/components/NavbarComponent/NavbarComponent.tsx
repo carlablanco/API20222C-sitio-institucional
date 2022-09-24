@@ -16,10 +16,11 @@ import Logout from '@mui/icons-material/Logout';
 import Settings from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import { isLoggedIn, getType, getName } from '../../hooks/authhook';
 
 export default function ButtonAppBar() {
   // Obtiene el usuario del sessionStorage
-  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
+  const user = JSON.parse(sessionStorage.getItem('loggedUser'));
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -93,10 +94,10 @@ export default function ButtonAppBar() {
             <Typography variant="h6" component="div" className={styles.contenedor} sx={{ flexGrow: 0.1 }} align="center">
               <a href="/"> <img src={logo} alt="Logo" className={styles.logo} /></a>
             </Typography>
-            {user?.type == 'professor' && ProfesorButtons()}
-            {user?.type == 'student' && AlumnoButtons()}
-            {!user && GuestButtons()}
-            {!user && LoginButtons()}
+            {getType() == 'professor' && ProfesorButtons()}
+            {getType() == 'student' && AlumnoButtons()}
+            {!isLoggedIn() && GuestButtons()}
+            {!isLoggedIn() && LoginButtons()}
 
 
             <Tooltip title="Cuenta">
@@ -108,7 +109,7 @@ export default function ButtonAppBar() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                {user && <Avatar className={styles.avatar} alt={user?.name} src={user?.picture} ></Avatar>}
+                {isLoggedIn() && <Avatar className={styles.avatar} alt={getName()} src={user?.picture} ></Avatar>}
               </IconButton>
             </Tooltip>
 
@@ -161,7 +162,7 @@ export default function ButtonAppBar() {
                 </ListItemIcon>
                 Cambiar contraseña
               </MenuItem>
-              <MenuItem component={Link} href={'#'}>
+              <MenuItem component={Link} href={'/logout'}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

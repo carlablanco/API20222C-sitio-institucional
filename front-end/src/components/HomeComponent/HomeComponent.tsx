@@ -1,4 +1,4 @@
-import { UserResponse } from "../../models/UserResponse";
+
 import FormComponent from "../FormComponent/FormComponent";
 import NavbarComponent from "../NavbarComponent/NavbarComponent.lazy";
 import FooterComponent from "../FooterComponent/FooterComponent.lazy";
@@ -6,25 +6,17 @@ import styles from "./HomeComponent.module.scss";
 import InformationCardsComponent from "../InformationCardComponent/InformationCardsComponent";
 
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import StarIcon from '@mui/icons-material/StarBorder';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import { getType, isLoggedIn } from "../../hooks/authhook";
 
 
 function Home(){
-  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
 
   const GuestorAlumnoView = () => {
     return (
@@ -54,7 +46,7 @@ function Home(){
     );
   }
 
-if (!user || user.type == 'student') {
+if (getType() == 'student') {
 
   var tiers = [
     {
@@ -109,8 +101,8 @@ else {
       <NavbarComponent></NavbarComponent> 
       
       
-      {(!user || user?.type == 'student') && GuestorAlumnoView()}
-      {(user?.type == 'professor') && ProfessorView()}
+      {(!isLoggedIn() || getType() == 'student') && GuestorAlumnoView()}
+      {(getType() == 'professor') && ProfessorView()}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 4 }}>
         <Typography
           component="h3"

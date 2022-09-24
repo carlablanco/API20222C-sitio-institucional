@@ -13,6 +13,8 @@ import MateriasAsignadasComponent from "./components/MateriasAsignadasComponent/
 import PublishClassComponent from "./components/PublishClassComponent/PublishClassComponent.lazy";
 import ModifyProfileComponent from "./components/ModifyProfileComponent/ModifyProfileComponent.lazy";
 import ChangePasswordComponent from "./components/ChangePasswordComponent/ChangePasswordComponent.lazy";
+import { setSourceMapRange } from "typescript";
+import LogoutComponent from "./components/LogoutComponent/LogoutComponent.lazy";
 
 function App() {
 
@@ -22,22 +24,12 @@ function App() {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-        sessionStorage.setItem("usuario", JSON.stringify({
-          "name": "Sergio Garroni",
-          "type": "professor",
-          "email": "sergio@garroni.com",
-          "id": "1111",
-          "picture": "../../mockData/mockImages/user-dummy.svg"
-        }));
+       const loggedUserJSON = window.localStorage.getItem('loggedUser')
+       if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+       }
       } catch (err: any) {
-        sessionStorage.setItem("usuario", JSON.stringify({
-          "name": "Sergio Garroni",
-          "type": "professor",
-          "email": "sergio@garroni.com",
-          "id": "1111",
-          "picture": "../../mockData/mockImages/user-dummy.svg"
-        }));
+        
       }
     }
     getUserData()
@@ -55,6 +47,7 @@ function App() {
         <Route path="/publish-class" element={<PublishClassComponent />} />
         <Route path="/modify-account" element={<ModifyProfileComponent />} />
         <Route path="/change-password" element={<ChangePasswordComponent />} />
+        <Route path="/logout" element={<LogoutComponent />} />
       </Routes>
     </BrowserRouter>
   );
