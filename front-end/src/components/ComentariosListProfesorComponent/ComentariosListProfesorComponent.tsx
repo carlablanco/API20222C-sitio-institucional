@@ -10,6 +10,7 @@ interface ComentariosListProfesorComponentProps {
   handleClose?: Function,
   comentarios?: Array<Comentario>,
   clase?: string,
+  
 }
 
 const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps> = (props: any) => (
