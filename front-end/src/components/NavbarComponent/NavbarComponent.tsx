@@ -48,7 +48,7 @@ export default function ButtonAppBar() {
         <a className={styles.title} href="/">Inicio</a>
       </Typography>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align="left">
-          <a className={styles.title} href="/clases">Clases</a>
+          <a className={styles.title} href="/classes">Clases</a>
         </Typography>
       </>
     );
