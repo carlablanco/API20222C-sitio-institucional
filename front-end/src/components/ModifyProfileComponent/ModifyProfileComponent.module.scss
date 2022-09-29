@@ -1,1 +1,8 @@
-.ModifyProfileComponent {}
+.ModifyProfileComponent {
+    .formControl{
+        &:disabled{
+            background-color: #fff;
+            color:rgba(0, 0, 0, 0.38);
+        }
+    }
+}

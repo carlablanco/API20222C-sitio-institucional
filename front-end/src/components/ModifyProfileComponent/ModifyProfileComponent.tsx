@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styles from './ModifyProfileComponent.module.scss';
 import { Avatar, IconButton, Link } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
@@ -22,7 +22,9 @@ import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { getName, getType, isLoggedIn, getEmail } from "../../hooks/authhook";
+import { getName, getType, isLoggedIn, getEmail, getPhone } from "../../hooks/authhook";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-number-input/style.css';
 
 interface ModifyProfileComponentProps { }
 
@@ -164,6 +166,12 @@ export default function ModifyProfileComponent() {
     );
   }
 
+  const [phoneValue, phoneSetValue] = useState();
+
+  const setPhoneValue = (event) => {
+    phoneSetValue(event)
+  }
+
   const DatosAlumno = () => {
     return (
       <>
@@ -190,6 +198,17 @@ export default function ModifyProfileComponent() {
                   value={value}
                   onChange={handleChange}
                   renderInput={(params) => <TextField {...params} />}
+                />
+              </Stack>
+              <Stack spacing={3}>
+              <PhoneInput
+                  inputClass={styles.formControl}
+                  disabled={!editing}
+                  placeholder="Numero de telefono"
+                  specialLabel="Numero de telefono"
+                  country={'ar'}
+                  value={getPhone()}
+                  onChange={setPhoneValue}
                 />
               </Stack>
             </LocalizationProvider>
@@ -239,7 +258,7 @@ export default function ModifyProfileComponent() {
   }
 
   return (
-    <div>
+    <div className={styles.ModifyProfileComponent}>
       <NavbarComponent></NavbarComponent>
       <Container component="main" maxWidth="xs">
 
@@ -297,8 +316,8 @@ export default function ModifyProfileComponent() {
             </Grid>
 
             <Grid item xs={12}>
-              {getType() == 'professor' && DatosProfesor()}
-              {getType() == 'student' && DatosAlumno()}
+              {false && DatosProfesor()}
+              {true && DatosAlumno()}
             </Grid>
           </Grid>
 

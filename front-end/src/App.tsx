@@ -26,7 +26,9 @@ function App() {
       try {
        const loggedUserJSON = window.localStorage.getItem('loggedUser')
        if (loggedUserJSON) {
-        const user = JSON.parse(loggedUserJSON)
+        const user = {...JSON.parse(loggedUserJSON)
+          
+        }
        }
       } catch (err: any) {
         
