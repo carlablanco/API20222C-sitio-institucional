@@ -113,17 +113,18 @@ const SolicitudesComponent: FC<SolicitudesComponentProps> = (props: any) => {
 
   }
   return (
-    <Dialog
+    <Dialog 
       fullScreen
       open={props.open}
       onClose={props.handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle id="alert-dialog-title">
+      <DialogTitle id="alert-dialog-title" >
         Solicitudes de {props.row.nombre}
       </DialogTitle>
-      <DialogContent>
-        <DataGrid
+      <DialogContent >
+        <DataGrid sx={{ height: 800, width: "100%", border:10 , borderRadius: 3, borderColor: '#0a40c9e1', boxShadow: 20, 
+      my: 0, mx: "auto" , padding: 2}}
           rows={rows}
           columns={columns}
           pageSize={5}

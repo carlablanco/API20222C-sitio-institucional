@@ -10,6 +10,7 @@ interface ModalComentarComponentProps {
 
 const ModalComentarComponent: FC<ModalComentarComponentProps> = (props: any) => (
   <Dialog
+        fullWidth={true}
         open={props.open}
         onClose={props.handleClose}
         aria-labelledby="alert-dialog-title"
@@ -20,7 +21,7 @@ const ModalComentarComponent: FC<ModalComentarComponentProps> = (props: any) => 
         </DialogTitle>
         <DialogContent>
         <RatingComponent></RatingComponent>
-        <TextField
+        <TextField fullWidth={true}
           id="outlined-multiline-static"
           label="comentario"
           multiline

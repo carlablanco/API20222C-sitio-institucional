@@ -36,6 +36,7 @@ export default function ChangePasswordComponent() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            
           }}
         ></Box>
 
@@ -49,6 +50,9 @@ export default function ChangePasswordComponent() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            border: 1,
+            padding: 2,
+            boxShadow: 20,
           }}
         >
 

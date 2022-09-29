@@ -10,21 +10,22 @@ interface ComentariosListProfesorComponentProps {
   handleClose?: Function,
   comentarios?: Array<Comentario>,
   clase?: string,
+  
 }
 
 const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps> = (props: any) => (
-  <Dialog
+  <Dialog fullWidth={true}
     open={props.open}
     onClose={props.handleClose}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
-    <DialogTitle id="alert-dialog-title">
+    <DialogTitle id="alert-dialog-title" sx={{textAlign: "center"}}>
       Comentarios de {props.clase}
     </DialogTitle>
-    <DialogContent>
+    <DialogContent >
       {props?.comentarios?.map((comentario: Comentario, i: any) => {
-        return <ComentariosComponent key={i} comentario={comentario.comentario} usuario={comentario.usuario} isProfesor={true}></ComentariosComponent>
+        return <ComentariosComponent  key={i} comentario={comentario.comentario} usuario={comentario.usuario} isProfesor={true}></ComentariosComponent>
       })}
     </DialogContent>
     <DialogActions>

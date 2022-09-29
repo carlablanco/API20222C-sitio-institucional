@@ -11,17 +11,18 @@ interface ProfesorInfoComponentProps {
 
 const ProfesorInfoComponent: FC<ProfesorInfoComponentProps> = (props: any) => (
   <Dialog
+        fullWidth={true}
         open={props.open}
         onClose={props.handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title" sx={{textAlign:"center"}}>
           {props.selectedProfesor.nombre}
         </DialogTitle>
         <DialogContent>
               {props.selectedProfesor.experiencia.map((experiencia: Experiencia, i: any) => {
-                  return <ul className='lista-modal-profesor' key={i}>
+                  return <ul  key={i}>
                             <li>Descripcion: {experiencia.descripcion}</li>
                             <li>Años de experiencia: {experiencia.anios}</li>
                         </ul>

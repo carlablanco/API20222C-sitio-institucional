@@ -11,13 +11,13 @@ import Box from '@mui/material/Box';
 import Typography, { TypographyClasses } from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, SxProps, Theme, ThemeProvider } from '@mui/material/styles';
-import { CommonProps } from '@mui/material/OverridableComponent';
-import { SystemProps } from '@mui/system';
 import logo from '../../img/logo.png';
 import styles from './LoginComponent.module.scss';
 import Footer from '../FooterComponent/FooterComponent';
 import { useState } from 'react';
 import loginService from '../../services/login';
+import { isLoggedIn } from '../../hooks/authhook';
+import { Navigate } from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -38,10 +38,14 @@ export default function SignIn() {
         { email, password }
       )
 
+      window.localStorage.setItem(
+        'loggedUser', JSON.stringify(user)
+      )
+
+      console.log(user)
       setUser(user)
       setEmail('')
       setPassword('')
-
     }
 
     catch (e) {
@@ -53,11 +57,17 @@ export default function SignIn() {
 
     }
 
-
   };
+
+  const redirect = () => {
+    if (user || isLoggedIn()) {
+      return <Navigate to='/' />
+    }
+  }
 
   return (
     <>
+    {redirect()}
       <div className={styles.logo}>
         <a href="../"><img src={logo} alt="Logo" /></a>
       </div>

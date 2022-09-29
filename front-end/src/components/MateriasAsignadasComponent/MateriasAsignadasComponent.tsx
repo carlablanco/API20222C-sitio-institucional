@@ -16,10 +16,10 @@ import { Comentario } from '../../models/Comentario';
 import { UserResponse } from '../../models/UserResponse';
 import styles from "./MateriasAsignadasComponent.module.scss";
 import { DataGridPro } from '@mui/x-data-grid-pro';
+import { getName } from '../../hooks/authhook';
 
 export default function MateriasAsignadasComponent() {
-  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
-
+  
   const abrirModalSolicitudes = React.useCallback(
     (row: any) => () => {
       setSelectedRow(row);
@@ -337,7 +337,7 @@ export default function MateriasAsignadasComponent() {
   return (
     <div>
       <NavbarComponent></NavbarComponent>
-      <h4 className={styles.profesor}>Profesor: {user.name}</h4>
+      <h4 className={styles.profesor}>Profesor: {getName()}</h4>
       <div className={styles.div}>
         <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
         my: 0, mx: "auto" , padding: 2 }}>

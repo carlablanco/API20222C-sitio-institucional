@@ -6,13 +6,12 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import Footer from '../FooterComponent/FooterComponent';
 import ModalComentarComponent from '../ModalComentarComponent/ModalComentarComponent';
-import { UserResponse } from '../../models/UserResponse';
 import styles from "./MateriasInscritasComponent.module.scss";
+import { getName } from '../../hooks/authhook';
 
 
 export default function DataGridDemo() {
-  const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
-
+  
   const abrirModalComentarios = React.useCallback(
     (row: any) => () => {
       setSelectedRow(row);
@@ -106,7 +105,7 @@ export default function DataGridDemo() {
     <div>
     <NavbarComponent></NavbarComponent>
     <div>
-      <h4 className={styles.alumno}>Alumno: {user.name}</h4>
+      <h4 className={styles.alumno}>Alumno: {getName()}</h4>
     </div>
     <Box sx={{ height: 600, width: '95%', border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
       my: 0, mx: "auto" , padding: 2 }}>
