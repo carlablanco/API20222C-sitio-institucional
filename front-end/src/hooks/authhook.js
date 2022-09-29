@@ -50,6 +50,12 @@ export const getEmail = function () {
     return email
 }
 
+export const getPhone = function () {
+    let user = localStorage.getItem('loggedUser')
+    var phone = JSON.parse(user).user.phone
+    return phone
+}
+
 export const getType = function() {
     if (isLoggedIn()) {
         let user = localStorage.getItem('loggedUser')

@@ -20,6 +20,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import logo from '../../img/logo.png';
 import Footer from '../FooterComponent/FooterComponent';
+import PhoneInput from 'react-phone-input-2';
 
 function Copyright(props: JSX.IntrinsicAttributes & { component: React.ElementType<any>; } & SystemProps<Theme> & { align?: "inherit" | "left" | "center" | "right" | "justify" | undefined; children?: React.ReactNode; classes?: Partial<TypographyClasses> | undefined; gutterBottom?: boolean | undefined; noWrap?: boolean | undefined; paragraph?: boolean | undefined; sx?: SxProps<Theme> | undefined; variant?: "button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline" | undefined; variantMapping?: Partial<Record<"button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline", string>> | undefined; } & CommonProps & Omit<any, "children" | keyof CommonProps | ("p" | "color" | "left" | "right" | "border" | "borderTop" | "borderRight" | "borderBottom" | "borderLeft" | "borderColor" | "borderRadius" | "display" | "displayPrint" | "overflow" | "textOverflow" | "visibility" | "whiteSpace" | "flexBasis" | "flexDirection" | "flexWrap" | "justifyContent" | "alignItems" | "alignContent" | "order" | "flex" | "flexGrow" | "flexShrink" | "alignSelf" | "justifyItems" | "justifySelf" | "gap" | "columnGap" | "rowGap" | "gridColumn" | "gridRow" | "gridAutoFlow" | "gridAutoColumns" | "gridAutoRows" | "gridTemplateColumns" | "gridTemplateRows" | "gridTemplateAreas" | "gridArea" | "bgcolor" | "zIndex" | "position" | "top" | "bottom" | "boxShadow" | "width" | "maxWidth" | "minWidth" | "height" | "maxHeight" | "minHeight" | "boxSizing" | "m" | "mt" | "mr" | "mb" | "ml" | "mx" | "my" | "pt" | "pr" | "pb" | "pl" | "px" | "py" | "margin" | "marginTop" | "marginRight" | "marginBottom" | "marginLeft" | "marginX" | "marginY" | "padding" | "paddingTop" | "paddingRight" | "paddingBottom" | "paddingLeft" | "paddingX" | "paddingY" | "typography" | "fontFamily" | "fontSize" | "fontStyle" | "fontWeight" | "letterSpacing" | "lineHeight" | "textAlign" | "textTransform") | "align" | "gutterBottom" | "noWrap" | "paragraph" | "sx" | "variant" | "variantMapping">) {
   return (
@@ -46,6 +47,12 @@ export default function SignUp() {
     });
   };
   const [value, setValue] = React.useState(0);
+
+  const [phoneValue, phoneSetValue] = React.useState();
+
+  const setPhoneValue = (event) => {
+    phoneSetValue(event)
+  }
 
 
 
@@ -103,6 +110,15 @@ export default function SignUp() {
                     label="Apellido"
                     name="lastName"
                     autoComplete="family-name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <PhoneInput
+                    inputClass={styles.formControl}
+                    placeholder=""
+                    specialLabel="Numero de telefono"
+                    country={'ar'}
+                    onChange={setPhoneValue}
                   />
                 </Grid>
                 <Grid item xs={12}>
