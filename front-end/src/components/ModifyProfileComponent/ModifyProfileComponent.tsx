@@ -53,20 +53,13 @@ export default function ModifyProfileComponent() {
     setUserData(userDataHelper);
   }
 
-//TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
-  const deleteExperience = (index) => {
-    const userDataHelper = [ ...userData ];
-    userDataHelper.splice(index, 1);
-    setUserData(userDataHelper);
-  };
 
   const addExperience = () => {
     const userDataHelper = [ ...userData ];
     userDataHelper.push(newEntry);
     setUserData(userDataHelper);
   }
-//TODO - DESCUBRIR PORQUE BORRA VISUALEMENTE EL ULTIMO ELEMENTO CUANDO LOGICAMENTE BORRA EL SELECCIONADO
-  const deleteStudies = (index) => {
+  const deleteEntry = (index) => {
     const userDataHelper = [ ...userData ];
     userDataHelper.splice(index, 1);
     setUserData(userDataHelper);
@@ -160,7 +153,7 @@ export default function ModifyProfileComponent() {
                   />
                 </Grid>
                 <Grid item xs={2}>
-                  <IconButton disabled={!editing} onClick={() => deleteExperience(i)}><ClearIcon></ClearIcon></IconButton>
+                  <IconButton disabled={!editing} onClick={() => deleteEntry(i)}><ClearIcon></ClearIcon></IconButton>
                 </Grid>
               </Grid>
             )
@@ -231,7 +224,7 @@ export default function ModifyProfileComponent() {
                     </FormControl>
                   </Grid>
                   <Grid item xs={2}>
-                    <IconButton disabled={!editing} onClick={() => deleteStudies(i)}><ClearIcon></ClearIcon></IconButton>
+                    <IconButton disabled={!editing} onClick={() => deleteEntry(i)}><ClearIcon></ClearIcon></IconButton>
                   </Grid>
 
                 </Grid>

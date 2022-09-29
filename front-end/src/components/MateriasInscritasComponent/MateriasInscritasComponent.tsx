@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem, GridCallbackDetails, GridCellParams, GridColDef, GridRowParams, MuiEvent } from '@mui/x-data-grid';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import Footer from '../FooterComponent/FooterComponent';
@@ -32,28 +33,29 @@ export default function DataGridDemo() {
     {
       field: 'profesor',
       headerName: 'Profesor',
-      width: 150,
+      width: 120,
     },
     {
       field: 'fechaInscripcion',
       headerName: 'Fecha de Inscripcion',
-      width: 110,
+      width: 200,
       type:'date'
     },
     {
       field: 'estado',
       headerName: 'Estado',
       type: 'singleSelect',
-      width: 150,
+      width: 100,
     },
     {
       field: 'comentar',
-      headerName: 'Comentar',
+      headerName: '',
       type: 'actions',
-      width: 120,
+      width: 50,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem disabled={deshabilitarComentario(params.row)} icon={<AddCommentIcon />} onClick={abrirModalComentarios(params.row)} label="Ver Comentarios" />,
-      ]
+      ],
+      resizable: false
     },
   ];
 
@@ -105,17 +107,19 @@ export default function DataGridDemo() {
     <div>
       <h4 className={styles.alumno}>Alumno: {getName()}</h4>
     </div>
-    <Box sx={{ height: 600, width: 1/2, border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
+    <Box sx={{ height: 600, width: '95%', border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
       my: 0, mx: "auto" , padding: 2 }}>
-      <DataGrid
+      <DataGridPro
         rows={rows}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
+        initialState={{
+          pinnedColumns: { right: ['comentar'] },
+        }}
       />
     </Box>
     <ModalComentarComponent row={selectedRow} open={openComentarios} handleClose={handleCloseComentarios}></ModalComentarComponent>

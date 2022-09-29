@@ -9,6 +9,7 @@ import ComentariosListComponent from '../ComentariosListComponent/ComentariosLis
 import { Comentario } from '../../models/Comentario';
 import SolicitarClaseComponent from '../SolicitarClaseComponent/SolicitarClaseComponent';
 import styles from "./GridComponent.module.scss";
+import { DataGridPro } from '@mui/x-data-grid-pro';
 
 export default function DataGridDemo() {
 
@@ -62,20 +63,12 @@ export default function DataGridDemo() {
       width: 120,
     },
     {
-      field: 'comentarios',
-      headerName: 'Comentarios',
+      field: 'actions',
+      headerName: '',
       type: 'actions',
-      width: 120,
+      width: 70,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem icon={<CommentIcon />} onClick={verComentario(params.row)} label="Ver Comentarios" />,
-      ]
-    },
-    {
-      field: 'inscribirse',
-      headerName: 'Inscribirse',
-      type: 'actions',
-      width: 120,
-      getActions: (params: GridRowParams) => [
         <GridActionsCellItem icon={<AddIcon />} onClick={inscribirMateria(params.row)} label="Inscribir Materia" />,
       ]
     },
@@ -215,16 +208,18 @@ export default function DataGridDemo() {
     <div className={styles.GridComponent}>
       <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
       my: 0, mx: "auto" , padding: 2}} >
-        <DataGrid
+        <DataGridPro
           rows={rows}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
           onCellClick={cellClickHandler}
           sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
+          initialState={{
+            pinnedColumns: { right: ['actions'] },
+          }}
         />
         <ProfesorInfoComponent open={openProfesor} selectedProfesor={selectedProfesor} handleClose={handleCloseProfesor} />
         <ComentariosListComponent

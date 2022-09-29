@@ -15,6 +15,7 @@ import ComentariosListProfesorComponent from '../ComentariosListProfesorComponen
 import { Comentario } from '../../models/Comentario';
 import { UserResponse } from '../../models/UserResponse';
 import styles from "./MateriasAsignadasComponent.module.scss";
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import { getName } from '../../hooks/authhook';
 
 export default function MateriasAsignadasComponent() {
@@ -150,21 +151,13 @@ export default function MateriasAsignadasComponent() {
       ]
     },
     {
-      field: 'publicar',
-      headerName: 'Publicar/Despublicar',
+      field: 'visibilidad',
+      headerName: 'Visibilidad',
       type: 'actions',
-      width: 175,
+      width: 110,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem disabled={params.row.estadoPublicacion !== 'Despublicada' || params.row.estadoPublicacion === 'Eliminada'} icon={<VisibilityIcon />} onClick={publicarClase(params.row)} label="Publicar Clase" />,
         <GridActionsCellItem disabled={params.row.estadoPublicacion !== 'Publicada' || params.row.estadoPublicacion === 'Eliminada'} icon={<VisibilityOffIcon />} onClick={despublicarClase(params.row)} label="Despublicar Clase" />,
-      ]
-    },
-    {
-      field: 'eliminar',
-      headerName: 'Eliminar',
-      type: 'actions',
-      width: 120,
-      getActions: (params: GridRowParams) => [
         <GridActionsCellItem disabled={params.row.estadoPublicacion === 'Eliminada'} icon={<DeleteIcon />} onClick={eliminarClase(params.row)} label="Eliminar Clase" />,
       ]
     },
@@ -346,17 +339,19 @@ export default function MateriasAsignadasComponent() {
       <NavbarComponent></NavbarComponent>
       <h4 className={styles.profesor}>Profesor: {getName()}</h4>
       <div className={styles.div}>
-        <Box sx={{ height: 600, width: 7/8, border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
+        <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
         my: 0, mx: "auto" , padding: 2 }}>
-          <DataGrid
+          <DataGridPro
             rows={rows}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
             sx={{border:1, borderColor: '#002967', bgcolor: '#ffffff' }}
+            initialState={{
+              pinnedColumns: { right: ['visibilidad'] },
+            }}
           />
         </Box>
         <Button className={styles.boton} onClick={guardarCambios()} sx={{alignContent: "center", my: 3, mx: "auto" , padding: 2, bgcolor: '#0a40c9e1',
