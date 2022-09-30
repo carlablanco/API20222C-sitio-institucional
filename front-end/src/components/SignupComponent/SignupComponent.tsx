@@ -58,9 +58,6 @@ export default function SignUp() {
 
   return (
     <>
-      <div className={styles.logo}>
-        <a href="../"><img src={logo} alt="Logo" /></a>
-      </div>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -72,6 +69,9 @@ export default function SignUp() {
               alignItems: 'center',
             }}
           >
+            <Grid xs={12} className={styles.logo}>
+              <a href="../"><img src={logo} alt="Logo" /></a>
+            </Grid>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -158,7 +158,7 @@ export default function SignUp() {
                   </Link>
                 </Grid>
               </Grid>
-          </Box>
+            </Box>
           </Box>
           <Footer></Footer>
         </Container>
