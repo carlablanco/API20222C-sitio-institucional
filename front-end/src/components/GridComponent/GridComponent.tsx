@@ -10,13 +10,21 @@ import { Comentario } from '../../models/Comentario';
 import SolicitarClaseComponent from '../SolicitarClaseComponent/SolicitarClaseComponent';
 import styles from "./GridComponent.module.scss";
 import { DataGridPro } from '@mui/x-data-grid-pro';
+import { isLoggedIn } from '../../hooks/authhook';
+import { useNavigate } from 'react-router-dom';
 
 export default function DataGridDemo() {
 
+  let navigate = useNavigate();
+
   const inscribirMateria = React.useCallback(
     (row: any) => () => {
-      setMateria(row.materia)
-      handleClickOpenSolicitud()
+      if(isLoggedIn()){
+        setMateria(row.materia)
+        handleClickOpenSolicitud()
+      } else {
+        navigate("/register"); 
+      }
     },
     [],
   );
