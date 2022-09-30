@@ -72,7 +72,7 @@ const FormComponent: FC<FormComponentProps> = () => {
   const navigate = useNavigate()
 
   const buscarClases = () => {
-    navigate(`/clases?clase=${materia?.label}&frecuencia=${frecuencia?.label}&tipoDeClase=${tipoDeClase?.label}&calificacion=${calificacion?.label}`, {state: {
+    navigate(`/classes?clase=${materia?.label}&frecuencia=${frecuencia?.label}&tipoDeClase=${tipoDeClase?.label}&calificacion=${calificacion?.label}`, {state: {
       materia,
       tipoDeClase,
       frecuencia,
