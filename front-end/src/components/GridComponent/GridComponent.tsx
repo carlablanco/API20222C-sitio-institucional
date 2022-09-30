@@ -23,7 +23,7 @@ export default function DataGridDemo() {
         setMateria(row.materia)
         handleClickOpenSolicitud()
       } else {
-        navigate("/register"); 
+        navigate("/login"); 
       }
     },
     [],
