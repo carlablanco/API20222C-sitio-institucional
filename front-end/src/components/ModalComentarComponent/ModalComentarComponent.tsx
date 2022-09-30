@@ -31,7 +31,7 @@ const ModalComentarComponent: FC<ModalComentarComponentProps> = (props: any) => 
 
         </DialogContent>
         <DialogActions>
-        <Button variant="text">Publicar</Button>
+        <Button  onClick={props.handleClose} variant="text">Publicar</Button>
           <Button onClick={props.handleClose}>Cerrar</Button>
         </DialogActions>
   </Dialog>

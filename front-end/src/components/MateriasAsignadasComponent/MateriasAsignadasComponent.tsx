@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColumns, GridRowParams } from '@mui/x-data-grid';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
@@ -95,7 +95,7 @@ export default function MateriasAsignadasComponent() {
     [],
   );
 
-  const columns = [
+  const columns: GridColumns  = [
     {
       field: 'nombre',
       headerName: 'Nombre',
