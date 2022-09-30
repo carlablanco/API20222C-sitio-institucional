@@ -1,4 +1,8 @@
 .GridComponent {
     text-align: center;
-    
+    .professorCell {
+        cursor: pointer;
+        font-weight: bolder;
+        text-decoration: underline;
+    }
 }

@@ -39,6 +39,7 @@ export default function DataGridDemo() {
       field: 'nombreProfesor',
       headerName: 'Profesor',
       width: 150,
+      cellClassName: styles.professorCell,
     },
     {
       field: 'materia',
