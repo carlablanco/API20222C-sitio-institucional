@@ -35,7 +35,7 @@ export default function DataGridDemo() {
   }
 
   const deshabilitarCancelar = (row: any) => {
-    return row.estado === 'Finalizada';
+    return row.estado === 'Cancelada' || row.estado === 'Finalizada';
   }
 
   const columns = [
