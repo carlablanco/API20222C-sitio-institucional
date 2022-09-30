@@ -3,11 +3,13 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem, GridCallbackDetails, GridCellParams, GridColDef, GridRowParams, MuiEvent } from '@mui/x-data-grid';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import ClearIcon from '@mui/icons-material/Clear';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import Footer from '../FooterComponent/FooterComponent';
 import ModalComentarComponent from '../ModalComentarComponent/ModalComentarComponent';
 import styles from "./MateriasInscritasComponent.module.scss";
 import { getName } from '../../hooks/authhook';
+import ModalCancelarComponent from '../ModalCancelarComponent/ModalCancelarComponent';
 
 
 export default function DataGridDemo() {
@@ -16,6 +18,14 @@ export default function DataGridDemo() {
     (row: any) => () => {
       setSelectedRow(row);
       handleClickOpenComentarios()
+    },
+    [],
+  );
+
+  const abrirModalCancelar = React.useCallback(
+    (row: any) => () => {
+      setSelectedRow(row);
+      handleClickOpenCancelar()
     },
     [],
   );
@@ -51,9 +61,11 @@ export default function DataGridDemo() {
       field: 'comentar',
       headerName: '',
       type: 'actions',
-      width: 50,
+      width: 70,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem disabled={deshabilitarComentario(params.row)} icon={<AddCommentIcon />} onClick={abrirModalComentarios(params.row)} label="Ver Comentarios" />,
+        <GridActionsCellItem disabled={deshabilitarComentario(params.row)} icon={< ClearIcon/>} onClick={abrirModalCancelar(params.row)} label="Cancelar Inscripcion" />,
+
       ],
       resizable: false
     },
@@ -101,6 +113,16 @@ export default function DataGridDemo() {
   const handleCloseComentarios = () => {
     setOpenComentarios(false);
   };
+
+  const [openCancelar, setOpenCancelar] = React.useState(false);
+
+  const handleClickOpenCancelar = () => {
+    setOpenCancelar(true);
+  };
+
+  const handleCloseCancelar = () => {
+    setOpenCancelar(false);
+  };
   return (
     <div>
     <NavbarComponent></NavbarComponent>
@@ -123,6 +145,7 @@ export default function DataGridDemo() {
       />
     </Box>
     <ModalComentarComponent row={selectedRow} open={openComentarios} handleClose={handleCloseComentarios}></ModalComentarComponent>
+    <ModalCancelarComponent row={selectedRow} open={openCancelar} handleClose={handleCloseCancelar}></ModalCancelarComponent>
     <Footer></Footer>
     </div>
   );
