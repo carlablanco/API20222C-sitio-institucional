@@ -34,6 +34,10 @@ export default function DataGridDemo() {
     return row.estado !== 'Aceptada'  && row.estado !== 'Finalizada';
   }
 
+  const deshabilitarCancelar = (row: any) => {
+    return row.estado === 'Finalizada';
+  }
+
   const columns = [
     {
       field: 'clase',
@@ -64,7 +68,7 @@ export default function DataGridDemo() {
       width: 70,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem disabled={deshabilitarComentario(params.row)} icon={<AddCommentIcon />} onClick={abrirModalComentarios(params.row)} label="Ver Comentarios" />,
-        <GridActionsCellItem disabled={deshabilitarComentario(params.row)} icon={< ClearIcon/>} onClick={abrirModalCancelar(params.row)} label="Cancelar Inscripcion" />,
+        <GridActionsCellItem disabled={deshabilitarCancelar(params.row)} icon={< ClearIcon/>} onClick={abrirModalCancelar(params.row)} label="Cancelar Inscripcion" />,
 
       ],
       resizable: false
