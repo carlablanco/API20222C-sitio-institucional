@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isAlpha: {
-          msg: "Usuario inválido."
+          msg: "Tipo de usuario inválido."
         }
       }
     },
