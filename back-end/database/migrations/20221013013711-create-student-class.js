@@ -15,6 +15,9 @@ module.exports = {
       id_student: {
         type: Sequelize.STRING
       },
+      status: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
