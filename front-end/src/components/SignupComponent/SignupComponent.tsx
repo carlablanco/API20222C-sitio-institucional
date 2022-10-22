@@ -21,6 +21,8 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import logo from '../../img/logo.png';
 import Footer from '../FooterComponent/FooterComponent';
 import PhoneInput from 'react-phone-input-2';
+import { register, RegisterPayload } from '../../services/register';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props: JSX.IntrinsicAttributes & { component: React.ElementType<any>; } & SystemProps<Theme> & { align?: "inherit" | "left" | "center" | "right" | "justify" | undefined; children?: React.ReactNode; classes?: Partial<TypographyClasses> | undefined; gutterBottom?: boolean | undefined; noWrap?: boolean | undefined; paragraph?: boolean | undefined; sx?: SxProps<Theme> | undefined; variant?: "button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline" | undefined; variantMapping?: Partial<Record<"button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline", string>> | undefined; } & CommonProps & Omit<any, "children" | keyof CommonProps | ("p" | "color" | "left" | "right" | "border" | "borderTop" | "borderRight" | "borderBottom" | "borderLeft" | "borderColor" | "borderRadius" | "display" | "displayPrint" | "overflow" | "textOverflow" | "visibility" | "whiteSpace" | "flexBasis" | "flexDirection" | "flexWrap" | "justifyContent" | "alignItems" | "alignContent" | "order" | "flex" | "flexGrow" | "flexShrink" | "alignSelf" | "justifyItems" | "justifySelf" | "gap" | "columnGap" | "rowGap" | "gridColumn" | "gridRow" | "gridAutoFlow" | "gridAutoColumns" | "gridAutoRows" | "gridTemplateColumns" | "gridTemplateRows" | "gridTemplateAreas" | "gridArea" | "bgcolor" | "zIndex" | "position" | "top" | "bottom" | "boxShadow" | "width" | "maxWidth" | "minWidth" | "height" | "maxHeight" | "minHeight" | "boxSizing" | "m" | "mt" | "mr" | "mb" | "ml" | "mx" | "my" | "pt" | "pr" | "pb" | "pl" | "px" | "py" | "margin" | "marginTop" | "marginRight" | "marginBottom" | "marginLeft" | "marginX" | "marginY" | "padding" | "paddingTop" | "paddingRight" | "paddingBottom" | "paddingLeft" | "paddingX" | "paddingY" | "typography" | "fontFamily" | "fontSize" | "fontStyle" | "fontWeight" | "letterSpacing" | "lineHeight" | "textAlign" | "textTransform") | "align" | "gutterBottom" | "noWrap" | "paragraph" | "sx" | "variant" | "variantMapping">) {
   return (
@@ -37,16 +39,30 @@ function Copyright(props: JSX.IntrinsicAttributes & { component: React.ElementTy
 
 const theme = createTheme();
 
+
+
 export default function SignUp() {
-  const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+const navigate = useNavigate()
+
+  const handleSubmit = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+   try{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const registerPayload: RegisterPayload = {
+      name: data.get('firstName').toString(),
+      surname: data.get('lastName').toString(),
+      email: data.get('email').toString(),
+      password: data.get('password').toString(),
+      type: typeValue === 0 ? 'student' : 'professor',
+      phone: phoneValue
+    }
+    await register(registerPayload);
+    navigate('/login');
+   } catch(error){
+    console.log(error)
+   }
   };
-  const [value, setValue] = React.useState(0);
+  const [typeValue, setValue] = React.useState(0);
 
   const [phoneValue, phoneSetValue] = React.useState();
 
@@ -81,8 +97,9 @@ export default function SignUp() {
               <Box sx={{ width: 500 }}>
                 <BottomNavigation
                   showLabels
-                  value={value}
+                  value={typeValue}
                   onChange={(event, newValue) => {
+                    console.log(newValue)
                     setValue(newValue);
                   }}
                 >
