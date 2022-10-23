@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       years: {
-        type: Sequelize.INT
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
