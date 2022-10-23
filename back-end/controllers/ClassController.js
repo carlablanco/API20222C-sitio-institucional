@@ -1,6 +1,6 @@
 const db = require("../models");
 const class_comment = require("../models/class_comment");
-const Class = db.Class;
+const Class = db.classes;
 const Op = db.Sequelize.Op;
 
 exports.createClass = (req, res) => {
@@ -22,7 +22,7 @@ exports.createClass = (req, res) => {
     cost: req.body.cost,
     status: "No publicada"
   };
-
+  console.log(db)
   // Save Class in the database
   Class.create(aClass)
     .then(data => {

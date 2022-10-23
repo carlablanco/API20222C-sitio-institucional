@@ -13,29 +13,46 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import { addClass, CreateClassPayload, FrequencyEnum, TypeEnum } from '../../services/class.service';
+import { getName } from '../../hooks/authhook';
 
 // TODO @carlablanco implementar duracion de las clases
 
 const theme = createTheme();
 
 export default function PublishClassComponent() {
-  const [tipoClase, setClassType] = React.useState('');
+  const [tipoClase, setClassType] = React.useState<TypeEnum>('grupal');
 
   const handleChangeClassType = (event: SelectChangeEvent) => {
-    setClassType(event.target.value as string);
+    setClassType(event.target.value as TypeEnum);
   }
 
-  const [frequency, setFrequency] = React.useState('');
+  const [frequency, setFrequency] = React.useState<FrequencyEnum>('unica');
   const handleChangeFrecuencia = (event: SelectChangeEvent) => {
-    setFrequency(event.target.value as string);
+    setFrequency(event.target.value as FrequencyEnum);
   }
 
-  const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
-    event.preventDefault();
+  const handleSubmit = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+    try {
+      event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       materia: data.get('materia'),
     });
+
+    const createClassPayload: CreateClassPayload = {
+      professor: getName(),
+      name: data.get('materia').toString(),
+      duration: data.get('duration').toString(),
+      frequency: frequency,
+      type: tipoClase,
+      cost:  parseInt(data.get('cost').toString()),
+    }
+    await addClass(createClassPayload);
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   const preventMinus = (e) => {
@@ -84,6 +101,7 @@ export default function PublishClassComponent() {
                     required
                     id="outlined-required"
                     label="Materia"
+                    name='materia'
                   />
                 </Grid>
 
@@ -91,7 +109,8 @@ export default function PublishClassComponent() {
                   <TextField
                     required
                     id="outlined-required"
-                    label="Descripción corta"
+                    label="Duracion de la clase"
+                    name='duration'
                   />
                 </Grid>
 
@@ -138,6 +157,7 @@ export default function PublishClassComponent() {
                     InputProps={{
                       inputProps: { min: 0 }
                     }}
+                    name='cost'
                   />
                 </Grid>
               </Grid>
