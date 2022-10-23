@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   professor_experience.init({
     user_id: DataTypes.STRING,
     type: DataTypes.STRING,
-    years: DataTypes.STRING
+    years: DataTypes.INT
   }, {
     sequelize,
     modelName: 'professor_experience',
