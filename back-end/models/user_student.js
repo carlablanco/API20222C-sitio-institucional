@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class user_student extends Model {
     /**
@@ -11,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user_student.belongsTo(models.User,{
+        as: 'user',
+        foreignKey: 'user_id'
+      })
     }
   }
   user_student.init({
