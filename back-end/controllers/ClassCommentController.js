@@ -44,6 +44,9 @@ exports.createComment = (req, res) => {
           res.send({
             message: "Se borró el comentario."
           });
+
+          // implementar mail al estudiante con el motivo del bloqueo.
+          
         } else {
           res.send({
             message: `El comentario con id =${id} no existe.`
