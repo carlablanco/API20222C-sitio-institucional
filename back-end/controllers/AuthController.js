@@ -2,8 +2,10 @@ const { User } = require('../models/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
+const mailer = require('./MailController.js');
 
 module.exports = {
+
 
     // Login
     signIn(req, res) {
@@ -77,6 +79,17 @@ module.exports = {
             res.status(500).json(err);
         });
 
+    },
+
+    // Recupero de contraseña
+    sendMail(email) {
+        var mailOptions = {
+            from: "webmaster@culturetour.local",
+            to: email,
+            subject: "Culture Tour - Recuperá tu contraseña",
+        };
+    
+        mailer.transport.sendMail(mailOptions)
     }
 
 }
