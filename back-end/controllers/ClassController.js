@@ -39,35 +39,36 @@ exports.createClass = (req, res) => {
 
 exports.findClass = (req, res) => {
 
-  var conditions = {}
+  var conditions = []
 
-  if (req.query.name) {
-    conditions.push({ name: req.query.name })
+  if (req.body.name) {
+    conditions.push({ name: req.body.name })
   }
 
-  if (req.query.type) {
-    conditions.push({ type: req.query.type })
+  if (req.body.type) {
+    conditions.push({ type: req.body.type })
   }
 
-  if (req.query.frequency) {
-    conditions.push({ frequency: req.query.frequency })
+  if (req.body.frequency) {
+    conditions.push({ frequency: req.body.frequency })
   }
 
-  if (req.query.rating) {
-    conditions.push({ avgStars: {[Op.gte]: req.query.rating }})
+  if (req.body.rating) {
+    conditions.push({ avgStars: {[Op.gte]: req.body.rating }})
   }
 
-  Tutorial.findAll(
+  Class.findAll(
     {
       where: conditions,
       include: [
         {
-          model: class_comment,
+          as: 'comments',
+          model: db.sequelize.model('class_comment')
         }
       ],
       atrributes: {
         include: [
-          [sequelize.fn('AVG', sequelize.col('class_comment.stars', 'avgStars'))]
+          [db.sequelize.fn('AVG', db.sequelize.col('class_comment.stars', 'avgStars'))]
         ]
       }
 

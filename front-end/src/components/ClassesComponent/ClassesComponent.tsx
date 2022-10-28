@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-import GridComponent from '../GridComponent/GridComponent.lazy';
+import GridComponent from '../GridComponent/GridComponent';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import FooterComponent from "../FooterComponent/FooterComponent.lazy";
 import styles from './ClassesComponent.module.scss';
@@ -30,7 +30,7 @@ const ClasesComponent: FC<ClassesComponentProps> = (props: any) => {
     </div>
     
 
-    <GridComponent></GridComponent>
+    <GridComponent filters={state}></GridComponent>
     <FooterComponent></FooterComponent>
   </div>
 );}
