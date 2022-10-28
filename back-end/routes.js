@@ -19,7 +19,7 @@ router.post('/api/register', AuthController.signUp);
 
 
 // Class endpoints
-router.get('/api/filter-class', ClassController.findClass);
+router.post('/api/filter-class', ClassController.findClass);
 router.post('/api/create-class', ClassController.createClass);
 router.post('/api/update-class', ClassController.updateClass);
 router.delete('/api/delete-class', ClassController.deleteClass);

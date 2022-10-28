@@ -12,9 +12,16 @@ import styles from "./GridComponent.module.scss";
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import { isLoggedIn } from '../../hooks/authhook';
 import { useNavigate } from 'react-router-dom';
+import { FC } from 'react';
+import { filterClass, FilterClassPayload } from '../../services/class.service';
 
-export default function DataGridDemo() {
+interface DataGridDemoProps {
+  filters?: any
+}
 
+
+const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
+  
   let navigate = useNavigate();
 
   const inscribirMateria = React.useCallback(
@@ -83,75 +90,7 @@ export default function DataGridDemo() {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      nombreProfesor: 'Jhon',
-      experienciaProfesor: [
-        {
-          descripcion: 'Licenciado en Educacion',
-          anios: 3
-        },
-        {
-          descripcion: 'Licenciado en Matematica', anios: 5
-        }
-      ],
-      materia: 'Matematica',
-      duracion: 'Mensual',
-      costo: 1000,
-      calificacion: 4,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }]
-    },
-    {
-      id: 2, nombreProfesor: 'Maria', experienciaProfesor: [{
-        descripcion: 'Licenciado en Educacion', anios: 3
-      }, {
-        descripcion: 'Licenciado en Fisica', anios: 5
-      }], materia: 'Fisica', duracion: 'Cuatrimestral', costo: 2000, comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }], calificacion: 3
-    },
-
-    {
-      id: 3, nombreProfesor: 'Julian', experienciaProfesor: [{
-        descripcion: 'Licenciado en Educacion', anios: 3
-      }, {
-        descripcion: 'Licenciado en Programacion', anios: 5
-      }], materia: 'Programacion', duracion: 'Anual', costo: 10000,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }], calificacion: 5
-    },
-  ];
+  const [rows, setRows] = React.useState([]);
 
   const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
     if (params.field === "nombreProfesor") {
@@ -211,7 +150,24 @@ export default function DataGridDemo() {
     setOpenSolicitud(false);
   };
 
-  const [selectedMateria, setMateria] = React.useState<any>()
+  const [selectedMateria, setMateria] = React.useState<any>();
+
+  const getRows = async () => {
+    try {
+      const payload: FilterClassPayload = {
+        name: props?.filters?.materia?.label,
+        type: props?.filters?.tipoDeClase?.label,
+        frequency: props?.filters?.frecuencia?.label,
+        rating: parseInt(props?.filters?.calificacion?.label)
+      }
+      const response = await filterClass(payload);
+      debugger
+      setRows(response.data);
+    } catch (error) {
+      
+    }
+  }
+  getRows();
 
   return (
     <div className={styles.GridComponent}>
@@ -242,3 +198,5 @@ export default function DataGridDemo() {
     </div>
   );
 }
+
+export default GridComponent;
