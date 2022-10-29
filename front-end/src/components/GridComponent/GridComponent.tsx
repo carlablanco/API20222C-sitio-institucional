@@ -21,6 +21,12 @@ interface DataGridDemoProps {
 
 
 const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
+
+
+  React.useEffect(() => {
+    getRows()
+  }, [])
+  
   
   let navigate = useNavigate();
 
@@ -161,14 +167,11 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
         rating: parseInt(props?.filters?.calificacion?.label)
       }
       const response = await filterClass(payload);
-      debugger
       setRows(response.data);
     } catch (error) {
-      
+      console.log(error);
     }
   }
-  getRows();
-
   return (
     <div className={styles.GridComponent}>
       <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
