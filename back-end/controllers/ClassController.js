@@ -2,6 +2,7 @@ const db = require("../models");
 const class_comment = require("../models/class_comment");
 const Class = db.classes;
 const Op = db.Sequelize.Op;
+const { QueryTypes } = require('sequelize');
 
 exports.createClass = (req, res) => {
   // Validate request
@@ -37,7 +38,7 @@ exports.createClass = (req, res) => {
 };
 
 
-exports.findClass = (req, res) => {
+exports.findClass = async (req, res) => {
 
   var conditions = []
 
@@ -53,9 +54,23 @@ exports.findClass = (req, res) => {
     conditions.push({ frequency: req.body.frequency })
   }
 
-  if (req.body.rating) {
-    conditions.push({ avgStars: {[Op.gte]: req.body.rating }})
+  if(req.body.rating) {
+    let subQueryRating = await db.sequelize.query(
+      'SELECT c.id, avg(cc.stars) as avgStars FROM sitioinstitucional.classes c JOIN sitioinstitucional.class_comments cc ON c.id = cc.id_class GROUP BY c.id HAVING avgStars >= ?',
+      {
+        replacements: [req.body.rating],
+        type: QueryTypes.SELECT
+      }
+    )
+    subQueryRating = subQueryRating.map(value => {
+      return value.id
+    });
+  
+    if(subQueryRating) {
+      conditions.push({id: subQueryRating})
+    }
   }
+
 
   Class.findAll(
     {
