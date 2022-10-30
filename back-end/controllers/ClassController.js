@@ -77,8 +77,10 @@ exports.findClass = async (req, res) => {
       where: conditions,
       include: [
         {
-          as: 'comments',
-          model: db.sequelize.model('class_comment')
+          model: db.sequelize.model('class_comment'),
+          include: {
+            model: db.sequelize.model('User'),
+          }
         }
       ],
       atrributes: {

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'user',
         foreignKey: 'user_id'
       }),
-      professor_experience.belongsTo(models.Class, {
+      professor_experience.belongsTo(models.classes, {
         as: 'user_class',
         foreignKey: 'user_id'
       })
