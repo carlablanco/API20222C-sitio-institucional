@@ -89,6 +89,10 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.professor_experience, {
       as: 'experience',
       foreignKey: 'user_id'
+    }),
+    user.hasMany(models.class_comment, {
+      as: 'comments',
+      foreignKey: 'id_student'
     })
 
   };

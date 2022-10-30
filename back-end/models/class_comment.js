@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       class_comment.belongsTo(models.classes,{
         as: 'class',
         foreignKey: 'id_class'
-
+      }),
+      class_comment.belongsTo(models.User,{
+        as: 'student',
+        foreignKey: 'id_student'
       })
     }
   }
