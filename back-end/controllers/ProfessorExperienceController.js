@@ -80,3 +80,22 @@ exports.createExperience = (req, res) => {
         });
       });
   };
+
+
+  exports.findProfessor = (req, res) => {
+    const user_id = req.query.user_id;
+    var condition = user_id ? { user_id: user_id } : null;
+  
+    User.findOne({ where: condition,
+      include: {
+        model: professor_experience } })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving the professor."
+        });
+      });
+  };

@@ -59,3 +59,20 @@ exports.createComment = (req, res) => {
         });
       });
   };
+
+
+  exports.findAllComments = (req, res) => {
+    const id_class = req.query.id_class;
+    var condition = id_class ? { title: id_class } : null;
+  
+    class_comment.findAll({ where: condition })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving comments."
+        });
+      });
+  };

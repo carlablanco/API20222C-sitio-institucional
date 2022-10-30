@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       classes.hasMany(models.class_comment,{
         as: 'comments',
         foreignKey: 'id_class'
+      }),
+      classes.hasOne(models.professor_experience,{
+        as: 'comments',
+        foreignKey: 'user_id'
       })
     }
   }
