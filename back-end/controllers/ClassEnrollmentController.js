@@ -43,7 +43,7 @@ exports.findAllRequests = (req, res) => {
       condition.push({ status: req.body.status })
     }
 
-    Tutorial.findAll({ where: condition,
+    student_class.findAll({ where: condition,
     include: [{
         as: 'user_student',
         model: db.sequelize.model('User')
