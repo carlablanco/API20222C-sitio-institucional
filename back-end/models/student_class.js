@@ -14,15 +14,18 @@ module.exports = (sequelize, DataTypes) => {
         as: 'class_student',
         foreignKey: 'id_class'
       }),
-      student_class.belongsTo(models.classes, {
-        as: 'user_student',
-        foreignKey: 'id_student'
-      })
+        student_class.belongsTo(models.User, {
+          as: 'user_student',
+          foreignKey: 'id_student'
+        })
     }
   }
   student_class.init({
     id_class: DataTypes.STRING,
-    id_student: DataTypes.STRING
+    id_student: DataTypes.STRING,
+    status: DataTypes.STRING,
+    timeslot: DataTypes.STRING,
+    message: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'student_class',
