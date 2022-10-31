@@ -80,11 +80,12 @@ exports.findClass = async (req, res) => {
           as: 'comments',
           model: db.sequelize.model('class_comment'),
           include: {
-            as: 'user',
+            as: 'student',
             model: db.sequelize.model('User'),
           }
         },
         {
+          as: 'professor_fk',
           model: db.sequelize.model('professor_experience')
         }
       ],
