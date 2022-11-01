@@ -38,6 +38,18 @@ export const getName = function () {
     }
 }
 
+
+export const getUserId = function () {
+    if (isLoggedIn()) {
+        let user = localStorage.getItem('loggedUser')
+        let name = JSON.parse(user).user.id
+        return name
+        
+    } else {
+        return null
+    }
+}
+
 export const getToken = function () {
     let user = localStorage.getItem('loggedUser')
     var token = JSON.parse(user).token
