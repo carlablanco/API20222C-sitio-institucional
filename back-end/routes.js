@@ -35,8 +35,9 @@ router.delete('/api/delete-studies', StudentStudiesController.deleteStudies);
 
 
 // Professor experience endpoints
-router.post('/api/create-studies', ProfessorExperienceController.createExperience);
-router.post('/api/update-studies', ProfessorExperienceController.updateExperience);
-router.delete('/api/delete-studies', ProfessorExperienceController.deleteExperience);
+router.post('/api/create-experience', ProfessorExperienceController.createExperience);
+router.post('/api/update-experience', ProfessorExperienceController.updateExperience);
+router.delete('/api/delete-experience', ProfessorExperienceController.deleteExperience);
+router.post('/api/get-professor-experience', ProfessorExperienceController.findProfessor);
 
 module.exports = router;
