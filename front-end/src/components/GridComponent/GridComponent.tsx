@@ -33,7 +33,7 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   const inscribirMateria = React.useCallback(
     (row: any) => () => {
       if(isLoggedIn()){
-        setMateria(row.materia)
+        setMateria(row.name)
         handleClickOpenSolicitud()
       } else {
         navigate("/login"); 
@@ -44,12 +44,12 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
 
   const verComentario = React.useCallback(
     (row: any) => () => {
-      setMateria(row.materia)
+      setMateria(row.name)
       setProfesor({
-        nombre: row.nombreProfesor,
-        experiencia: row.experienciaProfesor
+        nombre: row.professor,
+        experiencia: row.professorExperience ? row.professorExperience : null
       });
-      setComentarios(row.comentarios)
+      setComentarios(row.comments)
       handleClickOpenComentarios()
     },
     [],
@@ -57,29 +57,29 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   
   const columns = [
     {
-      field: 'nombreProfesor',
+      field: 'professor',
       headerName: 'Profesor',
       width: 150,
       cellClassName: styles.professorCell,
     },
     {
-      field: 'materia',
+      field: 'name',
       headerName: 'Materia',
       width: 150,
     },
     {
-      field: 'duracion',
+      field: 'duration',
       headerName: 'Duracion',
       width: 110,
     },
     {
-      field: 'costo',
+      field: 'cost',
       headerName: 'Costo',
       type: 'number',
       width: 75,
     },
     {
-      field: 'calificacion',
+      field: 'rating',
       headerName: 'Calificacion',
       type: 'number',
       width: 120,
@@ -99,12 +99,12 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   const [rows, setRows] = React.useState([]);
 
   const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
-    if (params.field === "nombreProfesor") {
+    if (params.field === "professor") {
       setProfesor({
-        nombre: params.row.nombreProfesor,
-        experiencia: params.row.experienciaProfesor
+        nombre: params.row.professor,
+        experiencia: params.row.professorExperience
       });
-      setMateria(params.row.materia)
+      setMateria(params.row.name)
       console.log(selectedProfesor)
       handleClickOpenProfesor();
     }

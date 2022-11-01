@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styles from './ModifyProfileComponent.module.scss';
 import { Avatar, IconButton, Link } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
@@ -22,9 +22,10 @@ import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { getName, getType, isLoggedIn, getEmail, getPhone } from "../../hooks/authhook";
+import { getName, getType, isLoggedIn, getEmail, getPhone, getUserId } from "../../hooks/authhook";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-number-input/style.css';
+import { createProfessorExperience, getProfessorExperience } from '../../services/experience.service';
 
 interface ModifyProfileComponentProps { }
 
@@ -79,30 +80,10 @@ export default function ModifyProfileComponent() {
 
   const [editing, setEditing] = React.useState(false);
 
+  const [userData, setUserData] = React.useState(getType() === 'professor' ? [{titulo: '', experiencia: ''}] : [{tipo: '', estado: ''}] as any || '' );
 
-  const mockProfesor = [{
-      titulo: 'Experiencia 1',
-      experiencia: '2 Años'
-    },
-    {
-      titulo: 'Experiencia 2',
-      experiencia: '1 Año'
-    },
-    {
-      titulo: 'Experiencia 3',
-      experiencia: '6 Meses'
-    }]
-
-  const mockAlumno = [{
-      tipo: 'Secundario',
-      estado: 'Finalizado'
-    },
-    {
-      tipo: 'Universitario',
-      estado: 'En Curso'
-    }]
-
-  const [userData, setUserData] = React.useState(getType() === 'professor' ? mockProfesor : mockAlumno as any);
+  const stateRef = useRef([]);
+  stateRef.current = userData as any;
 
   const newEntry = getType() === 'professor' ? {
     titulo: '',
@@ -111,6 +92,50 @@ export default function ModifyProfileComponent() {
     tipo: '',
     estado: ''
   };
+
+  React.useEffect(() => {
+    if (getType() === 'professor') {
+      getExperience()
+    }
+  }, [])
+
+  const getExperience = async () => {
+    try {
+      const response = await getProfessorExperience({"user_id": getUserId()});
+      setUserData(response.data.experience)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
+  const guardarCambios = React.useCallback(
+    () => () => {
+     uploadExperience();
+    },
+    [],
+  );
+
+  const uploadExperience = async () => {
+    try {
+      if(stateRef?.current){
+        stateRef['current'].forEach( async (element) => {
+         try {
+          const response = await createProfessorExperience({
+            user_id: getUserId(),
+            type: element.titulo,
+            years: element.experiencia
+           });
+         } catch (error) {
+          
+         }
+        })
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
 
@@ -316,8 +341,8 @@ export default function ModifyProfileComponent() {
             </Grid>
 
             <Grid item xs={12}>
-              {false && DatosProfesor()}
-              {true && DatosAlumno()}
+              {getType() === 'professor' && DatosProfesor()}
+              {getType() === 'student' && DatosAlumno()}
             </Grid>
           </Grid>
 
@@ -327,6 +352,7 @@ export default function ModifyProfileComponent() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             disabled={!editing}
+            onClick={guardarCambios()}
           >
             Cambiar Datos
           </Button>

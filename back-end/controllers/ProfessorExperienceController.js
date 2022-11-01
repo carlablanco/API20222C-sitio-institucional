@@ -1,6 +1,8 @@
 const db = require("../models");
 const professor_experience = db.professor_experience;
 const Op = db.Sequelize.Op;
+const { User } = require('../models/index');
+
 
 exports.createExperience = (req, res) => {
     // Validate request
@@ -83,11 +85,12 @@ exports.createExperience = (req, res) => {
 
 
   exports.findProfessor = (req, res) => {
-    const user_id = req.query.user_id;
+    const user_id = req.body.user_id;
     var condition = user_id ? { user_id: user_id } : null;
   
     User.findOne({ where: condition,
       include: {
+        as: 'experience',
         model: professor_experience } })
       .then(data => {
         res.send(data);
