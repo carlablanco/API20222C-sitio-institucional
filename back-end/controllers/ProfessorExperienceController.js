@@ -88,10 +88,10 @@ exports.createExperience = (req, res) => {
     const user_id = req.body.user_id;
     var condition = user_id ? { user_id: user_id } : null;
   
-    User.findOne({ where: condition,
+    professor_experience.findOne({ where: condition,
       include: {
-        as: 'experience',
-        model: db.sequelize.model('professor_experience') } })
+        as: 'user',
+        model: db.sequelize.model('User') } })
       .then(data => {
         res.send(data);
       })
