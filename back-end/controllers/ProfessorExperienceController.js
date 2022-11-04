@@ -91,7 +91,7 @@ exports.createExperience = (req, res) => {
     User.findOne({ where: condition,
       include: {
         as: 'experience',
-        model: professor_experience } })
+        model: db.sequelize.model('professor_experience') } })
       .then(data => {
         res.send(data);
       })
