@@ -76,3 +76,28 @@ exports.findAllRequests = (req, res) => {
         });
         });
     };
+
+    
+exports.updateStudentRequest = (req, res) => {
+      const id = req.params.id;
+    
+      student_class.update(req.body, {
+        where: { id: id }
+      })
+        .then(num => {
+          if (num == 1) {
+            res.send({
+              message: "Actualizado exitosamente."
+            });
+          } else {
+            res.send({
+              message: `No se pudo actualizar el pedido con id=${id}.`
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Error id=" + id
+          });
+        });
+    };
