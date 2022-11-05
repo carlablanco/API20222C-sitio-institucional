@@ -4,6 +4,7 @@ export interface Experiencia {
   }
   
 export interface Profesor {
+    id: number,
     nombre: string,
     experiencia: Array<Experiencia>
   }

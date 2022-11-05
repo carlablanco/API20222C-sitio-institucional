@@ -33,7 +33,7 @@ exports.createStudies = (req, res) => {
 
 
   exports.updateStudies = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.id;
   
     student_studies.update(req.body, {
       where: { id: id }
@@ -77,6 +77,25 @@ exports.createStudies = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message: "Ocurrió un error, no se pudo borrar el estudio con id=" + id
+        });
+      });
+  };
+
+  exports.findStudent = (req, res) => {
+    const user_id = req.body.user_id;
+    var condition = user_id ? { user_id: user_id } : null;
+  
+    student_studies.findAll({ where: condition,
+      include: {
+        as: 'user',
+        model: db.sequelize.model('User') } })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving the student."
         });
       });
   };

@@ -322,7 +322,8 @@ export default function MateriasAsignadasComponent() {
   const [openComentarios, setOpenComentarios] = React.useState(false);
   const [selectedComentarios, setComentarios] = React.useState<Array<Comentario>>([{
     usuario: '',
-    comentario: ''
+    comentario: '',
+    id: null
   }]);
 
 
