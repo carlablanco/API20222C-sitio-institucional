@@ -25,7 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { getName, getType, isLoggedIn, getEmail, getPhone, getUserId } from "../../hooks/authhook";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-number-input/style.css';
-import { createProfessorExperience, getProfessorExperience } from '../../services/experience.service';
+import { createProfessorExperience, deleteProfessorExperience, getProfessorExperience, modifyProfessorExperience } from '../../services/experience.service';
 
 interface ModifyProfileComponentProps { }
 
@@ -53,6 +53,7 @@ export default function ModifyProfileComponent() {
   const inputChange = (e,  index, key) => {
     const userDataHelper = [...userData];
     userDataHelper[index][key] = e.target.value;
+    userDataHelper[index].modified = true
     setUserData(userDataHelper);
   }
 
@@ -62,10 +63,14 @@ export default function ModifyProfileComponent() {
     userDataHelper.push(newEntry);
     setUserData(userDataHelper);
   }
-  const deleteEntry = (index) => {
+  const deleteEntry = async (index) => {
     const userDataHelper = [ ...userData ];
+    const indexId = userDataHelper[index].id;
     userDataHelper.splice(index, 1);
     setUserData(userDataHelper);
+    if(getType() === 'professor'){
+      await deleteProfessorExperience(indexId)
+    }
   };
 
   const addStudies = () => {
@@ -80,16 +85,18 @@ export default function ModifyProfileComponent() {
 
   const [editing, setEditing] = React.useState(false);
 
-  const [userData, setUserData] = React.useState(getType() === 'professor' ? [{titulo: '', experiencia: ''}] : [{tipo: '', estado: ''}] as any || '' );
+  const [userData, setUserData] = React.useState([] as any || '' );
 
   const stateRef = useRef([]);
   stateRef.current = userData as any;
 
   const newEntry = getType() === 'professor' ? {
-    titulo: '',
-    experiencia: ''
+    id: null,
+    type: '',
+    years: ''
   } : {
-    tipo: '',
+    id: null,
+    typ: '',
     estado: ''
   };
 
@@ -102,7 +109,12 @@ export default function ModifyProfileComponent() {
   const getExperience = async () => {
     try {
       const response = await getProfessorExperience({"user_id": getUserId()});
-      setUserData(response.data.experience)
+      response.data = response.data.map((element) => {
+        return {...element,
+                modified: false
+              }
+      });
+      setUserData(response.data)
     } catch (error) {
       console.log(error);
     }
@@ -111,7 +123,9 @@ export default function ModifyProfileComponent() {
   
   const guardarCambios = React.useCallback(
     () => () => {
-     uploadExperience();
+     uploadExperience().then(() => {
+      window.location.reload();
+     });
     },
     [],
   );
@@ -121,13 +135,22 @@ export default function ModifyProfileComponent() {
       if(stateRef?.current){
         stateRef['current'].forEach( async (element) => {
          try {
-          const response = await createProfessorExperience({
-            user_id: getUserId(),
-            type: element.titulo,
-            years: element.experiencia
-           });
+          if(!element.id){
+            const response = await createProfessorExperience({
+              user_id: getUserId(),
+              type: element.type,
+              years: element.years
+             });
+          } else if(element.modified){
+            const response = await modifyProfessorExperience({
+              user_id: getUserId(),
+              id: element.id,
+              type: element.type,
+              years: element.years
+             });
+          }
          } catch (error) {
-          
+          console.log(error);
          }
         })
       }
@@ -137,6 +160,7 @@ export default function ModifyProfileComponent() {
     }
   }
 
+  
 
 
 
@@ -164,9 +188,9 @@ export default function ModifyProfileComponent() {
                     required
                     id="outlined-required"
                     label="Titulo"
-                    value={experiencia.titulo}
+                    value={experiencia.type}
                     disabled={!editing}
-                    onInput={(event) => inputChange(event, i, 'titulo')}
+                    onInput={(event) => inputChange(event, i, 'type')}
                   />
                 </Grid>
                 <Grid item xs={5}>
@@ -174,9 +198,9 @@ export default function ModifyProfileComponent() {
                     required
                     id="outlined-required"
                     label="Experiencia"
-                    value={experiencia.experiencia}
+                    value={experiencia.years}
                     disabled={!editing}
-                    onInput={(event) => inputChange(event, i, 'experiencia')}
+                    onInput={(event) => inputChange(event, i, 'years')}
                   />
                 </Grid>
                 <Grid item xs={2}>
@@ -327,7 +351,7 @@ export default function ModifyProfileComponent() {
                 id="outlined-required"
                 label="Nombre"
                 defaultValue={getName()}
-                disabled={!editing}
+                disabled={true}
               />
             </Grid>
             <Grid item xs={12}>
@@ -336,7 +360,7 @@ export default function ModifyProfileComponent() {
                 id="outlined-required"
                 label="Correo"
                 defaultValue={getEmail()}
-                disabled={!editing}
+                disabled={true}
               />
             </Grid>
 
