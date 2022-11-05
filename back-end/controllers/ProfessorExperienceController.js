@@ -38,7 +38,7 @@ exports.createExperience = (req, res) => {
     const id = req.params.id;
   
     professor_experience.update(req.body, {
-      where: { id: id }
+      where: { id: req.body.id }
     })
       .then(num => {
         if (num == 1) {
@@ -60,10 +60,10 @@ exports.createExperience = (req, res) => {
 
 
   exports.deleteExperience = (req, res) => {
-    const id = req.params.id;
+    const id = req.query.id;
   
     professor_experience.destroy({
-      where: { id: id }
+      where: { id }
     })
       .then(num => {
         if (num == 1) {
@@ -88,7 +88,7 @@ exports.createExperience = (req, res) => {
     const user_id = req.body.user_id;
     var condition = user_id ? { user_id: user_id } : null;
   
-    professor_experience.findOne({ where: condition,
+    professor_experience.findAll({ where: condition,
       include: {
         as: 'user',
         model: db.sequelize.model('User') } })
