@@ -84,12 +84,14 @@ module.exports = {
     // Recupero de contraseña
     sendMail(email) {
         var mailOptions = {
-            from: "webmaster@culturetour.local",
+            from: "noreply@culturetour.local",
             to: email,
             subject: "Culture Tour - Recuperá tu contraseña",
         };
     
         mailer.transport.sendMail(mailOptions)
     }
+
+
 
 }

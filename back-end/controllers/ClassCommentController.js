@@ -32,6 +32,17 @@ exports.createComment = (req, res) => {
       });
   };
 
+function sendMail(email, message) {
+  var mailOptions = {
+      from: "noreply@culturetour.local",
+      to: email,
+      subject: "Tu comentario fue eliminado",
+      text: "El motivo fue:" + message
+  };
+
+  mailer.transport.sendMail(mailOptions)
+}
+
 
   exports.deleteComment = (req, res) => {
     const id = req.params.id;
@@ -45,7 +56,7 @@ exports.createComment = (req, res) => {
             message: "Se borró el comentario."
           });
 
-          // implementar mail al estudiante con el motivo del bloqueo.
+          sendMail(req.body.mail, req.body.message)
           
         } else {
           res.send({
@@ -62,10 +73,20 @@ exports.createComment = (req, res) => {
 
 
   exports.findAllComments = (req, res) => {
-    const id_class = req.query.id_class;
-    var condition = id_class ? { title: id_class } : null;
+    var conditions = []
+
+  if (req.body.id_class) {
+    conditions.push({ name: req.body.id_class })
+  }
+
+  if (req.body.id) {
+    conditions.push({ type: req.body.id })
   
-    class_comment.findAll({ where: condition })
+    class_comment.findAll({ where: conditions,
+      include: {
+        as: 'student',
+        model: db.sequelize.model('User')
+      } })
       .then(data => {
         res.send(data);
       })
@@ -75,4 +96,4 @@ exports.createComment = (req, res) => {
             err.message || "Some error occurred while retrieving comments."
         });
       });
-  };
+  } };
