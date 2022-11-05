@@ -87,7 +87,7 @@ exports.findClass = async (req, res) => {
         {
           as: 'professor_fk',
           model: db.sequelize.model('professor_experience')
-        }
+        },
       ],
       atrributes: {
         include: [

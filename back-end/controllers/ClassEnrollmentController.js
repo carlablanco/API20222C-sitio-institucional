@@ -2,6 +2,8 @@ const db = require("../models");
 const Class = db.classes;
 const student_class = db.student_class;
 const Op = db.Sequelize.Op;
+const { QueryTypes } = require('sequelize');
+
 
 exports.requestClass = async (req, res) => {
     // Validate request
@@ -21,9 +23,16 @@ exports.requestClass = async (req, res) => {
       message: req.body.message
     };
 
-    const studentClassLength = await this.findStudentClass(req.body.id_class, req.body.id_student);
-  
-    // Save Tutorial in the database
+    const studentLength = await db.sequelize.query(
+      'SELECT * FROM sitioinstitucional.student_classes c WHERE id_class = :id_class AND id_student = :id_student',
+      {
+        replacements: {id_class: req.body.id_class, id_student: req.body.id_student},
+        type: QueryTypes.SELECT
+      }
+    );
+
+    if(studentLength.length === 0){
+    // Save class request in the database
     student_class.create(class_request)
       .then(data => {
         res.send(data);
@@ -34,27 +43,17 @@ exports.requestClass = async (req, res) => {
             err.message || "Ocurrió un error"
         });
       });
-  };
+    }
+    else {
+      res.send({message: "Ya existe una solicitud para esta clase"})
+    }
 
-findStudentClass = (idClass, idStudent) =>{
-  student_class.findAll({
-    where :{
-      class_id: idClass,
-      user_id: idStudent
-     }
-  })
-  .then((result) => {
-    return result.length
-   })
-   .catch((error) => {
-    return error
-   })
-}
+  };
   
 exports.findAllRequests = (req, res) => {
     var condition = [];
 
-    if (req.body.id_student) {
+    if (req.query.id_student) {
       condition.push({ id_student: req.body.id_student })
     }
 

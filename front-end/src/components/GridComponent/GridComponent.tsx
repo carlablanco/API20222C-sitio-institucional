@@ -14,6 +14,7 @@ import { isLoggedIn } from '../../hooks/authhook';
 import { useNavigate } from 'react-router-dom';
 import { FC } from 'react';
 import { filterClass, FilterClassPayload } from '../../services/class.service';
+import { getProfessorExperience } from '../../services/experience.service';
 
 interface DataGridDemoProps {
   filters?: any
@@ -26,14 +27,30 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   React.useEffect(() => {
     getRows()
   }, [])
+
+  const [rows, setRows] = React.useState([]);
   
+  const getRows = async () => {
+    try {
+      const payload: FilterClassPayload = {
+        name: props?.filters?.materia?.label,
+        type: props?.filters?.tipoDeClase?.label,
+        frequency: props?.filters?.frecuencia?.label,
+        rating: parseInt(props?.filters?.calificacion?.label)
+      }
+      const response = await filterClass(payload);
+      setRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   let navigate = useNavigate();
 
   const inscribirMateria = React.useCallback(
     (row: any) => () => {
       if(isLoggedIn()){
-        setMateria(row.name)
+        setMateria({nombre: row.name, id: row.id})
         handleClickOpenSolicitud()
       } else {
         navigate("/login"); 
@@ -44,12 +61,20 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
 
   const verComentario = React.useCallback(
     (row: any) => () => {
-      setMateria(row.name)
+      setMateria({nombre: row.name, id: row.id})
       setProfesor({
+        id: row.professor_fk,
         nombre: row.professor,
         experiencia: row.professorExperience ? row.professorExperience : null
       });
-      setComentarios(row.comments)
+      const comentarios: Array<Comentario> = row.comments.map((comment): Comentario => {
+        return {
+          id: comment.id,
+          usuario: comment.student.name + ' ' + comment.student.surname,
+          comentario: comment.content
+        }
+      })
+      setComentarios(comentarios);
       handleClickOpenComentarios()
     },
     [],
@@ -96,15 +121,10 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
     },
   ];
 
-  const [rows, setRows] = React.useState([]);
 
   const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
     if (params.field === "professor") {
-      setProfesor({
-        nombre: params.row.professor,
-        experiencia: params.row.professorExperience
-      });
-      setMateria(params.row.name)
+      setMateria({nombre: params.row.name, id: params.row.id})
       console.log(selectedProfesor)
       handleClickOpenProfesor();
     }
@@ -113,7 +133,8 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   const [openComentarios, setOpenComentarios] = React.useState(false);
   const [selectedComentarios, setComentarios] = React.useState<Array<Comentario>>([{
     usuario: '',
-    comentario: ''
+    comentario: '',
+    id: null
   }]);
 
 
@@ -127,6 +148,7 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
 
   const [openProfesor, setOpenProfesor] = React.useState(false);
   const [selectedProfesor, setProfesor] = React.useState<Profesor>({
+    id: null,
     nombre: '',
     experiencia: [
       {
@@ -137,8 +159,18 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   });
 
 
-  const handleClickOpenProfesor = () => {
-    setOpenProfesor(true);
+  const handleClickOpenProfesor = async () => {
+    try{
+      const professor = await getProfessorExperience({'user_id': selectedProfesor.id});
+      setProfesor({
+        id: professor.data[0].user.id,
+        nombre: professor.data[0].user.name + ' ' + professor.data[0].user.surname,
+        experiencia: professor.data
+      });
+      setOpenProfesor(true);
+    } catch(error){
+      console.log(error)
+    }
   };
 
   const handleCloseProfesor = () => {
@@ -158,20 +190,6 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
 
   const [selectedMateria, setMateria] = React.useState<any>();
 
-  const getRows = async () => {
-    try {
-      const payload: FilterClassPayload = {
-        name: props?.filters?.materia?.label,
-        type: props?.filters?.tipoDeClase?.label,
-        frequency: props?.filters?.frecuencia?.label,
-        rating: parseInt(props?.filters?.calificacion?.label)
-      }
-      const response = await filterClass(payload);
-      setRows(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   return (
     <div className={styles.GridComponent}>
       <Box sx={{ height: 600, width: "95%", border:1, borderRadius: 3, borderColor: '#000000', bgcolor: '#0a40c9e1', boxShadow: 20, 
@@ -194,9 +212,9 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
           open={openComentarios}
           comentarios={selectedComentarios}
           handleClose={handleCloseComentarios}
-          materia={selectedMateria}
+          materia={selectedMateria?.nombre}
           profesor={selectedProfesor} />
-        <SolicitarClaseComponent open={openSolicitud} handleClose={handleCloseSolicitud} clase={selectedMateria}></SolicitarClaseComponent>
+        <SolicitarClaseComponent open={openSolicitud} handleClose={handleCloseSolicitud} clase={selectedMateria} ></SolicitarClaseComponent>
       </Box>
     </div>
   );

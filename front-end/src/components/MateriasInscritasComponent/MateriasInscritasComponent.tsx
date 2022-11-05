@@ -8,12 +8,28 @@ import NavbarComponent from '../NavbarComponent/NavbarComponent';
 import Footer from '../FooterComponent/FooterComponent';
 import ModalComentarComponent from '../ModalComentarComponent/ModalComentarComponent';
 import styles from "./MateriasInscritasComponent.module.scss";
-import { getName } from '../../hooks/authhook';
+import { getName, getUserId } from '../../hooks/authhook';
 import ModalCancelarComponent from '../ModalCancelarComponent/ModalCancelarComponent';
+import { findEnrollments } from '../../services/class-enrollment.service';
 
 
 export default function DataGridDemo() {
+
+  React.useEffect(() => {
+    getRows()
+  }, [])
+
+  const [rows, setRows] = React.useState([]);
+
   
+  const getRows = async () => {
+    try {
+      const response = await findEnrollments(getUserId());
+      setRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const abrirModalComentarios = React.useCallback(
     (row: any) => () => {
       setSelectedRow(row);
@@ -75,36 +91,6 @@ export default function DataGridDemo() {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      clase: 'Matematica',
-      profesor: 'Julian',
-      fechaInscripcion: new Date(),
-      estado: 'Aceptada'
-    },
-    {
-      id: 2,
-      clase: 'Matematica',
-      profesor: 'Julian',
-      fechaInscripcion: new Date(),
-      estado: 'Cancelada'
-    },
-    {
-      id: 3,
-      clase: 'Matematica',
-      profesor: 'Julian',
-      fechaInscripcion: new Date(),
-      estado: 'Finalizada'
-    },
-    {
-      id: 4,
-      clase: 'Matematica',
-      profesor: 'Julian',
-      fechaInscripcion: new Date(),
-      estado: 'Solicitada'
-    },
-  ];
   const [openComentarios, setOpenComentarios] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState({materia: '', profesor: ''} as any);
 

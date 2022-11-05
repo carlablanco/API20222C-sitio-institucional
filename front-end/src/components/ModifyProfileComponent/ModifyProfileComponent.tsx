@@ -26,6 +26,7 @@ import { getName, getType, isLoggedIn, getEmail, getPhone, getUserId } from "../
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-number-input/style.css';
 import { createProfessorExperience, deleteProfessorExperience, getProfessorExperience, modifyProfessorExperience } from '../../services/experience.service';
+import { createStudentStudies, getStudentStudies, modifyStudentStudies } from '../../services/studies.sevice';
 
 interface ModifyProfileComponentProps { }
 
@@ -96,13 +97,15 @@ export default function ModifyProfileComponent() {
     years: ''
   } : {
     id: null,
-    typ: '',
-    estado: ''
+    title: '',
+    status: ''
   };
 
   React.useEffect(() => {
     if (getType() === 'professor') {
       getExperience()
+    } else {
+      getStudies()
     }
   }, [])
 
@@ -120,12 +123,32 @@ export default function ModifyProfileComponent() {
     }
   }
 
+  const getStudies = async () => {
+    try {
+      const response = await getStudentStudies({"user_id": getUserId()});
+      response.data = response.data.map((element) => {
+        return {...element,
+                modified: false
+              }
+      });
+      setUserData(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   
   const guardarCambios = React.useCallback(
     () => () => {
-     uploadExperience().then(() => {
-      window.location.reload();
-     });
+      if(getType() === 'professor'){
+        uploadExperience().then(() => {
+          window.location.reload();
+         });
+      } else{
+        uploadStudies().then(() => {
+          window.location.reload();
+         });
+      }
     },
     [],
   );
@@ -147,6 +170,37 @@ export default function ModifyProfileComponent() {
               id: element.id,
               type: element.type,
               years: element.years
+             });
+          }
+         } catch (error) {
+          console.log(error);
+         }
+        })
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
+  const uploadStudies = async () => {
+    try {
+      if(stateRef?.current){
+        stateRef['current'].forEach( async (element) => {
+         try {
+          if(!element.id){
+            const response = await createStudentStudies({
+              user_id: getUserId(),
+              title: element.title,
+              status: element.status
+             });
+          } else if(element.modified){
+            const response = await modifyStudentStudies({
+              user_id: getUserId(),
+              id: element.id,
+              title: element.title,
+              status: element.status
              });
           }
          } catch (error) {
@@ -272,18 +326,18 @@ export default function ModifyProfileComponent() {
                       required
                       id="outlined-required"
                       label="Titulo Obtenido"
-                      value={estudio.tipo}
+                      value={estudio.title}
                       disabled={!editing}
-                      onInput={(event) => inputChange(event, i, 'tipo')}
+                      onInput={(event) => inputChange(event, i, 'title')}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <FormControl disabled={!editing} required fullWidth>
                       <InputLabel>Estado</InputLabel>
                       <Select
-                        value={estudio.estado}
+                        value={estudio.status}
                         label="Estado"
-                        onChange={(event) => inputChange(event, i, 'estado')}
+                        onChange={(event) => inputChange(event, i, 'status')}
                       >
                         <MenuItem value={'Finalizado'}>Finalizado</MenuItem>
                         <MenuItem value={'En Curso'}>En Curso</MenuItem>

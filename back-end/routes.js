@@ -7,6 +7,8 @@ const ClassController = require('./controllers/ClassController');
 const ClassCommentController = require('./controllers/ClassCommentController');
 const StudentStudiesController = require('./controllers/StudentStudiesController');
 const ProfessorExperienceController = require('./controllers/ProfessorExperienceController');
+const ClassEnrollmentController = require('./controllers/ClassEnrollmentController');
+
 
 
 
@@ -32,6 +34,8 @@ router.delete('/api/delete-comment', ClassCommentController.deleteComment);
 router.post('/api/create-studies', StudentStudiesController.createStudies);
 router.post('/api/update-studies', StudentStudiesController.updateStudies);
 router.delete('/api/delete-studies', StudentStudiesController.deleteStudies);
+router.post('/api/get-student-studies', StudentStudiesController.findStudent);
+
 
 
 // Professor experience endpoints
@@ -39,5 +43,10 @@ router.post('/api/create-experience', ProfessorExperienceController.createExperi
 router.post('/api/update-experience', ProfessorExperienceController.updateExperience);
 router.delete('/api/delete-experience', ProfessorExperienceController.deleteExperience);
 router.post('/api/get-professor-experience', ProfessorExperienceController.findProfessor);
+
+//Class Request endpoints
+router.post('/api/request-class',  ClassEnrollmentController.requestClass);
+router.get('/api/get-class-requests',  ClassEnrollmentController.findAllRequests);
+
 
 module.exports = router;
