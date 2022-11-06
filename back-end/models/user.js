@@ -72,7 +72,12 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-  }, {
+    resetLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      }
+    },
+   {
     tableName: "users"
   });
 
