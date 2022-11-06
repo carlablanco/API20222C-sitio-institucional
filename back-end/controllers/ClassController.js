@@ -89,7 +89,7 @@ exports.findClass = async (req, res) => {
           model: db.sequelize.model('professor_experience')
         },
         {
-          as: 'user_class_asoc_prof',
+          as: 'professor_user',
           model: db.sequelize.model('User')
         }
       ],
