@@ -82,8 +82,8 @@ module.exports = {
     },
 
     // Recupero de contraseña
-    forgotPassword(res,req) {
-        const {email} = req.body;
+    forgotPassword(req,res) {
+        const {email} = req.body.email;
 
         User.findOne({email}, (err,user) => {
             if (err || !user) {
