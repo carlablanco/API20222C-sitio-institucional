@@ -28,7 +28,7 @@ router.delete('/api/delete-class', ClassController.deleteClass);
 
 // Comment endpoints
 router.post('/api/post-comment', ClassCommentController.createComment);
-router.delete('/api/delete-comment', ClassCommentController.deleteComment);
+router.post('/api/block-comment', ClassCommentController.deleteComment);
 
 // Student studies endpoints
 router.post('/api/create-studies', StudentStudiesController.createStudies);

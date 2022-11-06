@@ -1,7 +1,8 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Slide, TextField } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import { DataGrid, GridCallbackDetails, GridCellParams, MuiEvent, ValueOptions } from '@mui/x-data-grid';
+import { DataGrid, GridCallbackDetails, GridCellParams, GridColumns, MuiEvent, ValueOptions } from '@mui/x-data-grid';
 import React, { FC } from 'react';
+import { findEnrollments, findEnrollmentsClass, updateEnrollment } from '../../services/class-enrollment.service';
 import RatingComponent from '../RatingComponent/RatingComponent';
 
 interface SolicitudesComponentProps {
@@ -34,14 +35,14 @@ const estadoOptions: Array<ValueOptions> = [{
 },]
 
 const SolicitudesComponent: FC<SolicitudesComponentProps> = (props: any) => {
-  const columns = [
+  const columns: GridColumns = [
     {
-      field: 'alumno',
+      field: 'student',
       headerName: 'Alumno',
       width: 150,
     },
     {
-      field: 'telefono',
+      field: 'phone',
       headerName: 'Telefono',
       width: 150,
     },
@@ -51,67 +52,65 @@ const SolicitudesComponent: FC<SolicitudesComponentProps> = (props: any) => {
       width: 170,
     },
     {
-      field: 'horarioContacto',
+      field: 'timeslot',
       headerName: 'Horario de Contacto',
       width: 175,
     },
     {
-      field: 'mensaje',
+      field: 'message',
       headerName: 'Mensaje',
       width: 350,
     },
     {
-      field: 'estado',
+      field: 'status',
       headerName: 'Estado',
       type: 'singleSelect',
       width: 120,
       valueOptions: estadoOptions,
-      editable: true
+      editable: true,
+      preProcessEditCellProps: async ({props, row}) => {
+        await editSolicitud(row.id, props.value);
+        return props
+      }
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      alumno: 'Sergio Garroni',
-      telefono: '1122334455',
-      mail:'sgarroni@uade.edu.ar',
-      horarioContacto: 'de 12hs a 22hs',
-      mensaje: 'Hola! Estoy interesado en contratar esta clase',
-      estado: 'Solicitada'
-    },
-    {
-      id: 2,
-      alumno: 'Dylan Tajes',
-      telefono: '1122334455',
-      mail:'dtajes@uade.edu.ar',
-      horarioContacto: 'de 16hs a 20hs',
-      mensaje: 'Hola! Quisiera mas infromacion sobre esta clase',
-      estado: 'Aceptada'
-    },
-    {
-      id: 3,
-      alumno: 'Carla Blanco',
-      telefono: '1122334455',
-      mail:'cblanco@uade.edu.ar',
-      horarioContacto: 'de 10hs a 18hs',
-      mensaje: 'Hola! Necesito inscribir esta clase para obtener conocimientos importantes para mi trabajo',
-      estado: 'Finalizada'
-    },
-    {
-      id: 4,
-      alumno: 'Nicole Rivas',
-      telefono: '1122334455',
-      mail:'nrivas@uade.edu.ar',
-      horarioContacto: 'de 9hs a 15hs',
-      mensaje: 'Hola! Estoy interesada en ver esta clase',
-      estado: 'Cancelada'
-    },
-  ];
-
-  const cellClickHandler = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
-
+  const editSolicitud = async (id, value) =>{
+    try {
+      await updateEnrollment({id, status: value})
+    } catch (error) {
+      
+    }
   }
+
+  React.useEffect(() => {
+    getRows()
+  }, [props.open])
+
+  const [rows, setRows] = React.useState([]);
+
+  
+  const getRows = async () => {
+    try {
+      let response = await findEnrollmentsClass(props.row.id);
+      response.data = response.data.map(row => {
+        return {
+          id: row?.id,
+          message: row?.message,
+          status: row?.status,
+          timeslot: row?.timeslot,
+          student: row?.user_student?.name + ' ' + row?.user_student?.surname,
+          phone: row?.user_student?.phone,
+          mail: row?.user_student?.email
+        }
+      });
+
+      setRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Dialog 
       fullScreen
@@ -120,7 +119,7 @@ const SolicitudesComponent: FC<SolicitudesComponentProps> = (props: any) => {
       TransitionComponent={Transition}
     >
       <DialogTitle id="alert-dialog-title" >
-        Solicitudes de {props.row.nombre}
+        Solicitudes de {props.row.name}
       </DialogTitle>
       <DialogContent >
         <DataGrid sx={{ height: 800, width: "100%", border:10 , borderRadius: 3, borderColor: '#0a40c9e1', boxShadow: 20, 
@@ -131,11 +130,9 @@ const SolicitudesComponent: FC<SolicitudesComponentProps> = (props: any) => {
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
-          onCellClick={cellClickHandler}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose}>Guardar</Button>
         <Button onClick={props.handleClose}>Cerrar</Button>
       </DialogActions>
     </Dialog>

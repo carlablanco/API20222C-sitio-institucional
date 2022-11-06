@@ -55,7 +55,7 @@ function sendMail(email, message) {
 
 
 exports.deleteComment = (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
 
   class_comment.destroy({
     where: { id: id }
