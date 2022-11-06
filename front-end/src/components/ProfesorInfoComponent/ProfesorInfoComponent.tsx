@@ -23,8 +23,8 @@ const ProfesorInfoComponent: FC<ProfesorInfoComponentProps> = (props: any) => (
         <DialogContent>
               {props?.selectedProfesor?.experiencia?.map((experiencia: Experiencia, i: any) => {
                   return <ul  key={i}>
-                            <li>Descripcion: {experiencia?.descripcion}</li>
-                            <li>Años de experiencia: {experiencia?.anios}</li>
+                            <li>Descripcion: {experiencia?.type}</li>
+                            <li>Años de experiencia: {experiencia?.years}</li>
                         </ul>
               })}
         </DialogContent>

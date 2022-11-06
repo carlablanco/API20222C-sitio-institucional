@@ -2,6 +2,7 @@ import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
+import { FC } from 'react';
 
 const labels: { [index: string]: string } = {
   0.5: 'Pesima',
@@ -20,7 +21,11 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 
-export default function RatingComponent() {
+interface RatingComponentProps {
+  sendValue?: Function
+}
+
+const RatingComponent: FC<RatingComponentProps> = (props: any) => {
   const [value, setValue] = React.useState<number | null>(0);
   const [hover, setHover] = React.useState(-1);
 
@@ -39,6 +44,7 @@ export default function RatingComponent() {
         getLabelText={getLabelText}
         onChange={(event, newValue) => {
           setValue(newValue);
+          props.sendValue(newValue);
         }}
         onChangeActive={(event, newHover) => {
           setHover(newHover);
@@ -51,3 +57,5 @@ export default function RatingComponent() {
     </Box>
   );
 }
+
+export default RatingComponent;

@@ -295,7 +295,7 @@ export default function ModifyProfileComponent() {
             <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Stack spacing={3}>
                 <DesktopDatePicker
-                  disabled={!editing}
+                  disabled={true}
                   label="Fecha de Nacimiento"
                   inputFormat="DD/MM/YYYY"
                   value={value}
@@ -306,7 +306,7 @@ export default function ModifyProfileComponent() {
               <Stack spacing={3}>
               <PhoneInput
                   inputClass={styles.formControl}
-                  disabled={!editing}
+                  disabled={true}
                   placeholder="Numero de telefono"
                   specialLabel="Numero de telefono"
                   country={'ar'}
