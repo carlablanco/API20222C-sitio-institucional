@@ -16,7 +16,7 @@ const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps
   }
 
   React.useEffect(() => {
-    debugger
+    setComentarios(props.comentarios)
   }, [props.comentarios])
 
   const [comentarios, setComentarios] = React.useState(props.comentarios);

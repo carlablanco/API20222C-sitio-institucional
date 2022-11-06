@@ -9,6 +9,7 @@ import Typography, { TypographyClasses } from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, SxProps, Theme, ThemeProvider } from '@mui/material/styles';
 import logo from '../../img/logo.png';
+import { resetPassword } from '../../services/register';
 
 interface ResetPasswordComponentProps { }
 
@@ -16,12 +17,13 @@ const theme = createTheme();
 
 export default function ResetPassword() {
 
-  const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+  const handleSubmit = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const payload = {
       email: data.get('email')
-    });
+    };
+    await resetPassword(payload)
   };
 
     return (

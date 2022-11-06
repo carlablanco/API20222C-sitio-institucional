@@ -18,6 +18,8 @@ router.get('/', (req, res) => res.json({ hello: "World" }));
 // Dos rutas: login y registro
 router.post('/api/login', AuthController.signIn);
 router.post('/api/register', AuthController.signUp);
+router.post('/api/reset-password', AuthController.forgotPassword);
+
 
 
 // Class endpoints
