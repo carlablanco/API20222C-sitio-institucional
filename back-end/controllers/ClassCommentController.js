@@ -37,8 +37,8 @@ exports.createComment = (req, res) => {
     project.content = req.body.content
     project.stars = req.body.stars
     project.save()
+    res.send(project)
   }
-  return res.send(project)
 };
 
 
