@@ -23,9 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'student',
         foreignKey: 'id_class'
       }),
-      classes.hasOne(models.User,{
+      classes.belongsTo(models.User,{
         as: 'professor_user',
-        foreignKey: 'id'
+        foreignKey: 'professor'
       })
     }
   }
