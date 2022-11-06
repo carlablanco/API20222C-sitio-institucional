@@ -101,7 +101,7 @@ module.exports = {
 
             mailer.transport.sendMail(sendMail)
 
-            return user.updateOne({resetLink: token}, (err, success){
+            return user.updateOne({resetLink: token}, (err, success) => {
                 if (err){
                     return res.status(400).json({error: "ocurrió un error"});
                 } else {
@@ -126,8 +126,7 @@ module.exports = {
             if (err || !user) {
                 return res.status(400).json({error: "Token invalido."});
             }
-
-            return user.updateOne({password: password}, (err, success){
+            return user.updateOne({password: password}, (err, success) => { 
                 if (err){
                     return res.status(400).json({error: "ocurrió un error"});
                 } else {
