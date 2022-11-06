@@ -37,6 +37,19 @@ exports.createClass = (req, res) => {
     });
 };
 
+exports.getAverageRating = async (req,res) => {
+  var SelectQuery = "SELECT * FROM sitioinstitucional.class_average_rating";
+  var averageRating = {};
+  await conn.query(SelectQuery, function(err, result) {
+      if (err) {
+          console.log(err);
+      } else {
+        averageRating = result;
+      }
+  });    
+
+ res.send(averageRating);
+}
 
 exports.findClass = async (req, res) => {
 
@@ -60,7 +73,7 @@ exports.findClass = async (req, res) => {
 
   if(req.body.rating) {
     let subQueryRating = await db.sequelize.query(
-      'SELECT c.id, avg(cc.stars) as avgStars FROM sitioinstitucional.classes c JOIN sitioinstitucional.class_comments cc ON c.id = cc.id_class GROUP BY c.id HAVING avgStars >= ?',
+      'SELECT * FROM class_average_rating GROUP BY id HAVING avgStars >= ?',
       {
         replacements: [req.body.rating],
         type: QueryTypes.SELECT
@@ -74,7 +87,6 @@ exports.findClass = async (req, res) => {
       conditions.push({id: subQueryRating})
     }
   }
-
 
   Class.findAll(
     {
