@@ -13,12 +13,30 @@ import axios from 'axios';
 import { Snackbar, Alert, Button } from '@mui/material';
 import ComentariosListProfesorComponent from '../ComentariosListProfesorComponent/ComentariosListProfesorComponent';
 import { Comentario } from '../../models/Comentario';
-import { UserResponse } from '../../models/UserResponse';
 import styles from "./MateriasAsignadasComponent.module.scss";
 import { DataGridPro } from '@mui/x-data-grid-pro';
-import { getName } from '../../hooks/authhook';
+import { getName, getUserId } from '../../hooks/authhook';
+import { deleteClass, filterClass, FilterClassPayload, updateClass, UpdateClassPayload } from '../../services/class.service';
 
 export default function MateriasAsignadasComponent() {
+
+  React.useEffect(() => {
+    getRows()
+  }, [])
+
+  const [rows, setRows] = React.useState([]);
+
+  const getRows = async () => {
+    try {
+      const payload: FilterClassPayload = {
+        professor: getUserId()
+      }
+      const response = await filterClass(payload);
+      setRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   const abrirModalSolicitudes = React.useCallback(
     (row: any) => () => {
@@ -31,7 +49,7 @@ export default function MateriasAsignadasComponent() {
   const abrirModalComentarios = React.useCallback(
     (row: any) => () => {
       setSelectedRow(row);
-      setComentarios(row.comentarios);
+      setComentarios(row.comments);
       handleClickOpenComentarios();
     },
     [],
@@ -53,13 +71,14 @@ export default function MateriasAsignadasComponent() {
   const publicarClase = React.useCallback(
     (row: any) => async () => {
       try {
-        const params = {
-          row
+        const params: UpdateClassPayload = {
+          id: row.id,
+          status: 'Publicada'
         }
-        const response = await axios.post('localhost:5000/publicarClase', params);
+        const response = await updateClass(params);
+        window.location.reload();
         abrirExitoPublicar();
       } catch (error) {
-        abrirExitoPublicar();
       }
     },
     [],
@@ -68,13 +87,14 @@ export default function MateriasAsignadasComponent() {
   const despublicarClase = React.useCallback(
     (row: any) => async () => {
       try {
-        const params = {
-          row
+        const params: UpdateClassPayload = {
+          id: row.id,
+          status: 'No publicada'
         }
-        const response = await axios.post('localhost:5000/despublicarClase', params);
+        const response = await updateClass(params);
+        window.location.reload();
         abrirExitoDespublicar();
       } catch (error) {
-        abrirExitoDespublicar();
       }
     },
     [],
@@ -83,10 +103,8 @@ export default function MateriasAsignadasComponent() {
   const eliminarClase = React.useCallback(
     (row: any) => async () => {
       try {
-        const params = {
-          row
-        }
-        const response = await axios.post('localhost:5000/eliminarClase', params);
+        const response = await deleteClass(row.id);
+        window.location.reload();
         abrirExitoEliminar();
       } catch (error) {
         abrirExitoEliminar();
@@ -97,38 +115,32 @@ export default function MateriasAsignadasComponent() {
 
   const columns: GridColumns  = [
     {
-      field: 'nombre',
-      headerName: 'Nombre',
-      width: 150,
-      editable: true
-    },
-    {
-      field: 'materia',
+      field: 'name',
       headerName: 'Materia',
       width: 150,
       editable: true
     },
     {
-      field: 'duracion',
+      field: 'duration',
       headerName: 'Duracion',
       width: 110,
       editable: true
     },
     {
-      field: 'frecuencia',
+      field: 'frequency',
       headerName: 'Frecuencia',
       width: 150,
       editable: true
     },
     {
-      field: 'costo',
+      field: 'cost',
       headerName: 'Costo',
       width: 150,
       editable: true,
       type: 'number'
     },
     {
-      field: 'estadoPublicacion',
+      field: 'status',
       headerName: 'Estado de Publicacion',
       width: 170,
     },
@@ -156,97 +168,10 @@ export default function MateriasAsignadasComponent() {
       type: 'actions',
       width: 110,
       getActions: (params: GridRowParams) => [
-        <GridActionsCellItem disabled={params.row.estadoPublicacion !== 'Despublicada' || params.row.estadoPublicacion === 'Eliminada'} icon={<VisibilityIcon />} onClick={publicarClase(params.row)} label="Publicar Clase" />,
-        <GridActionsCellItem disabled={params.row.estadoPublicacion !== 'Publicada' || params.row.estadoPublicacion === 'Eliminada'} icon={<VisibilityOffIcon />} onClick={despublicarClase(params.row)} label="Despublicar Clase" />,
-        <GridActionsCellItem disabled={params.row.estadoPublicacion === 'Eliminada'} icon={<DeleteIcon />} onClick={eliminarClase(params.row)} label="Eliminar Clase" />,
+        <GridActionsCellItem disabled={params.row.status !== 'No publicada' || params.row.status === 'Eliminada'} icon={<VisibilityIcon />} onClick={publicarClase(params.row)} label="Publicar Clase" />,
+        <GridActionsCellItem disabled={params.row.status !== 'Publicada' || params.row.status === 'Eliminada'} icon={<VisibilityOffIcon />} onClick={despublicarClase(params.row)} label="Despublicar Clase" />,
+        <GridActionsCellItem disabled={params.row.status === 'Eliminada'} icon={<DeleteIcon />} onClick={eliminarClase(params.row)} label="Eliminar Clase" />,
       ]
-    },
-  ];
-
-  const rows = [
-    {
-      id: 1,
-      nombre: 'Clase 1',
-      materia: 'Matematica',
-      duracion: '3 Meses',
-      frecuencia: 'Semanal',
-      estadoPublicacion: 'Publicada',
-      costo: 1000,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }]
-    },
-    {
-      id: 2,
-      nombre: 'Clase 2',
-      materia: 'Fisica',
-      duracion: '3 Meses',
-      frecuencia: 'Semanal',
-      estadoPublicacion: 'Despublicada',
-      costo: 1500,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }]
-    },
-    {
-      id: 3,
-      nombre: 'Clase 3',
-      materia: 'Programacion',
-      duracion: '1 Semana',
-      frecuencia: 'Diaria',
-      estadoPublicacion: 'Eliminada',
-      costo: 4000,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }]
-    },
-    {
-      id: 4,
-      nombre: 'Clase 4',
-      materia: 'Matematica',
-      duracion: '1 Año',
-      frecuencia: 'Mensual',
-      estadoPublicacion: 'Despublicada',
-      costo: 6000,
-      comentarios: [{
-        usuario: 'Sergio',
-        comentario: 'Excelente',
-      },
-      {
-        usuario: 'Dylan',
-        comentario: 'Buenisimo',
-      },
-      {
-        usuario: 'Carla',
-        comentario: 'Una capa',
-      }]
     },
   ];
 
@@ -335,6 +260,26 @@ export default function MateriasAsignadasComponent() {
     setOpenComentarios(false);
   };
 
+  const editStopHandler = async (newRow, oldRow) => {
+    try {
+      if(oldRow !== newRow){
+        const payload: UpdateClassPayload = {
+          id: newRow.id,
+          name: newRow.name,
+          duration: newRow.duration,
+          frequency: newRow.frequency,
+          status: newRow.status,
+          type: newRow.type,
+          cost: newRow.cost,
+        }
+        const response = await updateClass(payload);
+        setOpenExitoGuardar(true);
+        return newRow
+      }
+    } catch (error) {
+      return oldRow
+    }
+  }
   return (
     <div>
       <NavbarComponent></NavbarComponent>
@@ -353,13 +298,14 @@ export default function MateriasAsignadasComponent() {
             initialState={{
               pinnedColumns: { right: ['visibilidad'] },
             }}
+            processRowUpdate={editStopHandler}
           />
         </Box>
         <Button className={styles.boton} onClick={guardarCambios()} sx={{alignContent: "center", my: 3, mx: "auto" , padding: 2, bgcolor: '#0a40c9e1',
       borderRadius: 3, color: "#ffffff"}}>Guardar</Button>
       </div>
       <SolicitudesComponent row={selectedRow} open={openSolicitudes} handleClose={handleCloseSolicitudes}></SolicitudesComponent>
-      <ComentariosListProfesorComponent clase={selectedRow.clase} open={openComentarios} handleClose={handleCloseComentarios} comentarios={selectedComentarios}></ComentariosListProfesorComponent>
+      <ComentariosListProfesorComponent clase={selectedRow.name} open={openComentarios} handleClose={handleCloseComentarios} comentarios={selectedComentarios}></ComentariosListProfesorComponent>
       <Snackbar open={openExitoPublicar} autoHideDuration={6000} onClose={handleCloseExitoPublicar}>
         <Alert onClose={handleCloseExitoPublicar} severity="success" sx={{ width: '100%' }}>
           Clase publicada con exito!

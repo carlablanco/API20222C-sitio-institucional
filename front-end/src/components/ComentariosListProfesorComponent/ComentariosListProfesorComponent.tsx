@@ -1,19 +1,26 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import React, { FC } from 'react';
 import { Comentario } from '../../models/Comentario';
-import { Experiencia, Profesor } from '../../models/Profesor';
 import ComentariosComponent from '../ComentariosComponent/ComentariosComponent';
-import styles from './ComentariosListProfesorComponent.module.scss';
 
 interface ComentariosListProfesorComponentProps {
   open?: boolean,
   handleClose?: Function,
   comentarios?: Array<Comentario>,
   clase?: string,
-  
 }
 
-const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps> = (props: any) => (
+const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps> = (props: any) => {
+  const deleteComment = (id) =>{
+    setComentarios(props?.comentarios?.filter((a) => a.id !== id));
+  }
+
+  React.useEffect(() => {
+    setComentarios(props.comentarios)
+  }, [props.comentarios])
+
+  const [comentarios, setComentarios] = React.useState(props.comentarios);
+  return (
   <Dialog fullWidth={true}
     open={props.open}
     onClose={props.handleClose}
@@ -24,14 +31,14 @@ const ComentariosListProfesorComponent: FC<ComentariosListProfesorComponentProps
       Comentarios de {props.clase}
     </DialogTitle>
     <DialogContent >
-      {props?.comentarios?.map((comentario: Comentario, i: any) => {
-        return <ComentariosComponent  key={i} comentario={comentario.comentario} usuario={comentario.usuario} isProfesor={true}></ComentariosComponent>
+      {comentarios?.map((comentario: any, i: any) => {
+        return <ComentariosComponent  key={i} mail={comentario?.student?.email} id={comentario?.id} comentario={comentario?.content} usuario={comentario?.student?.name + ' ' +  comentario?.student?.surname} isProfesor={true} deleteComment={deleteComment}></ComentariosComponent>
       })}
     </DialogContent>
     <DialogActions>
       <Button onClick={props.handleClose}>Cerrar</Button>
     </DialogActions>
   </Dialog>
-);
+);}
 
 export default ComentariosListProfesorComponent;

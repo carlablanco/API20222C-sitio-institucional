@@ -18,6 +18,8 @@ router.get('/', (req, res) => res.json({ hello: "World" }));
 // Dos rutas: login y registro
 router.post('/api/login', AuthController.signIn);
 router.post('/api/register', AuthController.signUp);
+router.post('/api/reset-password', AuthController.forgotPassword);
+
 
 
 // Class endpoints
@@ -28,7 +30,7 @@ router.delete('/api/delete-class', ClassController.deleteClass);
 
 // Comment endpoints
 router.post('/api/post-comment', ClassCommentController.createComment);
-router.delete('/api/delete-comment', ClassCommentController.deleteComment);
+router.post('/api/block-comment', ClassCommentController.deleteComment);
 
 // Student studies endpoints
 router.post('/api/create-studies', StudentStudiesController.createStudies);
