@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       classes.hasMany(models.student_class,{
         as: 'student',
         foreignKey: 'id_class'
+      }),
+      classes.hasOne(models.User,{
+        as: 'professor_user',
+        foreignKey: 'professor'
       })
     }
   }
