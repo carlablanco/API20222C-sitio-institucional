@@ -6,9 +6,12 @@ import BloquearComentariosComponent from '../BloquearComentariosComponent/Bloque
 
 
 interface ComentariosComponentProps {
+  id?: number,
   comentario?: string,
   usuario?:string,
-  isProfesor?: boolean
+  isProfesor?: boolean,
+  mail?: string,
+  deleteComment?: Function
 }
 
 
@@ -26,7 +29,10 @@ const ComentariosComponent: FC<ComentariosComponentProps> = (props) => {
     setOpenBloquear(true);
   };
 
-  const handleCloseBloquear = () => {
+  const handleCloseBloquear = (isDelete = false) => {
+    if(isDelete){
+      props.deleteComment(props.id)
+    }
     setOpenBloquear(false);
   };
 
@@ -41,7 +47,7 @@ const ComentariosComponent: FC<ComentariosComponentProps> = (props) => {
     {props.isProfesor && 
       <BlockIcon sx={{mx:1 , my: 1}} onClick={abrirModalBloquear()}></BlockIcon>
     }
-    <BloquearComentariosComponent usuario={props.usuario} comentario={props.comentario}  open={openBloquear} handleClose={handleCloseBloquear}></BloquearComentariosComponent>
+    <BloquearComentariosComponent usuario={props.usuario} comentario={props.comentario} id={props.id} mail={props.mail} open={openBloquear} handleClose={handleCloseBloquear}></BloquearComentariosComponent>
   </Box>
 )};
 

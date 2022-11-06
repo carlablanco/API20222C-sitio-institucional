@@ -58,6 +58,11 @@ exports.findClass = async (req, res) => {
     conditions.push({ status: req.body.status})
   }
 
+  if(req.body.professor){
+    conditions.push({ professor: req.body.professor})
+  }
+  
+
   if(req.body.rating) {
     let subQueryRating = await db.sequelize.query(
       'SELECT c.id, avg(cc.stars) as avgStars FROM sitioinstitucional.classes c JOIN sitioinstitucional.class_comments cc ON c.id = cc.id_class GROUP BY c.id HAVING avgStars >= ?',
@@ -118,7 +123,7 @@ exports.findClass = async (req, res) => {
 
 
 exports.updateClass = (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
 
   Class.update(req.body, {
     where: { id: id }
@@ -143,7 +148,7 @@ exports.updateClass = (req, res) => {
 
 
 exports.deleteClass = (req, res) => {
-  const id = req.params.id;
+  const id = req.query.id;
 
   Class.destroy({
     where: { id: id }

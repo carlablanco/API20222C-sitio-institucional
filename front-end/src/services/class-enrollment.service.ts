@@ -25,6 +25,15 @@ export const findEnrollments = async function name(idStudent:number) {
     const response = await axios.get(url);
     return response
   }
+
+  
+export const findEnrollmentsClass = async function name(idClass:number) {
+  let url = findRequestURL + '?id_class=' + idClass
+  const response = await axios.get(url);
+  return response
+}
+
+
 export const updateEnrollment = async function name(data: any) {
     const response = await axios.post(updateUrl, data);
     return response

@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import React, { FC } from 'react';
+import { deleteComment, DeleteCommentRequest } from '../../services/comment.service';
 import styles from './BloquearComentariosComponent.module.scss';
 
 interface BloquearComentariosComponentProps {
@@ -7,7 +8,9 @@ interface BloquearComentariosComponentProps {
   open?: boolean,
   handleClose?: Function,
   usuario?: string,
-  comentario?: string
+  comentario?: string,
+  id?: number,
+  mail?: string,
 }
 
 const BloquearComentariosComponent: FC<BloquearComentariosComponentProps> = (props: any) => {
@@ -17,6 +20,26 @@ const BloquearComentariosComponent: FC<BloquearComentariosComponentProps> = (pro
   const inputChange = (event) => {
     setRazon(event.currentTarget.value);
   }
+
+  const handleSend = async () =>{
+    try {
+      const payload: DeleteCommentRequest = {
+        id: props.id,
+        mail: props.mail,
+        message: razon
+      }
+      await deleteComment(payload);
+      props.handleClose(true);
+    } catch (error) {
+      props.handleClose(false);
+      
+    }
+  }
+
+  const handleClose = () => {
+    props.handleClose(false);
+  }
+
   return(
   <Dialog fullWidth={true}
     open={props.open}
@@ -42,8 +65,8 @@ const BloquearComentariosComponent: FC<BloquearComentariosComponentProps> = (pro
 
     </DialogContent>
     <DialogActions>
-      <Button disabled={!razon.length} onClick={props.handleClose}>Bloquear</Button>
-      <Button onClick={props.handleClose}>Cancelar</Button>
+      <Button disabled={!razon.length} onClick={handleSend}>Bloquear</Button>
+      <Button onClick={handleClose}>Cancelar</Button>
     </DialogActions>
   </Dialog>
 )};
