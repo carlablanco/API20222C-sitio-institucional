@@ -29,16 +29,23 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
   }, [])
 
   const [rows, setRows] = React.useState([]);
-  
+
   const getRows = async () => {
     try {
       const payload: FilterClassPayload = {
         name: props?.filters?.materia?.label,
         type: props?.filters?.tipoDeClase?.label,
         frequency: props?.filters?.frecuencia?.label,
-        rating: parseInt(props?.filters?.calificacion?.label)
+        rating: parseInt(props?.filters?.calificacion?.label),
+        status: 'Publicada'
       }
       const response = await filterClass(payload);
+      response.data = response.data.map((row) => {
+      return{
+        ...row,
+        professor: row?.professor_user?.name + ' ' + row?.professor_user?.surname,
+        professor_id: row?.professor
+      }})
       setRows(response.data);
     } catch (error) {
       console.log(error);
@@ -63,8 +70,8 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
     (row: any) => () => {
       setMateria({nombre: row.name, id: row.id})
       setProfesor({
-        id: row.professor_fk,
-        nombre: row.professor,
+        id: row?.professor,
+        nombre: row?.professor_user?.name + ' ' + row?.professor_user?.surname,
         experiencia: row.professorExperience ? row.professorExperience : null
       });
       const comentarios: Array<Comentario> = row.comments.map((comment): Comentario => {
@@ -126,7 +133,7 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
     if (params.field === "professor") {
       setMateria({nombre: params.row.name, id: params.row.id})
       console.log(selectedProfesor)
-      handleClickOpenProfesor();
+      handleClickOpenProfesor(params.row.professor, params.row.professor_id);
     }
   }
 
@@ -152,20 +159,20 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
     nombre: '',
     experiencia: [
       {
-        descripcion: '',
-        anios: 0
+        type: '',
+        years: 0
       }
     ]
   });
 
 
-  const handleClickOpenProfesor = async () => {
+  const handleClickOpenProfesor = async (professorName, id) => {
     try{
-      const professor = await getProfessorExperience({'user_id': selectedProfesor.id});
+      const professor = await getProfessorExperience({'user_id': id});
       setProfesor({
-        id: professor.data[0].user.id,
-        nombre: professor.data[0].user.name + ' ' + professor.data[0].user.surname,
-        experiencia: professor.data
+        id: id,
+        nombre: professorName,
+        experiencia: professor?.data
       });
       setOpenProfesor(true);
     } catch(error){

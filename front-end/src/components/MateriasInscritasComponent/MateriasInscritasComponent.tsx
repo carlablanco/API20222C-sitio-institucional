@@ -24,7 +24,17 @@ export default function DataGridDemo() {
   
   const getRows = async () => {
     try {
-      const response = await findEnrollments(getUserId());
+      let response = await findEnrollments(getUserId());
+      response.data = response.data.map(row => {
+        return {
+          id: row?.id,
+          class: row?.class_student?.name,
+          professor: row?.class_student?.professor,
+          createdAt: new Date(row?.createdAt),
+          status: row?.status,
+          id_class: row?.id_class
+        }
+      })
       setRows(response.data);
     } catch (error) {
       console.log(error);
@@ -47,32 +57,32 @@ export default function DataGridDemo() {
   );
 
   const deshabilitarComentario = (row: any) => {
-    return row.estado !== 'Aceptada'  && row.estado !== 'Finalizada';
+    return row.status !== 'Aceptada'  && row.status !== 'Finalizada';
   }
 
   const deshabilitarCancelar = (row: any) => {
-    return row.estado === 'Cancelada' || row.estado === 'Finalizada';
+    return row.status === 'Cancelada' || row.status === 'Finalizada';
   }
 
   const columns = [
     {
-      field: 'clase',
+      field: 'class',
       headerName: 'Clase',
       width: 150,
     },
     {
-      field: 'profesor',
+      field: 'professor',
       headerName: 'Profesor',
       width: 120,
     },
     {
-      field: 'fechaInscripcion',
+      field: 'createdAt',
       headerName: 'Fecha de Inscripcion',
       width: 200,
       type:'date'
     },
     {
-      field: 'estado',
+      field: 'status',
       headerName: 'Estado',
       type: 'singleSelect',
       width: 100,

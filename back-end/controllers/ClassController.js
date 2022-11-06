@@ -54,6 +54,10 @@ exports.findClass = async (req, res) => {
     conditions.push({ frequency: req.body.frequency })
   }
 
+  if(req.body.status){
+    conditions.push({ status: req.body.status})
+  }
+
   if(req.body.rating) {
     let subQueryRating = await db.sequelize.query(
       'SELECT c.id, avg(cc.stars) as avgStars FROM sitioinstitucional.classes c JOIN sitioinstitucional.class_comments cc ON c.id = cc.id_class GROUP BY c.id HAVING avgStars >= ?',

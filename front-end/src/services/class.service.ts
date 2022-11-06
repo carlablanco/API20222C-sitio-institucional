@@ -16,7 +16,8 @@ export interface FilterClassPayload {
     name?: string,
     type?: TypeEnum,
     frequency?: FrequencyEnum,
-    rating?: number
+    rating?: number,
+    status?: string
 }
 
 export type FrequencyEnum = 'unica' | 'semanal' | 'mensual';

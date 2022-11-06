@@ -54,11 +54,11 @@ exports.findAllRequests = (req, res) => {
   var condition = [];
 
   if (req.query.id_student) {
-    condition.push({ id_student: req.body.id_student })
+    condition.push({ id_student: req.query.id_student })
   }
 
-  if (req.body.id_class) {
-    condition.push({ id_class: req.body.id_class })
+  if (req.query.id_class) {
+    condition.push({ id_class: req.query.id_class })
   }
 
   student_class.findAll({
@@ -87,7 +87,7 @@ exports.findAllRequests = (req, res) => {
 
 
 exports.updateStudentRequest = (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
 
   student_class.update(req.body, {
     where: { id: id }

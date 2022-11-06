@@ -47,6 +47,8 @@ router.post('/api/get-professor-experience', ProfessorExperienceController.findP
 //Class Request endpoints
 router.post('/api/request-class',  ClassEnrollmentController.requestClass);
 router.get('/api/get-class-requests',  ClassEnrollmentController.findAllRequests);
+router.post('/api/update-class-requests',  ClassEnrollmentController.updateStudentRequest);
+
 
 
 module.exports = router;

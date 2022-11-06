@@ -1,6 +1,6 @@
 export interface Experiencia {
-    descripcion: string,
-    anios: number
+    type: string,
+    years: number
   }
   
 export interface Profesor {

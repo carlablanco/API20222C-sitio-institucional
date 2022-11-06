@@ -3,7 +3,7 @@ const class_comment = db.class_comment;
 const Op = db.Sequelize.Op;
 
 
-exports.createComment = (req, res) => {
+exports.createComment = async (req, res) => {
   // Validate request
   if (!req.body.content) {
     res.status(400).send({
@@ -12,7 +12,7 @@ exports.createComment = (req, res) => {
     return;
   }
 
-  const project = class_comment.findOne({ where: { id_class: req.body.id_class, id_student: req.body.id_student } });
+  const project = await class_comment.findOne({ where: { id_class: req.body.id_class, id_student: req.body.id_student } });
   if (project === null) {
     // Create 
     const aComment = {

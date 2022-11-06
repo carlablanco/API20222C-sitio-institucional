@@ -14,7 +14,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { addClass, CreateClassPayload, FrequencyEnum, TypeEnum } from '../../services/class.service';
-import { getName } from '../../hooks/authhook';
+import { getUserId } from '../../hooks/authhook';
 
 // TODO @carlablanco implementar duracion de las clases
 
@@ -41,7 +41,7 @@ export default function PublishClassComponent() {
     });
 
     const createClassPayload: CreateClassPayload = {
-      professor: getName(),
+      professor: getUserId(),
       name: data.get('materia').toString(),
       duration: data.get('duration').toString(),
       frequency: frequency,

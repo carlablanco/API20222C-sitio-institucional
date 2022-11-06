@@ -2,6 +2,8 @@ import axios from "axios";
 
 const baseUrl = 'http://localhost:4000/api/request-class'
 const findRequestURL = 'http://localhost:4000/api/get-class-requests'
+const updateUrl = 'http://localhost:4000/api/update-class-requests'
+
 
 
 export interface EnrollClassPayload {
@@ -18,8 +20,12 @@ export const enrollClass = async function (data: EnrollClassPayload) {
     return response
   };
 
-  export const findEnrollments = async function name(idStudent:number) {
+export const findEnrollments = async function name(idStudent:number) {
     let url = findRequestURL + '?id_student=' + idStudent
     const response = await axios.get(url);
+    return response
+  }
+export const updateEnrollment = async function name(data: any) {
+    const response = await axios.post(updateUrl, data);
     return response
   }
