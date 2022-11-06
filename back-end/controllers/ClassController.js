@@ -98,6 +98,9 @@ exports.findClass = async (req, res) => {
           include: {
             as: 'student',
             model: db.sequelize.model('User'),
+            attributes: {
+              exclude: ['password']
+          }
           }
         },
         {
@@ -106,7 +109,10 @@ exports.findClass = async (req, res) => {
         },
         {
           as: 'professor_user',
-          model: db.sequelize.model('User')
+          model: db.sequelize.model('User'),
+          attributes: {
+            exclude: ['password']
+        }
         }
       ],
       atrributes: {

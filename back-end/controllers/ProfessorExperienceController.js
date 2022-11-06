@@ -91,7 +91,10 @@ exports.createExperience = (req, res) => {
     professor_experience.findAll({ where: condition,
       include: {
         as: 'user',
-        model: db.sequelize.model('User') } })
+        model: db.sequelize.model('User'),
+        attributes: {
+          exclude: ['password']
+      } } })
       .then(data => {
         res.send(data);
       })

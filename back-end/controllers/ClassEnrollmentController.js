@@ -65,7 +65,10 @@ exports.findAllRequests = (req, res) => {
     where: condition,
     include: [{
       as: 'user_student',
-      model: db.sequelize.model('User')
+      model: db.sequelize.model('User'),
+      attributes: {
+        exclude: ['password']
+    }
     },
     {
       as: 'class_student',

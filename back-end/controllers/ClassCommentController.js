@@ -96,7 +96,10 @@ exports.findAllComments = (req, res) => {
       where: conditions,
       include: {
         as: 'student',
-        model: db.sequelize.model('User')
+        model: db.sequelize.model('User'),
+        attributes: {
+          exclude: ['password']
+      }
       }
     })
       .then(data => {

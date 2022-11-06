@@ -88,7 +88,10 @@ exports.createStudies = (req, res) => {
     student_studies.findAll({ where: condition,
       include: {
         as: 'user',
-        model: db.sequelize.model('User') } })
+        model: db.sequelize.model('User') },
+        attributes: {
+          exclude: ['password']
+      } })
       .then(data => {
         res.send(data);
       })
