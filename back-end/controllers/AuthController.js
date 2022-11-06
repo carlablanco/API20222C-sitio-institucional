@@ -82,16 +82,60 @@ module.exports = {
     },
 
     // Recupero de contraseña
-    sendMail(email) {
-        var mailOptions = {
-            from: "noreply@culturetour.local",
-            to: email,
-            subject: "Culture Tour - Recuperá tu contraseña",
-        };
-    
-        mailer.transport.sendMail(mailOptions)
+    forgotPassword(res,req) {
+        const {email} = req.body;
+
+        User.findOne({email}, (err,user) => {
+            if (err || !user) {
+                return res.status(400).json({error: "No existe un usuario con este mail."});
+            }
+
+            const token = jwt.sign({id: user.id}, process.env.RESET_PASSWORD_KEY, {expiresIn: '30m'});
+
+            const sendMail = {
+                from: "noreply@culturetour.local",
+                to: email,
+                subject: "Culture Tour - Recuperá tu contraseña",
+                text: `Clickeá en el link para recuperar tu contraseña ${process.env.CLIENT_URL}/resetpassword/${token}`
+            };
+
+            mailer.transport.sendMail(sendMail)
+
+            return user.updateOne({resetLink: token}, (err, success){
+                if (err){
+                    return res.status(400).json({error: "ocurrió un error"});
+                } else {
+
+                }
+            })
+        })
+
+    },
+
+    passwordReset(res,req) {
+        const {token, password} = req.body;
+
+        var decoded = jwt.verify(token, process.env.RESET_PASSWORD_KEY);
+        
+        User.findOne({
+            where: {
+                resetLink: token,
+                id: decoded.id
+            }
+        }, (err,user) => {
+            if (err || !user) {
+                return res.status(400).json({error: "Token invalido."});
+            }
+
+            return user.updateOne({password: password}, (err, success){
+                if (err){
+                    return res.status(400).json({error: "ocurrió un error"});
+                } else {
+
+                }
+            })
+        })
+
     }
-
-
 
 }
