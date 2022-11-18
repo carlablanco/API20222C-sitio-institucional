@@ -19,6 +19,8 @@ router.get('/', (req, res) => res.json({ hello: "World" }));
 router.post('/api/login', AuthController.signIn);
 router.post('/api/register', AuthController.signUp);
 router.post('/api/reset-password', AuthController.forgotPassword);
+router.post('/api/change-password', AuthController.passwordReset);
+
 
 
 

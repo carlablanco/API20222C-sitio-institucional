@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
 const mailer = require('./MailController.js');
+const nodemailer = require('nodemailer')
+
 
 module.exports = {
 
@@ -82,53 +84,81 @@ module.exports = {
     },
 
     // Recupero de contraseña
-    forgotPassword(req,res) {
-        const {email} = req.body.email;
-
-        User.findOne({email}, (err,user) => {
-            if (err || !user) {
-                return res.status(400).json({error: "No existe un usuario con este mail."});
+    async forgotPassword(req, res) {
+        // create reusable transporter object using the default SMTP transport
+        const transport = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'scot.weimann@ethereal.email',
+                pass: 'svbFjXnMJFshPB1jzu'
             }
+        });
+        const email = req.body.email;
 
-            const token = jwt.sign({id: user.id}, process.env.RESET_PASSWORD_KEY, {expiresIn: '30m'});
+        const token = jwt.sign({ id: 6 }, "" + process.env.RESET_PASSWORD_KEY, { expiresIn: '30m' });
 
-            const sendMail = {
-                from: "noreply@culturetour.local",
-                to: email,
-                subject: "Culture Tour - Recuperá tu contraseña",
-                text: `Clickeá en el link para recuperar tu contraseña ${process.env.CLIENT_URL}/resetpassword/${token}`
-            };
 
-            mailer.transport.sendMail(sendMail)
+        const sendMail = {
+            from: "noreply@culturetour.local",
+            to: email,
+            subject: "Culture Tour - Recuperá tu contraseña",
+            text: `Clickeá en el link para recuperar tu contraseña ${process.env.FRONT_URL}/change-password?token=${token}`
+        };
 
-            return user.updateOne({resetLink: token}, (err, success) => {
-                if (err){
-                    return res.status(400).json({error: "ocurrió un error"});
-                } else {
-
-                }
-            })
+        transport.sendMail(sendMail, (error, info) => {
+            if (error) {
+                console.log(error)
+            }
+            console.log('Message sent: %s', info?.messageId)
         })
+
+        res.status(200);
+
+        // User.findOne({email}, (err,user) => {
+        //     if (err || !user) {
+        //         return res.status(400).json({error: "No existe un usuario con este mail."});
+        //     }
+
+        //     const token = jwt.sign({id: user.id}, process.env.RESET_PASSWORD_KEY, {expiresIn: '30m'});
+
+        //     const sendMail = {
+        //         from: "noreply@culturetour.local",
+        //         to: 'serg2404@gmail.com',
+        //         subject: "Culture Tour - Recuperá tu contraseña",
+        //         text: `Clickeá en el link para recuperar tu contraseña ${process.env.CLIENT_URL}/resetpassword/${token}`
+        //     };
+
+        //     mailer.transport.sendMail(sendMail)
+
+        //     return user.updateOne({resetLink: token}, (err, success) => {
+        //         if (err){
+        //             return res.status(400).json({error: "ocurrió un error"});
+        //         } else {
+
+        //         }
+        //     })
+        // })
 
     },
 
-    passwordReset(res,req) {
-        const {token, password} = req.body;
+    passwordReset(req, res) {
+        const { token, password } = req.body;
 
         var decoded = jwt.verify(token, process.env.RESET_PASSWORD_KEY);
-        
+
         User.findOne({
             where: {
                 resetLink: token,
                 id: decoded.id
             }
-        }, (err,user) => {
+        }, (err, user) => {
             if (err || !user) {
-                return res.status(400).json({error: "Token invalido."});
+                return res.status(400).json({ error: "Token invalido." });
             }
-            return user.updateOne({password: password}, (err, success) => { 
-                if (err){
-                    return res.status(400).json({error: "ocurrió un error"});
+            return user.updateOne({ password: password }, (err, success) => {
+                if (err) {
+                    return res.status(400).json({ error: "ocurrió un error" });
                 } else {
 
                 }

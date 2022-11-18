@@ -7,7 +7,7 @@ import HomeComponent from "./components/HomeComponent/HomeComponent.lazy";
 import LoginComponent from "./components/LoginComponent/LoginComponent.lazy";
 import MateriasInscritasComponent from "./components/MateriasInscritasComponent/MateriasInscritasComponent.lazy";
 import SignupComponent from "./components/SignupComponent/SignupComponent.lazy";
-import ResetPasswordComponent from "./components/ResetPasswordComponent/ResetPasswordComponent.lazy";
+import ResetPasswordComponent from "./components/ResetPasswordComponent/ResetPasswordComponent";
 import { UserResponse } from "./models/UserResponse";
 import MateriasAsignadasComponent from "./components/MateriasAsignadasComponent/MateriasAsignadasComponent";
 import PublishClassComponent from "./components/PublishClassComponent/PublishClassComponent.lazy";
