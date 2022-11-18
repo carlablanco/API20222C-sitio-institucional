@@ -1,6 +1,7 @@
 const db = require("../models");
 const class_comment = db.class_comment;
 const Op = db.Sequelize.Op;
+const nodemailer = require('nodemailer')
 
 
 exports.createComment = async (req, res) => {
@@ -43,14 +44,28 @@ exports.createComment = async (req, res) => {
 
 
 function sendMail(email, message) {
-  var mailOptions = {
-    from: "noreply@culturetour.local",
-    to: email,
-    subject: "Tu comentario fue eliminado",
-    text: "El motivo fue:" + message
-  };
+      // create reusable transporter object using the default SMTP transport
+      const transport = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'scot.weimann@ethereal.email',
+                pass: 'svbFjXnMJFshPB1jzu'
+            }
+      });
+      const sendMail = {
+            from: "noreply@culturetour.local",
+            to: email,
+            subject: "Culture Tour - Comentario Borrado",
+            text: message
+      };
 
-  mailer.transport.sendMail(mailOptions)
+        transport.sendMail(sendMail, (error, info) => {
+            if (error) {
+                console.log(error)
+            }
+            console.log('Message sent: %s', info?.messageId)
+        });
 }
 
 
@@ -62,11 +77,12 @@ exports.deleteComment = (req, res) => {
   })
     .then(num => {
       if (num == 1) {
+        const message = "Se borró el comentario con id: " + id + " la razon de bloqueo fue: " + req.body.message
         res.send({
-          message: "Se borró el comentario."
+          message
         });
 
-        sendMail(req.body.mail, req.body.message)
+        sendMail(req.body.mail, message)
 
       } else {
         res.send({

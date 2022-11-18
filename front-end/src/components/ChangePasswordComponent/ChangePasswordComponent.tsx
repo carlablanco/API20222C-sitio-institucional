@@ -10,19 +10,32 @@ import Typography, { TypographyClasses } from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { changePassword, ChangePasswordPayload } from '../../services/register';
+import * as qs from 'query-string';
+
 
 interface ModificarCuentaComponentProps { }
 
-export default function ChangePasswordComponent() {
+export default function ChangePasswordComponent(props: any) {
   // Obtiene el usuario del sessionStorage
   const user: UserResponse = JSON.parse(sessionStorage.getItem('usuario')) as any as UserResponse;
 
-  const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      newPassword: data.get('newPassword'),
-    });
+  const handleSubmit = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+    try {
+      event.preventDefault();
+      const token = qs.parse(window.location.search).token as string;
+      console.log(token);
+      const data = new FormData(event.currentTarget);
+      const payload: ChangePasswordPayload = {
+        token: token,
+        newPassword: data.get('newPassword').toString()
+      };
+      const response = await changePassword(payload);
+
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   return (
@@ -65,15 +78,9 @@ export default function ChangePasswordComponent() {
               <TextField
                 required
                 label="Nueva contraseña"
+                name='newPassword'
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                label="Repetí tu contraseña"
-              />
-            </Grid>
-
           </Grid>
 
           <Button
