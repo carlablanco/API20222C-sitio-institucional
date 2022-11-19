@@ -86,82 +86,74 @@ module.exports = {
     // Recupero de contraseña
     async forgotPassword(req, res) {
         // create reusable transporter object using the default SMTP transport
-        const transport = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            auth: {
-                user: 'scot.weimann@ethereal.email',
-                pass: 'svbFjXnMJFshPB1jzu'
-            }
-        });
         const email = req.body.email;
+        try {
+            await User.findOne({ where: { email: req.body.email } }).then(async (userFound) => {
+                if (!userFound) {
+                    return res.status(400).json({ error: "No existe un usuario con este mail." });
+                }
+                const token = jwt.sign({ id: userFound.dataValues.id }, process.env.RESET_PASSWORD_KEY, { expiresIn: '30m' });
+                await userFound.update({ resetLink: token }, (err, success) => {
+                    if (err) {
+                        res.status(400).json({ error: "ocurrió un error" });
+                    } else {
+                    }
+                }).then(async () => {
+                    const transport = nodemailer.createTransport({
+                        host: 'smtp.ethereal.email',
+                        port: 587,
+                        auth: {
+                            user: 'scot.weimann@ethereal.email',
+                            pass: 'svbFjXnMJFshPB1jzu'
+                        }
+                    });
+                    const sendMail = {
+                        from: "noreply@culturetour.local",
+                        to: email,
+                        subject: "Culture Tour - Recuperá tu contraseña",
+                        text: `Clickeá en el link para recuperar tu contraseña ${process.env.FRONT_URL}/change-password?token=${token}`
+                    };
 
-        const token = jwt.sign({ id: 6 }, "" + process.env.RESET_PASSWORD_KEY, { expiresIn: '30m' });
+                    
 
+                    await transport.sendMail(sendMail, (error, info) => {
+                        if (error) {
+                            console.log(error)
+                        }
+                        res.status(200);
+                        console.log('Message sent: %s', info?.messageId)
+                    });
+                });
+            });
 
-        const sendMail = {
-            from: "noreply@culturetour.local",
-            to: email,
-            subject: "Culture Tour - Recuperá tu contraseña",
-            text: `Clickeá en el link para recuperar tu contraseña ${process.env.FRONT_URL}/change-password?token=${token}`
-        };
-
-        transport.sendMail(sendMail, (error, info) => {
-            if (error) {
-                console.log(error)
-            }
-            console.log('Message sent: %s', info?.messageId)
-        })
-
-        res.status(200);
-
-        // User.findOne({email}, (err,user) => {
-        //     if (err || !user) {
-        //         return res.status(400).json({error: "No existe un usuario con este mail."});
-        //     }
-
-        //     const token = jwt.sign({id: user.id}, process.env.RESET_PASSWORD_KEY, {expiresIn: '30m'});
-
-        //     const sendMail = {
-        //         from: "noreply@culturetour.local",
-        //         to: 'serg2404@gmail.com',
-        //         subject: "Culture Tour - Recuperá tu contraseña",
-        //         text: `Clickeá en el link para recuperar tu contraseña ${process.env.CLIENT_URL}/resetpassword/${token}`
-        //     };
-
-        //     mailer.transport.sendMail(sendMail)
-
-        //     return user.updateOne({resetLink: token}, (err, success) => {
-        //         if (err){
-        //             return res.status(400).json({error: "ocurrió un error"});
-        //         } else {
-
-        //         }
-        //     })
-        // })
+        } catch (error) {
+            res.status(400)
+            console.log(error)
+        }
 
     },
 
-    passwordReset(req, res) {
-        const { token, password } = req.body;
+    async passwordReset(req, res) {
+        const { token } = req.body;
+        let {newPassword} = req.body;
+        newPassword = bcrypt.hashSync(newPassword, Number.parseInt(authConfig.rounds));
 
         var decoded = jwt.verify(token, process.env.RESET_PASSWORD_KEY);
 
-        User.findOne({
+        await User.findOne({
             where: {
                 resetLink: token,
                 id: decoded.id
             }
-        }, (err, user) => {
-            if (err || !user) {
-                return res.status(400).json({ error: "Token invalido." });
+        }).then((userFound) => {
+            if (userFound) {
+                res.status(400).json({ error: "Token invalido." });
             }
-            return user.updateOne({ password: password }, (err, success) => {
-                if (err) {
-                    return res.status(400).json({ error: "ocurrió un error" });
-                } else {
-
-                }
+            userFound.update({ password: newPassword }).then(() => {
+                res.status(200);
+            }, (error) => {
+                console.log(error)
+                res.status(400).json({ error: "ocurrió un error" });
             })
         })
 
