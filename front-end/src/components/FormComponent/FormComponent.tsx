@@ -4,6 +4,7 @@ import DropdownComponent from '../DropdownComponent/DropdownComponent';
 import { Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import styles from "./FormComponent.module.scss";
+import { filterClass } from '../../services/class.service';
 
 
 interface FormComponentProps {}
@@ -23,10 +24,26 @@ const MenuProps = {
 
 const FormComponent: FC<FormComponentProps> = () => {
 
-  const materias = [
-    {label:'Matematica', id: 1},
-    {label:'Programacion', id: 2}
-  ];
+  React.useEffect(() => {
+    searchMaterias();
+  }, []);
+
+  const searchMaterias = async () => {
+      let response = await filterClass();
+      response.data = response.data.map((element) => {
+        return {
+          label: element.name,
+          id: element.id
+        }
+      });
+      response.data = response.data.filter((value, index, self) => {
+        return self.findIndex(v => v.label === value.label) === index;
+      });
+      setMaterias(response.data);
+  }
+
+
+  const [materias, setMaterias] = React.useState([])
 
   const frecuencias = [
     {label:'Unica', id: 1},
@@ -95,7 +112,7 @@ const FormComponent: FC<FormComponentProps> = () => {
           <DropdownComponent onInputChange={getCalificacion} options={calificaciones} label='Calificacion'></DropdownComponent>
         </div>
         <div>
-          <button className= {styles.boton} disabled={!materia?.id} onClick={buscarClases} >
+          <button className={styles.boton} disabled={!materia?.id} onClick={buscarClases} >
             Buscar Clases 
           </button>
         </div>

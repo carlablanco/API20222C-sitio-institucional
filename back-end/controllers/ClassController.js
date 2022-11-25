@@ -88,7 +88,7 @@ exports.findClass = async (req, res) => {
       return value.id
     });
   
-    if(subQueryRating) {
+    if(subQueryRating.length) {
       conditions.push({id: subQueryRating})
     }
   }

@@ -80,7 +80,6 @@ module.exports = {
         }).catch(err => {
             res.status(500).json(err);
         });
-
     },
 
     // Recupero de contraseña
@@ -120,7 +119,7 @@ module.exports = {
                         if (error) {
                             console.log(error)
                         }
-                        res.status(200);
+                        res.send('success');
                         console.log('Message sent: %s', info?.messageId)
                     });
                 });
@@ -130,7 +129,6 @@ module.exports = {
             res.status(400)
             console.log(error)
         }
-
     },
 
     async passwordReset(req, res) {
@@ -146,17 +144,15 @@ module.exports = {
                 id: decoded.id
             }
         }).then((userFound) => {
-            if (userFound) {
+            if (!userFound) {
                 res.status(400).json({ error: "Token invalido." });
             }
             userFound.update({ password: newPassword }).then(() => {
-                res.status(200);
+                res.send('success');
             }, (error) => {
-                console.log(error)
                 res.status(400).json({ error: "ocurrió un error" });
             })
         })
-
     }
 
 }

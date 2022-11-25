@@ -47,7 +47,7 @@ export const addClass = async function (data) {
     return response
   };
 
-export const filterClass = async (data) => {
+export const filterClass = async (data = null) => {
     const response = await axios.post(filterUrl, data);
     return response
 }

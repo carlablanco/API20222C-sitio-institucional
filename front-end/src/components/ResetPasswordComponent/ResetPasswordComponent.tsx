@@ -23,8 +23,11 @@ export default function ResetPassword() {
     const payload = {
       email: data.get('email')
     };
-    await resetPassword(payload)
+    await resetPassword(payload);
+    setEmailSent(true);
   };
+
+  const [emailSent, setEmailSent] = React.useState(false)
 
     return (
       <>
@@ -35,7 +38,7 @@ export default function ResetPassword() {
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <Box
+            {!emailSent && <Box
               sx={{
                 marginTop: 8,
                 display: 'flex',
@@ -69,7 +72,12 @@ export default function ResetPassword() {
                   Enviar correo
                 </Button>
               </Box>
-            </Box>
+            </Box>}
+
+            {
+              emailSent && 
+              <p>Se envio un correo a la cuenta especificada, revise su bandeja para reestablecer su contraseña</p>
+            }
 
           </Container>
         </ThemeProvider>
