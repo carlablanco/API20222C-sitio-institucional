@@ -45,7 +45,7 @@ exports.requestClass = async (req, res) => {
       });
   }
   else {
-    res.send({ message: "Ya existe una solicitud para esta clase" })
+    res.send({ error: "Ya existe una solicitud para esta clase" })
   }
 
 };
