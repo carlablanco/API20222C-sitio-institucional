@@ -41,10 +41,15 @@ const  GridComponent: FC<DataGridDemoProps> = (props: any) => {
       }
       const response = await filterClass(payload);
       response.data = response.data.map((row) => {
+      let avgStars = row?.comments?.map((comment) => {
+        return comment.stars
+      });
+      avgStars = Math.round(((avgStars?.reduce((a,b) => a + b, 0)) / avgStars?.length) * 10) / 10 || 0;
       return{
         ...row,
         professor: row?.professor_user?.name + ' ' + row?.professor_user?.surname,
-        professor_id: row?.professor
+        professor_id: row?.professor,
+        rating: avgStars
       }})
       setRows(response.data);
     } catch (error) {
