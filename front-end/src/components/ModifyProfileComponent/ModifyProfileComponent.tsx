@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
 import styles from './ModifyProfileComponent.module.scss';
-import { Avatar, IconButton, Link } from '@mui/material';
+import { Alert, Avatar, IconButton, Link, Snackbar } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
 import NavbarComponent from '../NavbarComponent/NavbarComponent.lazy';
 import FooterComponent from '../FooterComponent/FooterComponent.lazy';
@@ -102,12 +102,16 @@ export default function ModifyProfileComponent() {
   };
 
   React.useEffect(() => {
+    getData()
+  }, [])
+
+  const getData = () => {
     if (getType() === 'professor') {
       getExperience()
     } else {
       getStudies()
     }
-  }, [])
+  }
 
   const getExperience = async () => {
     try {
@@ -142,11 +146,13 @@ export default function ModifyProfileComponent() {
     () => () => {
       if(getType() === 'professor'){
         uploadExperience().then(() => {
-          window.location.reload();
+          getData();
+          setEditing(false);
          });
       } else{
         uploadStudies().then(() => {
-          window.location.reload();
+          getData();
+          setEditing(false);
          });
       }
     },
@@ -172,6 +178,7 @@ export default function ModifyProfileComponent() {
               years: element.years
              });
           }
+          setMessage(true);
          } catch (error) {
           console.log(error);
          }
@@ -203,6 +210,7 @@ export default function ModifyProfileComponent() {
               status: element.status
              });
           }
+          setMessage(true);
          } catch (error) {
           console.log(error);
          }
@@ -251,7 +259,8 @@ export default function ModifyProfileComponent() {
                   <TextField
                     required
                     id="outlined-required"
-                    label="Experiencia"
+                    label="Experiencia(en años)"
+                    type="number"
                     value={experiencia.years}
                     disabled={!editing}
                     onInput={(event) => inputChange(event, i, 'years')}
@@ -270,6 +279,8 @@ export default function ModifyProfileComponent() {
   }
 
   const [phoneValue, phoneSetValue] = useState();
+
+  const [message, setMessage] = useState(false);
 
   const setPhoneValue = (event) => {
     phoneSetValue(event)
@@ -437,6 +448,11 @@ export default function ModifyProfileComponent() {
         </Box>
 
       </Container>
+      <Snackbar open={message} autoHideDuration={6000} onClose={() => setMessage(false)}>
+        <Alert onClose={() => setMessage(false)} severity="success" sx={{ width: '100%' }}>
+          Cambios guardados exitosamente!
+        </Alert>
+      </Snackbar>
       <FooterComponent></FooterComponent>
     </div>
 
