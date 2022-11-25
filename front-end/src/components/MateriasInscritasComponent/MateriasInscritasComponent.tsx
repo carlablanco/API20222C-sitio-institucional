@@ -11,6 +11,7 @@ import styles from "./MateriasInscritasComponent.module.scss";
 import { getName, getUserId } from '../../hooks/authhook';
 import ModalCancelarComponent from '../ModalCancelarComponent/ModalCancelarComponent';
 import { findEnrollments } from '../../services/class-enrollment.service';
+import { getProfessorExperience } from '../../services/experience.service';
 
 
 export default function DataGridDemo() {
@@ -25,20 +26,28 @@ export default function DataGridDemo() {
   const getRows = async () => {
     try {
       let response = await findEnrollments(getUserId());
-      response.data = response.data.map(row => {
+      response.data = await response.data.map(async row => {
+        const professor = await getProfessorName(row?.class_student?.professor);
         return {
           id: row?.id,
           class: row?.class_student?.name,
-          professor: row?.class_student?.professor,
+          professor: professor.data[0].user.name + ' ' + professor.data[0].user.surname,
           createdAt: new Date(row?.createdAt),
           status: row?.status,
           id_class: row?.id_class
         }
+      });
+      Promise.all(response.data).then((data) =>{
+        console.log(data)
+        setRows(data);
       })
-      setRows(response.data);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const getProfessorName = async(user_id) => {
+    return await getProfessorExperience({user_id});
   }
   const abrirModalComentarios = React.useCallback(
     (row: any) => () => {
