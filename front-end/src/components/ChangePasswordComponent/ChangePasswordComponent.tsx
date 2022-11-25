@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './ModificarCuentaComponent.module.scss';
-import { Avatar, Link } from '@mui/material';
+import { Alert, Avatar, Link, Snackbar } from '@mui/material';
 import { UserResponse } from '../../models/UserResponse';
 import NavbarComponent from '../NavbarComponent/NavbarComponent.lazy';
 import FooterComponent from '../FooterComponent/FooterComponent.lazy';
@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { changePassword, ChangePasswordPayload } from '../../services/register';
 import * as qs from 'query-string';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ModificarCuentaComponentProps { }
@@ -31,12 +32,19 @@ export default function ChangePasswordComponent(props: any) {
         newPassword: data.get('newPassword').toString()
       };
       const response = await changePassword(payload);
-
+      setMessage(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
 
   }
+
+  const navigate = useNavigate()
+
+  const [message, setMessage] = React.useState(false)
 
   return (
     <div>
@@ -95,6 +103,11 @@ export default function ChangePasswordComponent(props: any) {
         </Box>
 
       </Container>
+      <Snackbar open={message} autoHideDuration={6000} onClose={() => setMessage(false)}>
+        <Alert onClose={() => setMessage(false)} severity="success" sx={{ width: '100%' }}>
+          Contraseña actualizada! Se redireccionara a la pagina principal
+        </Alert>
+      </Snackbar>
       <FooterComponent></FooterComponent>
     </div>
 

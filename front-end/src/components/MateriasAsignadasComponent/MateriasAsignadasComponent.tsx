@@ -54,18 +54,6 @@ export default function MateriasAsignadasComponent() {
     },
     [],
   );
-
-  const guardarCambios = React.useCallback(
-    () => async () => {
-      try {
-        const response = await axios.post('localhost:5000/guardarClasesProfesor');
-        abrirExitoGuardar();
-      } catch (error) {
-        abrirExitoGuardar();
-      }
-    },
-    [],
-  );
   
 
   const publicarClase = React.useCallback(
@@ -76,7 +64,7 @@ export default function MateriasAsignadasComponent() {
           status: 'Publicada'
         }
         const response = await updateClass(params);
-        window.location.reload();
+        getRows();
         abrirExitoPublicar();
       } catch (error) {
       }
@@ -92,7 +80,7 @@ export default function MateriasAsignadasComponent() {
           status: 'No publicada'
         }
         const response = await updateClass(params);
-        window.location.reload();
+        getRows();
         abrirExitoDespublicar();
       } catch (error) {
       }
@@ -301,8 +289,6 @@ export default function MateriasAsignadasComponent() {
             processRowUpdate={editStopHandler}
           />
         </Box>
-        <Button className={styles.boton} onClick={guardarCambios()} sx={{alignContent: "center", my: 3, mx: "auto" , padding: 2, bgcolor: '#0a40c9e1',
-      borderRadius: 3, color: "#ffffff"}}>Guardar</Button>
       </div>
       <SolicitudesComponent row={selectedRow} open={openSolicitudes} handleClose={handleCloseSolicitudes}></SolicitudesComponent>
       <ComentariosListProfesorComponent clase={selectedRow.name} open={openComentarios} handleClose={handleCloseComentarios} comentarios={selectedComentarios}></ComentariosListProfesorComponent>

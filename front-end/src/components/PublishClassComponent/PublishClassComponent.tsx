@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { addClass, CreateClassPayload, FrequencyEnum, TypeEnum } from '../../services/class.service';
 import { getUserId } from '../../hooks/authhook';
+import { Snackbar, Alert } from '@mui/material';
 
 // TODO @carlablanco implementar duracion de las clases
 
@@ -49,6 +50,7 @@ export default function PublishClassComponent() {
       cost:  parseInt(data.get('cost').toString()),
     }
     await addClass(createClassPayload);
+    setMessage(true);
     } catch (error) {
       console.log(error)
     }
@@ -60,6 +62,8 @@ export default function PublishClassComponent() {
         e.preventDefault();
     }
 };
+
+const [message, setMessage] = React.useState(false)
 
   return (
     <div>
@@ -173,6 +177,11 @@ export default function PublishClassComponent() {
             </Box>
 
           </Box>
+          <Snackbar open={message} autoHideDuration={6000} onClose={() => setMessage(false)}>
+            <Alert onClose={() => setMessage(false)} severity="success" sx={{ width: '100%' }}>
+               Clase creada con exito!
+            </Alert>
+          </Snackbar>
           <FooterComponent></FooterComponent>
         </Container>
       </ThemeProvider>
