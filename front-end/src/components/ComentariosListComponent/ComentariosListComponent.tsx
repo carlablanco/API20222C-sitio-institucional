@@ -29,7 +29,7 @@ const ComentariosListComponent: FC<ComentariosListComponentProps> = (props: any)
                   return <ComentariosComponent key={i} comentario={comentario.comentario} usuario={comentario.usuario} isProfesor={false}></ComentariosComponent>
               })}
               { props?.comentarios?.length === 0 && 
-                <p>Aùn no hay comentarios para esta clase</p>
+                <p>Aun no hay comentarios para esta clase</p>
               }
         </DialogContent>
         <DialogActions>
