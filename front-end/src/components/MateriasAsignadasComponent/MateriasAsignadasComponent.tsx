@@ -92,7 +92,7 @@ export default function MateriasAsignadasComponent() {
     (row: any) => async () => {
       try {
         const response = await deleteClass(row.id);
-        window.location.reload();
+        getRows();
         abrirExitoEliminar();
       } catch (error) {
         abrirExitoEliminar();
