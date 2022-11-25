@@ -25,9 +25,12 @@ const ComentariosListComponent: FC<ComentariosListComponentProps> = (props: any)
           Comentarios de {props.materia} con {props.profesor?.nombre}
         </DialogTitle>
         <DialogContent>
-              {props?.comentarios?.map((comentario: Comentario, i: any) => {
+              { props?.comentarios?.length > 0 && props?.comentarios?.map((comentario: Comentario, i: any) => {
                   return <ComentariosComponent key={i} comentario={comentario.comentario} usuario={comentario.usuario} isProfesor={false}></ComentariosComponent>
               })}
+              { props?.comentarios?.length === 0 && 
+                <p>Aùn no hay comentarios para esta clase</p>
+              }
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose}>Cerrar</Button>

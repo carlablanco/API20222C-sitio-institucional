@@ -29,7 +29,7 @@ const FormComponent: FC<FormComponentProps> = () => {
   }, []);
 
   const searchMaterias = async () => {
-      let response = await filterClass();
+      let response = await filterClass({status: 'Publicada'});
       response.data = response.data.map((element) => {
         return {
           label: element.name,
